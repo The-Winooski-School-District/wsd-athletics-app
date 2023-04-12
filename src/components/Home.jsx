@@ -4,10 +4,11 @@ import Seasons from "./Seasons";
 import Opponents from "./Opponents";
 
 const Home = () => {
+  console.log("Home");
   return (
     <Routes>
       <Route
-        path="/"
+        path="/*"
         element={
           <React.Fragment>
             <div className="Container">

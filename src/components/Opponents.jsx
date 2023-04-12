@@ -5,6 +5,7 @@ import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 
 const Opponents = () => {
+  console.log("Opponents");
   const [opponents, setOpponents] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
 
@@ -17,6 +18,7 @@ const Opponents = () => {
   }
 
   useEffect(() => {
+    console.log("Opponents Effect Used");
     const opponentsRef = db.ref("opponents");
     opponentsRef.on("value", (snapshot) => {
       const opponentsData = snapshot.val();
@@ -36,6 +38,7 @@ const Opponents = () => {
   }
 
   function handleSave(opponentInfo, index) {
+    console.log("handleSave");
     const id = opponents[index].id;
     const updatedOpponentInfo = {
       ...opponents[index],
@@ -85,7 +88,7 @@ const Opponents = () => {
 
   return (
     <div className="Container">
-      <Link to="/" className="yellow">
+      <Link to="/*" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
       <hr />

@@ -5,10 +5,11 @@ import { Form, Table, Button } from "react-bootstrap";
 import { db } from "./Firebase";
 
 const Seasons = () => {
+  console.log("Seasons");
   const [seasons, setSeasons] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
 
-  function handleChange(event, index) {
+  function handleSeasonChange(event, index) {
     const { name, value } = event.target;
     const updatedSeasons = [...seasons];
     const updatedSeasonInfo = { ...updatedSeasons[index], [name]: value };
@@ -17,6 +18,7 @@ const Seasons = () => {
   }
 
   useEffect(() => {
+    console.log("Seasons Effect Used");
     const seasonsRef = db.ref("seasons");
     seasonsRef.on("value", (snapshot) => {
       const seasonsData = snapshot.val();
@@ -35,7 +37,7 @@ const Seasons = () => {
     setEditIndex(index);
   }
 
-  function handleSave(seasonInfo, index) {
+  function handleSeasonSave(seasonInfo, index) {
     const id = seasons[index].id;
     const updatedSeasonInfo = {
       ...seasons[index],
@@ -57,7 +59,7 @@ const Seasons = () => {
     });
   }
 
-  function handleDelete(id, index) {
+  function handleSeasonDelete(id, index) {
     if (window.confirm("Are you sure you want to delete this season?")) {
       const updatedSeasons = [...seasons];
       updatedSeasons.splice(index, 1);
@@ -82,7 +84,7 @@ const Seasons = () => {
 
   return (
     <div className="Container">
-      <Link to="/" className="yellow">
+      <Link to="/*" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
       <hr />
@@ -128,81 +130,97 @@ const Seasons = () => {
                   </Button>
                 </td>
               </tr>
-              {seasons.map((season, index) => (
-                <React.Fragment key={season.id}>
-                  <tr>
-                    <td>
-                      {editIndex === index ? (
-                        <Form.Control
-                          type="text"
-                          name="year"
-                          value={season.year}
-                          onChange={(event) => handleChange(event, index)}
-                          required
-                        />
-                      ) : (
-                        season.year
-                      )}
-                    </td>
-                    <td>
-                      {editIndex === index ? (
-                        <Form.Control
-                          type="text"
-                          name="season"
-                          value={season.season}
-                          onChange={(event) => handleChange(event, index)}
-                          required
-                        />
-                      ) : (
-                        season.season
-                      )}
-                    </td>
-                    <td>
-                      {editIndex === index ? (
-                        <>
-                          <Button
-                            variant="primary"
-                            onClick={() => handleSave(season, index)}
-                          >
-                            Save
-                          </Button>
-                          <Button
-                            variant="warning"
-                            onClick={() => handleCancel()}
-                          >
-                            Cancel
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <Button
-                            variant="info"
-                            onClick={() => handleEdit(index)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            variant="danger"
-                            onClick={() => handleDelete(season.id, index)}
-                          >
-                            Delete
-                          </Button>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                  <tr></tr>
-                  <tr>
-                    <td colSpan="3" className="text-center align-middle">
-                      <Button variant="primary">Add Team</Button>
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
             </tbody>
           </Table>
         </Form>
       </div>
+      <hr className="separator"></hr>
+      <div>
+      <Form onSubmit={console.log("weird")}>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Season</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {seasons.map((season, index) => (
+              <React.Fragment key={season.id}>
+                <tr>
+                  <td>
+                    {editIndex === index ? (
+                      <Form.Control
+                        type="text"
+                        name="year"
+                        value={season.year}
+                        onChange={(event) => handleSeasonChange(event, index)}
+                        required
+                      />
+                    ) : (
+                      season.year
+                    )}
+                  </td>
+                  <td>
+                    {editIndex === index ? (
+                      <Form.Control
+                        type="text"
+                        name="season"
+                        value={season.season}
+                        onChange={(event) => handleSeasonChange(event, index)}
+                        required
+                      />
+                    ) : (
+                      season.season
+                    )}
+                  </td>
+                  <td>
+                    {editIndex === index ? (
+                      <>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleSeasonSave(season, index)}
+                        >
+                          Save
+                        </Button>
+                        <Button
+                          variant="warning"
+                          onClick={() => handleCancel()}
+                        >
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <>
+                        <Button
+                          variant="info"
+                          onClick={() => handleEdit(index)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => handleSeasonDelete(season.id, index)}
+                        >
+                          Delete
+                        </Button>
+                      </>
+                    )}
+                  </td>
+                </tr>
+                <tr></tr>
+                <tr>
+                  <td colSpan="3" className="text-center align-middle">
+                    <Button variant="primary">Add Team</Button>
+                  </td>
+                </tr>
+              </React.Fragment>
+            ))}
+          </tbody>
+        </Table>
+      </Form>
+    </div>
     </div>
   );
 };
