@@ -63,6 +63,7 @@
   padding: 0px;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .Seasons,
@@ -78,6 +79,7 @@
   border-radius: 10px;
   text-decoration: none !important;
   box-shadow: 3px 5px #3a2100;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .Seasons:hover,
@@ -98,7 +100,7 @@
 }
 
 .Archive h2 {
-  padding: 10px;
+
   display: block;
   margin: 0;
   font-size: 2.2vw;
@@ -107,7 +109,7 @@
 .Seasons h2,
 .Opponents h2 {
   display: block;
-  padding: 10px;
+
   font-size: 2.5vw;
   margin: 0;
 }

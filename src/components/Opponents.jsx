@@ -1,3 +1,4 @@
+import "../styles/Opponents.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
