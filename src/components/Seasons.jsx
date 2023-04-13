@@ -8,14 +8,7 @@ const Seasons = () => {
   const [seasons, setSeasons] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [newSeasonYear, setNewSeasonYear] = useState("");
-  const [newSeasonType, setNewSeasonType] = useState("Fall");
-  function handleSeasonChange(event, index) {
-    const { name, value } = event.target;
-    const updatedSeasons = [...seasons];
-    const updatedSeasonInfo = { ...updatedSeasons[index], [name]: value };
-    updatedSeasons[index] = updatedSeasonInfo;
-    setSeasons(updatedSeasons);
-  }
+  const [newSeasonType, setNewSeasonType] = useState("");
 
   useEffect(() => {
     const seasonsRef = db.ref("seasons");
@@ -34,6 +27,8 @@ const Seasons = () => {
 
   function handleEdit(index) {
     setEditIndex(index);
+    setNewSeasonYear(seasons[index].year);
+    setNewSeasonType(seasons[index].season);
   }
 
   function handleSeasonSave(seasonInfo, index) {
@@ -46,7 +41,7 @@ const Seasons = () => {
 
     db.ref(`seasons/${id}`).set(updatedSeasonInfo, (error) => {
       if (error) {
-        console.log("Error updating seasont information:", error);
+        console.log("Error updating season information:", error);
       } else {
         console.log(
           "Season information updated successfully in Firebase database."
@@ -164,7 +159,7 @@ const Seasons = () => {
                           max="2099"
                           id="year"
                           value={newSeasonYear}
-                          onChange={(event) => handleSeasonChange(event, index)}
+                          onChange={(e) => setNewSeasonYear(e.target.value)}
                           required
                         />
                       ) : (
@@ -177,7 +172,7 @@ const Seasons = () => {
                           as="select"
                           id="season"
                           value={newSeasonType}
-                          onChange={(event) => handleSeasonChange(event, index)}
+                          onChange={(e) => setNewSeasonType(e.target.value)}
                           required
                         >
                           <option value="Fall">Fall</option>
@@ -191,10 +186,15 @@ const Seasons = () => {
                     </td>
                     <td>
                       {editIndex === index ? (
-                        <>
+                        <div className="action-buttons">
                           <Button
                             variant="primary"
-                            onClick={() => handleSeasonSave(season, index)}
+                            onClick={() =>
+                              handleSeasonSave(
+                                { year: newSeasonYear, season: newSeasonType },
+                                index
+                              )
+                            }
                           >
                             Save
                           </Button>
@@ -204,9 +204,9 @@ const Seasons = () => {
                           >
                             Cancel
                           </Button>
-                        </>
+                        </div>
                       ) : (
-                        <>
+                        <div className="action-buttons">
                           <Button
                             variant="info"
                             onClick={() => handleEdit(index)}
@@ -221,17 +221,14 @@ const Seasons = () => {
                           >
                             Archive
                           </Button>
-                        </>
+                        </div>
                       )}
                     </td>
                   </tr>
                   <tr></tr>
                   <tr>
                     <td colSpan="3" className="text-center align-middle">
-                      <Button 
-                        variant="primary"
-                        onClick={deleteme}
-                      >
+                      <Button variant="primary" onClick={deleteme}>
                         Add Team
                       </Button>
                     </td>

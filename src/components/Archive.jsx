@@ -9,6 +9,7 @@ const Archive = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [newSeasonYear] = useState("");
   const [newSeasonType] = useState("Fall");
+  
   function handleSeasonChange(event, index) {
     const { name, value } = event.target;
     const updatedSeasons = [...seasons];
@@ -127,7 +128,7 @@ const Archive = () => {
 
                         </>
                       ) : (
-                        <>
+                        <div className="action-buttons">
                           <Button
                             variant="warning"
                             onClick={() => handleSeasonDelete(season.id, index)}
@@ -142,7 +143,7 @@ const Archive = () => {
                           >
                             Restore
                           </Button>
-                        </>
+                        </div>
                       )}
                     </td>
                   </tr>

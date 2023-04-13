@@ -2,3 +2,21 @@
     padding: 0 0 20px 0;
     cursor: default;
   }
+
+  .action-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .action-buttons > Button {
+    margin: 3px;
+  }
+
+  tr > th, tr > td {
+    color: cornsilk !important;
+  }
+
+  tr:hover > th, tr:hover > td {
+    color: white !important;
+  }

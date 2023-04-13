@@ -242,7 +242,7 @@ const Opponents = () => {
                         </Button>
                       </>
                     ) : (
-                      <>
+                      <div className="action-buttons">
                         <Button
                           variant="info"
                           onClick={() => handleEdit(index)}
@@ -255,7 +255,7 @@ const Opponents = () => {
                         >
                           Delete
                         </Button>
-                      </>
+                      </div>
                     )}
                   </td>
                 </tr>
