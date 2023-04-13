@@ -3,12 +3,18 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Table, Button, Row, Col } from "react-bootstrap";
 import { db } from "./Firebase";
+import AddTeam from './AddTeam';
 
 const Seasons = () => {
   const [seasons, setSeasons] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [newSeasonYear, setNewSeasonYear] = useState("");
   const [newSeasonType, setNewSeasonType] = useState("");
+  const [clickedSeasonIndex, setClickedSeasonIndex] = useState(null);
+
+  function handleAddTeamClick(index) {
+    setClickedSeasonIndex(index);
+  }
 
   useEffect(() => {
     const seasonsRef = db.ref("seasons");
@@ -81,9 +87,6 @@ const Seasons = () => {
     db.ref("seasons").push(newSeason);
     event.target.reset();
   }
-  const deleteme = () => {
-    console.log("get ridda 'deleteme' already");
-  };
 
   return (
     <div className="Container">
@@ -230,11 +233,19 @@ const Seasons = () => {
                     </td>
                   </tr>
                   <tr></tr>
+                  {/* add the "Hello World" message only to the specific season element that was clicked */}
+                  {clickedSeasonIndex === index && (
+                    <tr>
+                      <td colSpan="3">Hello World</td>
+                    </tr>
+                  )}
                   <tr>
                     <td colSpan="3" className="text-center align-middle">
-                      <Button variant="primary" onClick={deleteme}>
-                        Add Team
-                      </Button>
+                      {/* render the "Add Team" button */}
+                      <AddTeam
+                        index={index}
+                        onAddTeamClick={handleAddTeamClick}
+                      />
                     </td>
                   </tr>
                 </React.Fragment>

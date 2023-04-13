@@ -3,6 +3,13 @@
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 767px) {
+  .navbar {
+    position: sticky !important;
+    top: 0;
+  }
+}
+
 .navbar {
   margin-bottom: 10px;
   background-color: #1d341d;
