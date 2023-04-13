@@ -91,11 +91,17 @@ const Opponents = () => {
       <Link to="/*" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
-      <hr />
-      <Link to="/seasons" className="yellow">
-        <Button variant="outline-warning">Seasons</Button>
-      </Link>
-      <hr className="separator" />
+      
+      <div className="navbuttons">
+        <Link to="/seasons" className="yellow">
+          <Button variant="outline-warning">Seasons</Button>
+        </Link>
+        <Link to="/archive" className="yellow">
+          <Button variant="outline-warning">Archive</Button>
+        </Link>
+      </div>
+      
+      <hr className="top-hr" />
       <div>
         <div className="opponents-title">
           <h2>Opponents</h2>

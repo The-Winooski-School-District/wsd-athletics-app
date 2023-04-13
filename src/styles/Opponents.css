@@ -20,3 +20,20 @@
   tr:hover > th, tr:hover > td {
     color: white !important;
   }
+
+  .navbuttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .navbuttons > .yellow {
+    margin: 5px;
+  }
+
+  .top-hr {
+    color: white;
+    opacity: 100%;
+    border-width: 2px;
+  }
+  

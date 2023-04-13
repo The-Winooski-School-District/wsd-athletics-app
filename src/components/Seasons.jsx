@@ -90,11 +90,16 @@ const Seasons = () => {
       <Link to="/*" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
-      <hr />
-      <Link to="/opponents" className="yellow">
-        <Button variant="outline-warning">Opponents</Button>
-      </Link>
-      <hr className="separator" />
+
+      <div className="navbuttons">
+        <Link to="/opponents" className="yellow">
+          <Button variant="outline-warning">Opponents</Button>
+        </Link>
+        <Link to="/archive" className="yellow">
+          <Button variant="outline-warning">Archive</Button>
+        </Link>
+      </div>
+      <hr className="top-hr" />
       <div>
         <div className="seasons-title">
           <h2>Seasons</h2>

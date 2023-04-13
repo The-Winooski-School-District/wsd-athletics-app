@@ -3,6 +3,9 @@
     cursor: default;
   }
 
+.archive-title {
+  padding: 0 0 10px 0;
+}
   .action-buttons {
     display: flex;
     flex-direction: row;
@@ -19,4 +22,14 @@
 
   tr:hover > th, tr:hover > td {
     color: white !important;
+  }
+
+  .navbuttons > .yellow {
+    margin: 5px;
+  }
+
+  .top-hr {
+    color: white;
+    opacity: 100%;
+    border-width: 2px;
   }
