@@ -87,7 +87,7 @@ const Archive = () => {
               <tr>
                 <th>Year</th>
                 <th>Season</th>
-                <th></th>
+                <th className="last-col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -128,7 +128,7 @@ const Archive = () => {
                         season.season
                       )}
                     </td>
-                    <td>
+                    <td className="last-col">
                       {editIndex === index ? (
                         <></>
                       ) : (

@@ -21,6 +21,11 @@
     color: white !important;
   }
 
+  tr:hover > td {
+    font-weight: 600;
+  }
+  
+
   .navbuttons {
     display: flex;
     flex-direction: row;

@@ -4,7 +4,6 @@ import Seasons from "./Seasons";
 import Opponents from "./Opponents";
 
 const Home = () => {
-  console.log("Home");
   return (
     <Routes>
       <Route
@@ -13,7 +12,7 @@ const Home = () => {
           <React.Fragment>
             <div className="Container">
               <h1 className="title">WSD Athletics</h1>
-              <hr className="separator"></hr>
+              <hr className="top-hr"></hr>
               <div className="Select">
                 <Link to="/seasons" className="Seasons">
                   <h2>Seasons</h2>

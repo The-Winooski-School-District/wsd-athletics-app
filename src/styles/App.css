@@ -40,6 +40,12 @@
   border-radius: 10px;
   padding-top: 10px;
 }
+@media (max-width: 434px) {
+  .Container {
+    width: 98%;
+  }
+}
+
 
 .Select {
   display: flex;
@@ -100,25 +106,66 @@
 }
 
 .Archive h2 {
-
   display: block;
   margin: 0;
-  font-size: 2.2vw;
+  font-size: 28px;
 }
 
 .Seasons h2,
 .Opponents h2 {
   display: block;
-
-  font-size: 2.5vw;
+  font-size: 32px;
   margin: 0;
 }
 
 .Seasons p,
 .Opponents p {
   font-weight: 600;
-  font-size: 1vw;
+  font-size: 16px;
   margin: 0;
+}
+
+@media (max-width: 768px) {
+  .Archive h2 {
+    font-size: 20px;
+  }
+  .Seasons h2,
+  .Opponents h2 {
+    font-size: 28px;
+  }
+  
+  .Seasons p,
+  .Opponents p {
+    font-size: 12px;
+  }
+}
+@media (max-width: 500px) {
+  .Archive h2 {
+    font-size: 16px;
+  }
+  .Seasons h2,
+  .Opponents h2 {
+    font-size: 20px;
+  }
+  
+  .Seasons p,
+  .Opponents p {
+    font-size: 10px;
+  }
+}
+@media (min-width: 1289px) {
+  .Archive h2 {
+    font-size: 32px;
+  }
+  .Seasons h2,
+  .Opponents h2 {
+    font-size: 36px;
+  }
+  
+  .Seasons p,
+  .Opponents p {
+    font-size: 20px;
+  }
 }
 
 .yellow {

@@ -92,25 +92,25 @@ const Seasons = () => {
       </Link>
 
       <div className="navbuttons">
-        <Link to="/opponents" className="yellow">
-          <Button variant="outline-warning">Opponents</Button>
-        </Link>
         <Link to="/archive" className="yellow">
           <Button variant="outline-warning">Archive</Button>
         </Link>
+        <Link to="/opponents" className="yellow">
+          <Button variant="outline-warning">Opponents</Button>
+        </Link>
       </div>
       <hr className="top-hr" />
-      <div>
+      <div className="season-adder">
         <div className="seasons-title">
           <h2>Seasons</h2>
         </div>
         <Form onSubmit={handleAddSeason}>
-          <Row>
-            <Col>
+          <Row className="justify-content-md-center">
+            <Col xs={4}>
               <Form.Control
                 type="number"
                 placeholder="Year"
-                min="2015"
+                min="2020"
                 max="2099"
                 id="year"
                 value={newSeasonYear}
@@ -118,7 +118,7 @@ const Seasons = () => {
                 required
               />
             </Col>
-            <Col>
+            <Col xs={3}>
               <Form.Control
                 as="select"
                 id="season"
@@ -132,7 +132,7 @@ const Seasons = () => {
                 <option value="Summer">Summer</option>
               </Form.Control>
             </Col>
-            <Col>
+            <Col xs={3} className="border-control">
               <Button variant="primary" type="submit">
                 Add Season
               </Button>
@@ -140,7 +140,6 @@ const Seasons = () => {
           </Row>
         </Form>
       </div>
-      <hr className="separator"></hr>
       <div>
         <Form>
           <Table striped bordered hover>
@@ -148,7 +147,7 @@ const Seasons = () => {
               <tr>
                 <th>Year</th>
                 <th>Season</th>
-                <th></th>
+                <th className="last-col">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -160,7 +159,7 @@ const Seasons = () => {
                         <Form.Control
                           type="number"
                           placeholder="Year"
-                          min="2015"
+                          min="2020"
                           max="2099"
                           id="year"
                           value={newSeasonYear}
@@ -189,7 +188,7 @@ const Seasons = () => {
                         season.season
                       )}
                     </td>
-                    <td>
+                    <td className="last-col">
                       {editIndex === index ? (
                         <div className="action-buttons">
                           <Button

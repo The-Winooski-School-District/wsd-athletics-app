@@ -5,7 +5,6 @@ import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 
 const Opponents = () => {
-  console.log("Opponents");
   const [opponents, setOpponents] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
 
@@ -18,7 +17,6 @@ const Opponents = () => {
   }
 
   useEffect(() => {
-    console.log("Opponents Effect Used");
     const opponentsRef = db.ref("opponents");
     opponentsRef.on("value", (snapshot) => {
       const opponentsData = snapshot.val();
