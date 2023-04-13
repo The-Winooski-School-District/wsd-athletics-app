@@ -113,7 +113,7 @@ const Opponents = () => {
                 <th>Address</th>
                 <th>Phone</th>
                 <th>Fax</th>
-                <th></th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -159,7 +159,7 @@ const Opponents = () => {
                 </td>
                 <td>
                   <Button variant="success" type="submit">
-                    Add
+                    Add Opponent
                   </Button>
                 </td>
               </tr>

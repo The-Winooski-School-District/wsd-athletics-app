@@ -134,18 +134,18 @@ const Archive = () => {
                       ) : (
                         <div className="action-buttons">
                           <Button
-                            variant="warning"
-                            onClick={() => handleSeasonDelete(season.id, index)}
-                          >
-                            Delete
-                          </Button>
-                          <Button
                             variant="info"
                             onClick={(event) =>
                               handleSeasonRestore(event, season.id, index)
                             }
                           >
                             Restore
+                          </Button>
+                          <Button
+                            variant="danger"
+                            onClick={() => handleSeasonDelete(season.id, index)}
+                          >
+                            Delete
                           </Button>
                         </div>
                       )}

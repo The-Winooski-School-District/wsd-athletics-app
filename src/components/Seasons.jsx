@@ -83,9 +83,35 @@ const Seasons = () => {
     event.preventDefault();
     const year = event.target.elements.year.value;
     const season = event.target.elements.season.value;
-    const newSeason = { year, season };
-    db.ref("seasons").push(newSeason);
-    event.target.reset();
+    
+    // Check if the new season already exists in the seasons collection
+    db.ref("seasons").orderByChild("year_season").equalTo(`${year}_${season}`).once("value")
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          alert(`Cannot add team: ${year} ${season} already exists in 'seasons' collection.`);
+          return;
+        }
+        
+        // Check if the new season already exists in the archived-seasons collection
+        db.ref("archived-seasons").orderByChild("year_season").equalTo(`${year}_${season}`).once("value")
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              alert(`Cannot add team: ${year} ${season} already exists in 'archived-seasons' collection.`);
+              return;
+            }
+            
+            // If the new season doesn't exist in either collections, add it to the seasons collection
+            const newSeason = { year, season, year_season: `${year}_${season}` };
+            db.ref("seasons").push(newSeason);
+            event.target.reset();
+          })
+          .catch((error) => {
+            console.log("Error checking if season already exists in 'archived-seasons' collection:", error);
+          });
+      })
+      .catch((error) => {
+        console.log("Error checking if season already exists in 'seasons' collection:", error);
+      });
   }
 
   return (
