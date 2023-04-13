@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 
 const AddTeam = ( seasonID ) => {
+  console.log(seasonID);
   const [showModal, setShowModal] = useState(false);
   const [teams, setTeams] = useState([]);
 
