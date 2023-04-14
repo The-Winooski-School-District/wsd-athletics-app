@@ -9,7 +9,7 @@ const AddTeam = ({ seasonID }) => {
   const [season, setSeason] = useState(null);
 
   useEffect(() => {
-    const teamsRef = db.ref("teams");
+    const teamsRef = db.ref(`seasons/${seasonID}/teams`);
     teamsRef.on("value", (snapshot) => {
       const teamsData = snapshot.val();
       if (teamsData) {
@@ -94,7 +94,7 @@ const AddTeam = ({ seasonID }) => {
         Add Team
       </Button>
       {teams.map((team) => (
-        <p key={team}>{team}</p>
+        <p key={team.id}>{team.name}</p>
       ))}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
