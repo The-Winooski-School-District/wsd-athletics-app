@@ -6,7 +6,6 @@ import TeamCard from './TeamCard';
 import TeamModal from './TeamModal';
 
 const AddTeam = ({ seasonID }) => {
-  console.log(seasonID, db);
   const [showModal, setShowModal] = useState(false);
   const [teams, setTeams] = useState([]);
   const [season, setSeason] = useState(null);
