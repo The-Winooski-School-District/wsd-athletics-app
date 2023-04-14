@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { db } from "./Firebase";
+import TeamCard from './TeamCard';
+import TeamModal from './TeamModal';
 
 const AddTeam = ({ seasonID }) => {
   console.log(seasonID, db);
@@ -83,7 +85,11 @@ const AddTeam = ({ seasonID }) => {
           "Season information updated successfully in Firebase database."
         );
         setShowModal(false);
-        setTeams([...teams, teamName]); // add the new team to the state
+        const newTeam = { 
+          id: teamID, 
+          name: teamName 
+        }; // create a new team object
+        setTeams([...teams, newTeam]); // add the new team to the state
       }
     });
   };
@@ -94,41 +100,15 @@ const AddTeam = ({ seasonID }) => {
         Add Team
       </Button>
       {teams.map((team) => (
-        <p key={team.id}>{team.name}</p>
+        <TeamCard key={team.id} team={team} handleTeamSave={handleTeamSave}/>
       ))}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add Team</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form
-            onSubmit={(event) => {
-              event.preventDefault();
-              const teamName = event.target.elements.teamName.value;
-              handleAddTeam(teamName);
-            }}
-          >
-            <Form.Group controlId="teamName">
-              <Form.Label>Team Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter team name" />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="primary"
-            onClick={() => {
-              const teamName = document.getElementById("teamName").value;
-              handleAddTeam(teamName);
-            }}
-          >
-            Add
-          </Button>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <TeamModal 
+        showModal={showModal} 
+        handleAddTeam={handleAddTeam} 
+        handleCloseModal={() => 
+          setShowModal(false)
+          } 
+        />
     </div>
   );
 };
