@@ -1,14 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
+import { db } from "./Firebase";
 
-const AddTeam = ( seasonID ) => {
-  console.log(seasonID);
+const AddTeam = ( {seasonID} ) => {
+  console.log(seasonID, db);
   const [showModal, setShowModal] = useState(false);
   const [teams, setTeams] = useState([]);
+  const [season, setSeason] = useState(null);
+
+  useEffect(() => {
+    const teamsRef = db.ref("teams");
+    teamsRef.on("value", (snapshot) => {
+      const teamsData = snapshot.val();
+      if (teamsData) {
+        const teamsList = Object.keys(teamsData).map((key) => {
+          return { id: key, ...teamsData[key] };
+        });
+        setTeams(teamsList);
+      } else {
+        setTeams([]);
+      }
+    });
+
+    const seasonRef = db.ref(`seasons/${seasonID}`);
+    seasonRef.on("value", (snapshot) => {
+      const seasonData = snapshot.val();
+      if (seasonData) {
+        setSeason(seasonData);
+      } else {
+        setSeason(null);
+      }
+    });
+  }, [seasonID]);
+
+  function handleTeamSave(teamInfo, index) {
+    const teamID = teams[index].id;
+    const updatedTeamInfo = {
+      ...teams[index],
+      ...teamInfo,
+      id: teamID,
+    };
+
+    db.ref(`seasons/${seasonID}/teams/${teamID}`).set(updatedTeamInfo, (error) => {
+      if (error) {
+        console.log("Error updating team information:", error);
+      } else {
+        console.log(
+          "Team information updated successfully in Firebase database."
+        );
+        const updatedTeams = [...teams];
+        updatedTeams[index] = updatedTeamInfo;
+        setTeams(updatedTeams);
+      }
+    });
+  }
 
   const handleAddTeam = (teamName) => {
-    setTeams([...teams, teamName]);
-    setShowModal(false);
+    const teamID = db.ref().child(`seasons/${seasonID}/teams`).push().key;
+    const updatedSeason = {
+      ...season,
+      teams: {
+        ...season.teams,
+        [teamID]: {
+          name: teamName,
+          // add any additional team data here
+        },
+      },
+    };
+    db.ref(`seasons/${seasonID}`).set(updatedSeason, (error) => {
+      if (error) {
+        console.log("Error updating season information:", error);
+      } else {
+        console.log(
+          "Season information updated successfully in Firebase database."
+        );
+        setShowModal(false);
+      }
+    });
   };
 
   return (

@@ -46,6 +46,7 @@
   width: 75%;
   border-radius: 10px;
   padding-top: 10px;
+  background-color: #1d341d83;
 }
 @media (max-width: 434px) {
   .Container {
@@ -63,7 +64,7 @@
 .Archive {
   display: flex;
   height: auto;
-  color: #007241;
+  color: #00532f;
   background-color: #ffbf2ab9;
   flex-direction: column;
   justify-content: center;
@@ -84,7 +85,7 @@
   flex-basis: 48%;
   height: 200px;
   background-color: #ffbf2ab9;
-  color: #007241;
+  color: #00532f;
   display: flex;
   flex-direction: column;
   justify-content: center;

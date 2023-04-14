@@ -28,7 +28,7 @@
     color: white !important;
   }
 
-  tr:hover > td {
+  tr > td {
     font-weight: 600;
   }
   
