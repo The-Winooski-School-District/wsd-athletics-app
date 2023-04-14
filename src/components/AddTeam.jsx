@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { db } from "./Firebase";
 
-const AddTeam = ( {seasonID} ) => {
+const AddTeam = ({ seasonID }) => {
   console.log(seasonID, db);
   const [showModal, setShowModal] = useState(false);
   const [teams, setTeams] = useState([]);
@@ -31,6 +31,11 @@ const AddTeam = ( {seasonID} ) => {
         setSeason(null);
       }
     });
+
+    return () => {
+      teamsRef.off();
+      seasonRef.off();
+    };
   }, [seasonID]);
 
   function handleTeamSave(teamInfo, index) {
@@ -41,18 +46,21 @@ const AddTeam = ( {seasonID} ) => {
       id: teamID,
     };
 
-    db.ref(`seasons/${seasonID}/teams/${teamID}`).set(updatedTeamInfo, (error) => {
-      if (error) {
-        console.log("Error updating team information:", error);
-      } else {
-        console.log(
-          "Team information updated successfully in Firebase database."
-        );
-        const updatedTeams = [...teams];
-        updatedTeams[index] = updatedTeamInfo;
-        setTeams(updatedTeams);
+    db.ref(`seasons/${seasonID}/teams/${teamID}`).set(
+      updatedTeamInfo,
+      (error) => {
+        if (error) {
+          console.log("Error updating team information:", error);
+        } else {
+          console.log(
+            "Team information updated successfully in Firebase database."
+          );
+          const updatedTeams = [...teams];
+          updatedTeams[index] = updatedTeamInfo;
+          setTeams(updatedTeams);
+        }
       }
-    });
+    );
   }
 
   const handleAddTeam = (teamName) => {
@@ -75,6 +83,7 @@ const AddTeam = ( {seasonID} ) => {
           "Season information updated successfully in Firebase database."
         );
         setShowModal(false);
+        setTeams([...teams, teamName]); // add the new team to the state
       }
     });
   };
@@ -92,11 +101,13 @@ const AddTeam = ( {seasonID} ) => {
           <Modal.Title>Add Team</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={(event) => {
-            event.preventDefault();
-            const teamName = event.target.elements.teamName.value;
-            handleAddTeam(teamName);
-          }}>
+          <Form
+            onSubmit={(event) => {
+              event.preventDefault();
+              const teamName = event.target.elements.teamName.value;
+              handleAddTeam(teamName);
+            }}
+          >
             <Form.Group controlId="teamName">
               <Form.Label>Team Name</Form.Label>
               <Form.Control type="text" placeholder="Enter team name" />
@@ -104,14 +115,17 @@ const AddTeam = ( {seasonID} ) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
+          <Button
+            variant="primary"
+            onClick={() => {
+              const teamName = document.getElementById("teamName").value;
+              handleAddTeam(teamName);
+            }}
+          >
+            Add
+          </Button>
           <Button variant="secondary" onClick={() => setShowModal(false)}>
             Cancel
-          </Button>
-          <Button variant="primary" onClick={() => {
-            const teamName = document.getElementById("teamName").value;
-            handleAddTeam(teamName);
-          }}>
-            Add
           </Button>
         </Modal.Footer>
       </Modal>
