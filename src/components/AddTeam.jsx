@@ -1,3 +1,4 @@
+import "../styles/Teams.css";
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { db } from "./Firebase";
@@ -96,19 +97,23 @@ const AddTeam = ({ seasonID }) => {
 
   return (
     <div>
-      <Button variant="primary" onClick={() => setShowModal(true)}>
-        Add Team
-      </Button>
-      {teams.map((team) => (
-        <TeamCard key={team.id} team={team} handleTeamSave={handleTeamSave}/>
-      ))}
-      <TeamModal 
-        showModal={showModal} 
-        handleAddTeam={handleAddTeam} 
-        handleCloseModal={() => 
-          setShowModal(false)
-          } 
-        />
+      <div className="add-team-btn">
+        <Button variant="primary" onClick={() => setShowModal(true)}>
+          Add Team
+        </Button>
+      </div>
+      <div className="teams-area">
+        {teams.map((team) => (
+          <TeamCard key={team.id} team={team} handleTeamSave={handleTeamSave}/>
+        ))}
+        <TeamModal 
+          showModal={showModal} 
+          handleAddTeam={handleAddTeam} 
+          handleCloseModal={() => 
+            setShowModal(false)
+            } 
+          />
+      </div>
     </div>
   );
 };

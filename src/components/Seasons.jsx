@@ -1,4 +1,5 @@
 import "../styles/Seasons.css";
+import "../styles/Teams.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Table, Button, Row, Col } from "react-bootstrap";
@@ -266,7 +267,7 @@ const Seasons = () => {
                     </tr>
                   )}
                   <tr>
-                    <td colSpan="3" className="text-center align-middle">
+                    <td colSpan="3" className="teams-row">
                       {/* render the "Add Team" button */}
                       <AddTeam
                         seasonID={season.id}

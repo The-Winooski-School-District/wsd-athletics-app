@@ -1,0 +1,25 @@
+.add-team-btn > Button {
+    margin: 10px;
+}
+.teams-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.team-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid white;
+  margin: 10px;
+  padding-bottom: 10px;
+  flex: 1 0 30%;
+  max-width: 34%;
+}
+
+.team-buttons {
+  display: flex;
+  justify-content: space-evenly;
+}

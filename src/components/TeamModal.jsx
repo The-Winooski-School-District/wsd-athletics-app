@@ -16,11 +16,6 @@ const AddTeamModal = ({ showModal, handleAddTeam, handleCloseModal }) => {
           }}
         >
           <Form.Group controlId="teamName">
-            <Form.Label>Team Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter team name" />
-          </Form.Group>
-
-          <Form.Group controlId="teamName">
               <Form.Label>Team Name</Form.Label>
               <Form.Control type="text" placeholder="Enter team name" />
             </Form.Group>
