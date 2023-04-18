@@ -8,7 +8,7 @@ const TeamModal = ({
   handleTeamSave,
   handleCloseModal,
   editing,
-  isArchived
+  isArchived,
 }) => {
   const [teamName, setTeamName] = useState(editing ? team.name : "");
   const [sport, setSport] = useState(editing ? team.sport : "");
@@ -47,9 +47,6 @@ const TeamModal = ({
     handleCloseModal();
   }
 
-  console.log("editing? " +  editing);
-  console.log("view only? " + isArchived);
-
   return (
     <Modal show={showModal} onHide={handleModalClose}>
       <Modal.Header closeButton>
@@ -71,12 +68,13 @@ const TeamModal = ({
               handleAddTeam(teamName);
             }
             handleModalClose();
-          }}>
-          <Form.Group controlId='teamName'>
+          }}
+        >
+          <Form.Group controlId="teamName">
             <Form.Label>Team Name</Form.Label>
             <Form.Control
-              type='text'
-              placeholder='Enter team name'
+              type="text"
+              placeholder="Enter team name"
               value={teamName}
               ref={teamNameRef}
               onChange={(event) => setTeamName(event.target.value)}
@@ -84,11 +82,11 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId='sport'>
+          <Form.Group controlId="sport">
             <Form.Label>Sport</Form.Label>
             <Form.Control
-              type='text'
-              placeholder='Sport'
+              type="text"
+              placeholder="Sport"
               value={sport}
               ref={sportRef}
               onChange={(event) => setSport(event.target.value)}
@@ -96,11 +94,11 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId='teamAbbr'>
+          <Form.Group controlId="teamAbbr">
             <Form.Label>ABBR</Form.Label>
             <Form.Control
-              type='text'
-              placeholder='ABBR'
+              type="text"
+              placeholder="ABBR"
               value={abbr}
               ref={abbrRef}
               onChange={(event) => setAbbr(event.target.value)}
@@ -108,11 +106,11 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId='multipleTeams'>
+          <Form.Group controlId="multipleTeams">
             <Form.Label>Multiple Teams?</Form.Label>
             <Form.Control
-              type='text'
-              placeholder='Multiple Teams?'
+              type="text"
+              placeholder="Multiple Teams?"
               value={multi}
               ref={multiRef}
               onChange={(event) => setMulti(event.target.value)}
@@ -120,11 +118,11 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId='teamPage'>
+          <Form.Group controlId="teamPage">
             <Form.Label>Team Page URL</Form.Label>
             <Form.Control
-              type='text'
-              placeholder='Enter team page URL'
+              type="text"
+              placeholder="Enter team page URL"
               value={teamPage}
               ref={teamPageRef}
               onChange={(event) => setTeamPage(event.target.value)}
@@ -132,11 +130,11 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId='teamPic'>
+          <Form.Group controlId="teamPic">
             <Form.Label>Picture URL</Form.Label>
             <Form.Control
-              type='text'
-              placeholder='Enter team name'
+              type="text"
+              placeholder="Enter team name"
               value={teamPic}
               ref={teamPicRef}
               onChange={(event) => setTeamPic(event.target.value)}
@@ -144,11 +142,11 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId='teamCoaches'>
+          <Form.Group controlId="teamCoaches">
             <Form.Label>Coaches</Form.Label>
             <Form.Control
-              type='textarea'
-              placeholder='Enter team name'
+              type="textarea"
+              placeholder="Enter team name"
               value={coaches}
               ref={coachesRef}
               onChange={(event) => setCoaches(event.target.value)}
@@ -156,11 +154,11 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId='delete'>
+          <Form.Group controlId="delete">
             {editing && (
               <Form.Check
-                type='checkbox'
-                label='Delete'
+                type="checkbox"
+                label="Delete"
                 checked={deleteChecked}
                 onChange={(event) => setDeleteChecked(event.target.checked)}
                 disabled={isArchived}
@@ -170,41 +168,50 @@ const TeamModal = ({
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button
-          variant={deleteChecked ? "danger" : "primary"}
-          onClick={() => {
-            const teamName = teamNameRef.current.value;
-            const deleteValue = deleteChecked ? true : false; // Get the value of the "Delete" checkbox
-            if (editing) {
-              handleTeamSave({
-                id: team.id,
-                name: teamName,
-                sport: sport,
-                abbr: abbr,
-                multi: multi,
-                teamPage: teamPage,
-                teamPic: teamPic,
-                coaches: coaches,
-                delete: deleteValue,
-              }); // Pass the value of the "Delete" checkbox
-            } else {
-              handleAddTeam(
-                teamName,
-                sport,
-                abbr,
-                multi,
-                teamPage,
-                teamPic,
-                coaches
-              );
-            }
-            handleModalClose();
-          }}>
-          {editing ? (deleteChecked ? "Delete" : "Save") : "Add"}
-        </Button>
-        <Button variant='secondary' onClick={handleModalClose}>
-          Cancel
-        </Button>
+        {isArchived ? (
+          <Button variant="secondary" onClick={handleModalClose}>
+            Cancel
+          </Button>
+        ) : (
+          <>
+            <Button
+              variant={deleteChecked ? "danger" : "primary"}
+              onClick={() => {
+                const teamName = teamNameRef.current.value;
+                const deleteValue = deleteChecked ? true : false; // Get the value of the "Delete" checkbox
+                if (editing) {
+                  handleTeamSave({
+                    id: team.id,
+                    name: teamName,
+                    sport: sport,
+                    abbr: abbr,
+                    multi: multi,
+                    teamPage: teamPage,
+                    teamPic: teamPic,
+                    coaches: coaches,
+                    delete: deleteValue,
+                  }); // Pass the value of the "Delete" checkbox
+                } else {
+                  handleAddTeam(
+                    teamName,
+                    sport,
+                    abbr,
+                    multi,
+                    teamPage,
+                    teamPic,
+                    coaches
+                  );
+                }
+                handleModalClose();
+              }}
+            >
+              {editing ? (deleteChecked ? "Delete" : "Save") : "Add"}
+            </Button>
+            <Button variant="secondary" onClick={handleModalClose}>
+              Cancel
+            </Button>
+          </>
+        )}
       </Modal.Footer>
     </Modal>
   );
