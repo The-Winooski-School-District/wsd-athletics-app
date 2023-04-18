@@ -121,13 +121,7 @@ const Archive = () => {
       <div>
         <Form>
           <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Year</th>
-                <th>Season</th>
-                <th className="last-col">Actions</th>
-              </tr>
-            </thead>
+
             <tbody>
               {seasons.map((season, index) => {
                 const seasonTeams = teams.filter(

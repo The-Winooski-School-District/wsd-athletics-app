@@ -161,7 +161,7 @@ const Opponents = () => {
                   />
                 </td>
                 <td>
-                  <Button variant="success wsd" type="submit">
+                  <Button variant="success wsd2" type="submit">
                     Add Opponent
                   </Button>
                 </td>
