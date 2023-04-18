@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import TeamModal from "./TeamModal";
 import { db } from "./Firebase";
 
-const TeamCard = ({ team, seasonID }) => {
+const TeamCard = ({ team, seasonID, isArchived }) => {
   const [showModal, setShowModal] = useState(false);
   const [season, setSeason] = useState(seasonID.season);
   const [teams, setTeams] = useState([]);
@@ -13,7 +13,7 @@ const TeamCard = ({ team, seasonID }) => {
   if (!season) {
     /* do nothing */
   }
-  
+
   useEffect(() => {
     const teamsRef = db.ref(`seasons/${seasonID}/teams`);
     teamsRef.on("value", (snapshot) => {
@@ -93,8 +93,8 @@ const TeamCard = ({ team, seasonID }) => {
   }
 
   return (
-    <div className='team-card'>
-      <div className='team-info'>
+    <div className="team-card">
+      <div className="team-info">
         <p key={`${team.id}-name`}>Name: {team.name}</p>
         <p key={`${team.id}-sport`}>Sport: {team.sport}</p>
         <p key={`${team.id}-abbr`}>ABBR: {team.abbr}</p>
@@ -103,18 +103,24 @@ const TeamCard = ({ team, seasonID }) => {
         <p key={`${team.id}-teamPic`}>Picture: {team.teamPic}</p>
         <p key={`${team.id}-coaches`}>coaches: {team.coaches}</p>
       </div>
-      <div className='team-buttons'>
-        <Button variant='success wsd'>Add Roster</Button>
-        <Button variant='success wsd'>Add Schedule</Button>
+      <div className="team-buttons">
+        <Button variant="success wsd">
+          {isArchived ? "View " : "Add "} Roster
+        </Button>
+        <Button variant="success wsd">
+          {isArchived ? "View " : "Add "} Schedule
+        </Button>
         <Button
-          variant='outline-warning wsd'
-          onClick={() => setShowModal(true)}>
-          Edit Team
+          variant="outline-warning wsd"
+          onClick={() => setShowModal(true)}
+        >
+          {isArchived ? "View " : "Edit "} Team
         </Button>
       </div>
       <TeamModal
         team={team}
-        editing={true}
+        editing={!isArchived}
+        isArchived={isArchived}
         showModal={showModal}
         handleTeamSave={handleTeamSave}
         handleCloseModal={() => setShowModal(false)}

@@ -33,13 +33,13 @@ const Navigation = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/opponents" onClick={toggleNav}>
-                Opponents
+              <Link className="nav-link" to="/archive" onClick={toggleNav}>
+                Archive
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/archive" onClick={toggleNav}>
-                Archive
+              <Link className="nav-link" to="/opponents" onClick={toggleNav}>
+                Opponents
               </Link>
             </li>
           </ul>

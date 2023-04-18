@@ -1,13 +1,14 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-const AddTeamModal = ({
+const TeamModal = ({
   team,
   showModal,
   handleAddTeam,
   handleTeamSave,
   handleCloseModal,
   editing,
+  isArchived
 }) => {
   const [teamName, setTeamName] = useState(editing ? team.name : "");
   const [sport, setSport] = useState(editing ? team.sport : "");
@@ -46,6 +47,9 @@ const AddTeamModal = ({
     handleCloseModal();
   }
 
+  console.log("editing? " +  editing);
+  console.log("view only? " + isArchived);
+
   return (
     <Modal show={showModal} onHide={handleModalClose}>
       <Modal.Header closeButton>
@@ -76,6 +80,7 @@ const AddTeamModal = ({
               value={teamName}
               ref={teamNameRef}
               onChange={(event) => setTeamName(event.target.value)}
+              disabled={isArchived}
             />
           </Form.Group>
 
@@ -87,6 +92,7 @@ const AddTeamModal = ({
               value={sport}
               ref={sportRef}
               onChange={(event) => setSport(event.target.value)}
+              disabled={isArchived}
             />
           </Form.Group>
 
@@ -98,6 +104,7 @@ const AddTeamModal = ({
               value={abbr}
               ref={abbrRef}
               onChange={(event) => setAbbr(event.target.value)}
+              disabled={isArchived}
             />
           </Form.Group>
 
@@ -109,6 +116,7 @@ const AddTeamModal = ({
               value={multi}
               ref={multiRef}
               onChange={(event) => setMulti(event.target.value)}
+              disabled={isArchived}
             />
           </Form.Group>
 
@@ -120,6 +128,7 @@ const AddTeamModal = ({
               value={teamPage}
               ref={teamPageRef}
               onChange={(event) => setTeamPage(event.target.value)}
+              disabled={isArchived}
             />
           </Form.Group>
 
@@ -131,6 +140,7 @@ const AddTeamModal = ({
               value={teamPic}
               ref={teamPicRef}
               onChange={(event) => setTeamPic(event.target.value)}
+              disabled={isArchived}
             />
           </Form.Group>
 
@@ -142,6 +152,7 @@ const AddTeamModal = ({
               value={coaches}
               ref={coachesRef}
               onChange={(event) => setCoaches(event.target.value)}
+              disabled={isArchived}
             />
           </Form.Group>
 
@@ -152,6 +163,7 @@ const AddTeamModal = ({
                 label='Delete'
                 checked={deleteChecked}
                 onChange={(event) => setDeleteChecked(event.target.checked)}
+                disabled={isArchived}
               />
             )}
           </Form.Group>
@@ -198,4 +210,4 @@ const AddTeamModal = ({
   );
 };
 
-export default AddTeamModal;
+export default TeamModal;

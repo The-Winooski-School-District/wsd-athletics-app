@@ -26,37 +26,44 @@ const Archive = () => {
           return { id: key, ...seasonsData[key] };
         });
         setSeasons(seasonsList);
-  
-        // get teams for each season does not work
+
+        // get teams for each season
         const promises = seasonsList.map((season) => {
           return new Promise((resolve, reject) => {
-            const teamsRef = db.ref(`seasons/${season.id}/teams`);
+            const teamsRef = db.ref(`archived-seasons/${season.id}/teams`);
             teamsRef.on("value", (snapshot) => {
               const teamsData = snapshot.val();
               if (teamsData) {
                 const teamsList = Object.keys(teamsData).map((key) => {
-                  return { id: key, ...teamsData[key] };
+                  return {
+                    id: key,
+                    ...teamsData[key],
+                    seasonId: season.id,
+                    year: season.year,
+                    season: season.season,
+                  };
                 });
-                resolve({ [season.id]: teamsList });
+                resolve(teamsList);
               } else {
-                resolve({ [season.id]: [] });
+                resolve([]);
               }
             });
           });
         });
         Promise.all(promises).then((teams) => {
-          setTeams(teams);
+          const flattenedTeams = teams.flat();
+          setTeams(flattenedTeams);
         });
       } else {
         setSeasons([]);
       }
     });
-  
+
     return () => {
       seasonsRef.off();
     };
   }, []);
-  
+
   function handleSeasonRestore(event, id, index) {
     event.preventDefault();
     const year = seasons[index].year;
@@ -85,27 +92,29 @@ const Archive = () => {
       setEditIndex(null);
     }
   }
-  
+
   return (
-    <div className='Container'>
-      <Link to='/*' className='yellow'>
+    <div className="Container">
+      <Link to="/*" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
 
-      <div className='navbuttons'>
+      <div className="navbuttons">
         <Link to="/seasons" className="yellow">
           <Button variant="outline-warning wsd">Seasons</Button>
         </Link>
         <Link to="/archive" className="yellow">
-          <Button variant="outline-warning wsd" disabled>Archive</Button>
+          <Button variant="outline-warning wsd" disabled>
+            Archive
+          </Button>
         </Link>
         <Link to="/opponents" className="yellow">
           <Button variant="outline-warning wsd">Opponents</Button>
         </Link>
       </div>
-      <hr className='top-hr' />
+      <hr className="top-hr" />
       <div>
-        <div className='archive-title'>
+        <div className="archive-title">
           <h2>Archive</h2>
         </div>
       </div>
@@ -116,57 +125,66 @@ const Archive = () => {
               <tr>
                 <th>Year</th>
                 <th>Season</th>
-                <th className='last-col'>Actions</th>
+                <th className="last-col">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {seasons.map((season, index) => (
-                <React.Fragment key={season.id}>
-                  <tr>
-                    <td>{season.year}</td>
-                    <td>{season.season}</td>
-                    <td className='last-col'>
-                      <div className='action-buttons'>
-                        <Button
-                          variant='info wsd'
-                          onClick={(event) =>
-                            handleSeasonRestore(event, season.id, index)
-                          }>
-                          Restore
-                        </Button>
-                        <Button
-                          variant='danger wsd'
-                          onClick={() => handleSeasonDelete(season.id, index)}>
-                          Delete
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr></tr>
-                  <tr>
-                    <td colSpan='3' className='teams-row'>
-                      {teams.length > 0 ? (
-                        <div className='teams-area'>
-                          {teams.map((team) => (
-                            <TeamCard
-                              key={team.id}
-                              team={team}
-                              seasonID={season.id}
-                            />
-                          ))}
+              {seasons.map((season, index) => {
+                const seasonTeams = teams.filter(
+                  (team) => team.seasonId === season.id
+                );
+
+                return (
+                  <React.Fragment key={season.id}>
+                    <tr>
+                      <td>{season.year}</td>
+                      <td>{season.season}</td>
+                      <td className="last-col">
+                        <div className="action-buttons">
+                          <Button
+                            variant="info wsd"
+                            onClick={(event) =>
+                              handleSeasonRestore(event, season.id, index)
+                            }
+                          >
+                            Restore
+                          </Button>
+                          <Button
+                            variant="danger wsd"
+                            onClick={() => handleSeasonDelete(season.id, index)}
+                          >
+                            Delete
+                          </Button>
                         </div>
-                      ) : (
-                        <div className='teams-area'>No Teams To Display</div>
-                      )}
-                      <TeamModal
-                        viewingOnly={true}
-                        showModal={showModal}
-                        handleCloseModal={() => setShowModal(false)}
-                      />
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
+                      </td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                      <td colSpan="3" className="teams-row">
+                        {seasonTeams.length > 0 ? (
+                          <div className="teams-area">
+                            {seasonTeams.map((team) => (
+                              <TeamCard
+                                key={team.id}
+                                team={team}
+                                seasonID={season.id}
+                                isArchived={true}
+                              />
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="teams-area">No Teams To Display For This Season</div>
+                        )}
+                        <TeamModal
+                          editing={false}
+                          showModal={showModal}
+                          handleCloseModal={() => setShowModal(false)}
+                        />
+                      </td>
+                    </tr>
+                  </React.Fragment>
+                );
+              })}
             </tbody>
           </Table>
         </Form>
