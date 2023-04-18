@@ -1,44 +1,44 @@
 .opponents-title {
     padding: 0 0 20px 0;
     cursor: default;
-  }
+}
 
-  .action-buttons {
+.action-buttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
-  }
+}
 
-  .action-buttons > Button {
+.action-buttons>Button {
     margin: 3px;
-  }
+}
 
-  tr > th, tr > td {
+tr>th,
+tr>td {
     color: cornsilk !important;
-  }
+}
 
-  tr:hover > th, tr:hover > td {
+tr:hover>th,
+tr:hover>td {
     color: white !important;
-  }
+}
 
-  tr > td {
+tr>td {
     font-weight: 600;
-  }
-  
+}
 
-  .navbuttons {
+.navbuttons {
     display: flex;
     flex-direction: row;
     justify-content: center;
-  }
+}
 
-  .navbuttons > .yellow {
+.navbuttons>.yellow {
     margin: 5px;
-  }
+}
 
-  .top-hr {
+.top-hr {
     color: white;
     opacity: 100%;
     border-width: 2px;
-  }
-  
+}

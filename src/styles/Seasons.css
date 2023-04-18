@@ -1,65 +1,68 @@
 .seasons-title {
     padding: 0 0 20px 0;
     cursor: default;
-  }
+}
 
 .archive-title {
-  padding: 0 0 10px 0;
+    padding: 0 0 10px 0;
 }
-  .action-buttons {
+
+.action-buttons {
     display: flex;
     flex-direction: row;
     justify-content: center !important;
-  }
+}
 
-  .action-buttons > Button {
+.action-buttons>Button {
     margin: 0 10px !important;
-  }
+}
 
-  td {
+td {
     vertical-align: middle;
-  }
+}
 
-  tr > th, tr > td {
+tr>th,
+tr>td {
     color: cornsilk !important;
-  }
+}
 
-  tr:hover > th, tr:hover > td {
+tr:hover>th,
+tr:hover>td {
     color: white !important;
-  }
+}
 
-  tr > td {
+tr>td {
     font-weight: 600;
-  }
-  
-  .navbuttons > .yellow {
-    margin: 5px;
-  }
+}
 
-  .top-hr {
+.navbuttons>.yellow {
+    margin: 5px;
+}
+
+.top-hr {
     color: white;
     opacity: 100%;
     border-width: 2px;
-  }
+}
 
-  .season-adder {
+.season-adder {
     margin: 20px 20px 40px 20px;
     padding: auto;
-  }
+}
 
-Table > * > tr> td.last-col {
-  width: 50px !important;
+Table>*>tr>td.last-col {
+    width: 50px !important;
 }
 
 .season-adder Button {
-  min-width: 110px;
+    min-width: 110px;
 }
 
 @media (max-width: 768px) {
-  .action-buttons {
-    flex-direction: column !important;
-  }
-  .action-buttons > Button:first-child {
-    margin-bottom: 10px !important;
-  }
+    .action-buttons {
+        flex-direction: column !important;
+    }
+    .action-buttons>Button:first-child {
+        margin-bottom: 10px !important;
+    }
 }

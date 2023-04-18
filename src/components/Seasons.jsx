@@ -65,17 +65,19 @@ const Seasons = () => {
     event.preventDefault();
     const year = seasons[index].year;
     const season = seasons[index].season;
-    const newSeason = { year, season };
+    const teams = seasons[index].teams ? seasons[index].teams : {}; // check if teams object exists, otherwise assign empty object
+    const year_season = `${year}_${season}`;
+    const newSeason = { year, season, year_season, teams };
     if (window.confirm("Are you sure you want to archive this season?")) {
       const updatedSeasons = [...seasons];
       updatedSeasons.splice(index, 1);
       db.ref(`seasons/${id}`).remove();
       setSeasons(updatedSeasons);
       setEditIndex(null);
+      db.ref("archived-seasons").push(newSeason);
     }
-    db.ref("archived-seasons").push(newSeason);
   }
-
+  
   function handleCancel() {
     setEditIndex(null);
   }
@@ -122,11 +124,14 @@ const Seasons = () => {
       </Link>
 
       <div className="navbuttons">
+        <Link to="/seasons" className="yellow">
+          <Button variant="outline-warning wsd disabled" disabled>Seasons</Button>
+        </Link>
         <Link to="/archive" className="yellow">
-          <Button variant="outline-warning">Archive</Button>
+          <Button variant="outline-warning wsd">Archive</Button>
         </Link>
         <Link to="/opponents" className="yellow">
-          <Button variant="outline-warning">Opponents</Button>
+          <Button variant="outline-warning wsd">Opponents</Button>
         </Link>
       </div>
       <hr className="top-hr" />
@@ -163,7 +168,7 @@ const Seasons = () => {
               </Form.Control>
             </Col>
             <Col xs={3} className="border-control">
-              <Button variant="primary" type="submit">
+              <Button variant="primary  wsd" type="submit">
                 Add Season
               </Button>
             </Col>
@@ -173,13 +178,6 @@ const Seasons = () => {
       <div>
         <Form>
           <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Year</th>
-                <th>Season</th>
-                <th className="last-col">Actions</th>
-              </tr>
-            </thead>
             <tbody>
               {seasons.map((season, index) => (
                 <React.Fragment key={season.id}>
@@ -222,7 +220,7 @@ const Seasons = () => {
                       {editIndex === index ? (
                         <div className="action-buttons">
                           <Button
-                            variant="primary"
+                            variant="primary wsd"
                             onClick={() =>
                               handleSeasonSave(
                                 { year: newSeasonYear, season: newSeasonType },
@@ -233,7 +231,7 @@ const Seasons = () => {
                             Save
                           </Button>
                           <Button
-                            variant="warning"
+                            variant="secondary wsd"
                             onClick={() => handleCancel()}
                           >
                             Cancel
@@ -242,13 +240,13 @@ const Seasons = () => {
                       ) : (
                         <div className="action-buttons">
                           <Button
-                            variant="info"
+                            variant="info wsd"
                             onClick={() => handleEdit(index)}
                           >
                             Edit
                           </Button>
                           <Button
-                            variant="danger"
+                            variant="danger wsd"
                             onClick={(event) =>
                               handleSeasonArchive(event, season.id, index)
                             }

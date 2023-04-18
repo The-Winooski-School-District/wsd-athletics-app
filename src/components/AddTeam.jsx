@@ -2,8 +2,8 @@ import "../styles/Teams.css";
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { db } from "./Firebase";
-import TeamCard from './TeamCard';
-import TeamModal from './TeamModal';
+import TeamCard from "./TeamCard";
+import TeamModal from "./TeamModal";
 
 const AddTeam = ({ seasonID }) => {
   const [showModal, setShowModal] = useState(false);
@@ -40,32 +40,15 @@ const AddTeam = ({ seasonID }) => {
     };
   }, [seasonID]);
 
-  function handleTeamSave(teamInfo, index) {
-    const teamID = teams[index].id;
-    const updatedTeamInfo = {
-      ...teams[index],
-      ...teamInfo,
-      id: teamID,
-    };
-
-    db.ref(`seasons/${seasonID}/teams/${teamID}`).set(
-      updatedTeamInfo,
-      (error) => {
-        if (error) {
-          console.log("Error updating team information:", error);
-        } else {
-          console.log(
-            "Team information updated successfully in Firebase database."
-          );
-          const updatedTeams = [...teams];
-          updatedTeams[index] = updatedTeamInfo;
-          setTeams(updatedTeams);
-        }
-      }
-    );
-  }
-
-  const handleAddTeam = (teamName) => {
+  const handleAddTeam = (
+    teamName,
+    sport,
+    abbr,
+    multi,
+    teamPage,
+    teamPic,
+    coaches
+  ) => {
     const teamID = db.ref().child(`seasons/${seasonID}/teams`).push().key;
     const updatedSeason = {
       ...season,
@@ -73,7 +56,12 @@ const AddTeam = ({ seasonID }) => {
         ...season.teams,
         [teamID]: {
           name: teamName,
-          // add any additional team data here
+          sport: sport,
+          abbr: abbr,
+          multi: multi,
+          teamPage: teamPage,
+          teamPic: teamPic,
+          coaches: coaches,
         },
       },
     };
@@ -85,9 +73,15 @@ const AddTeam = ({ seasonID }) => {
           "Season information updated successfully in Firebase database."
         );
         setShowModal(false);
-        const newTeam = { 
-          id: teamID, 
-          name: teamName 
+        const newTeam = {
+          id: teamID,
+          name: teamName,
+          sport: sport,
+          abbr: abbr,
+          multi: multi,
+          teamPage: teamPage,
+          teamPic: teamPic,
+          coaches: coaches,
         }; // create a new team object
         setTeams([...teams, newTeam]); // add the new team to the state
       }
@@ -96,22 +90,21 @@ const AddTeam = ({ seasonID }) => {
 
   return (
     <div>
-      <div className="add-team-btn">
-        <Button variant="primary" onClick={() => setShowModal(true)}>
+      <div className='add-team-btn'>
+        <Button variant='primary wsd' onClick={() => setShowModal(true)}>
           Add Team
         </Button>
       </div>
-      <div className="teams-area">
+      <div className='teams-area'>
         {teams.map((team) => (
-          <TeamCard key={team.id} team={team} handleTeamSave={handleTeamSave}/>
+          <TeamCard key={team.id} team={team} seasonID={seasonID} />
         ))}
-        <TeamModal 
-          showModal={showModal} 
-          handleAddTeam={handleAddTeam} 
-          handleCloseModal={() => 
-            setShowModal(false)
-            } 
-          />
+        <TeamModal
+          editing={false}
+          showModal={showModal}
+          handleAddTeam={handleAddTeam}
+          handleCloseModal={() => setShowModal(false)}
+        />
       </div>
     </div>
   );

@@ -92,10 +92,13 @@ const Opponents = () => {
       
       <div className="navbuttons">
         <Link to="/seasons" className="yellow">
-          <Button variant="outline-warning">Seasons</Button>
+          <Button variant="outline-warning wsd">Seasons</Button>
         </Link>
         <Link to="/archive" className="yellow">
-          <Button variant="outline-warning">Archive</Button>
+          <Button variant="outline-warning wsd">Archive</Button>
+        </Link>
+        <Link to="/opponents" className="yellow">
+          <Button variant="outline-warning wsd" disabled>Opponents</Button>
         </Link>
       </div>
       
@@ -158,7 +161,7 @@ const Opponents = () => {
                   />
                 </td>
                 <td>
-                  <Button variant="success" type="submit">
+                  <Button variant="success wsd" type="submit">
                     Add Opponent
                   </Button>
                 </td>
@@ -233,13 +236,13 @@ const Opponents = () => {
                     {editIndex === index ? (
                       <>
                         <Button
-                          variant="primary"
+                          variant="primary wsd"
                           onClick={() => handleSave(opponent, index)}
                         >
                           Save
                         </Button>
                         <Button
-                          variant="warning"
+                          variant="warning wsd"
                           onClick={() => handleCancel()}
                         >
                           Cancel
@@ -248,13 +251,13 @@ const Opponents = () => {
                     ) : (
                       <div className="action-buttons">
                         <Button
-                          variant="info"
+                          variant="info wsd"
                           onClick={() => handleEdit(index)}
                         >
                           Edit
                         </Button>
                         <Button
-                          variant="danger"
+                          variant="danger wsd"
                           onClick={() => handleDelete(opponent.id, index)}
                         >
                           Delete

@@ -1,182 +1,182 @@
 * {
-  margin: 0;
-  box-sizing: border-box;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 @media screen and (max-width: 767px) {
-  .navbar {
-    position: sticky !important;
-    top: 0;
-  }
+    .navbar {
+        position: sticky !important;
+        top: 0;
+    }
 }
 
 .navbar {
-  margin-bottom: 10px;
-  background-color: #1d341d;
+    margin-bottom: 10px;
+    background-color: #1d341d;
 }
 
 .nav-link,
 .navbar-brand {
-  color: #fbb516 !important;
+    color: #fbb516 !important;
 }
 
 .nav-link:hover,
 .navbar-brand:hover {
-  color: #ffbf2ab9 !important;
+    color: #ffbf2ab9 !important;
 }
 
 .title {
-  cursor: default;
+    cursor: default;
 }
 
+
 .App {
-  text-align: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-height: 100vh;
-  width: 100%;
-  color: #fbb516;
-  background-color: #007241;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100vh;
+    width: 100%;
+    color: #fbb516;
+    background-color: #007241;
 }
 
 .Container {
-  margin: 20px auto;
-  border: 2px solid white;
-  width: 75%;
-  border-radius: 10px;
-  padding-top: 10px;
-  background-color: #1d341d83;
-}
-@media (max-width: 434px) {
-  .Container {
-    width: 98%;
-  }
+    margin: 20px auto;
+    border: 2px solid white;
+    width: 75%;
+    border-radius: 10px;
+    padding-top: 10px;
+    background-color: #1d341d83;
 }
 
+@media (max-width: 434px) {
+    .Container {
+        width: 98%;
+    }
+}
 
 .Select {
-  display: flex;
-  justify-content: space-between;
-  padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
 }
 
 .Archive {
-  display: flex;
-  height: auto;
-  color: #00532f;
-  background-color: #ffbf2ab9;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  text-decoration: none !important;
-  box-shadow: 3px 5px #3a2100;
-  margin: 20px;
-  height: 100px;
-  padding: 0px;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.2s ease-in-out;
+    display: flex;
+    height: auto;
+    color: #00532f;
+    background-color: #ffbf2ab9;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    text-decoration: none !important;
+    box-shadow: 3px 5px #3a2100;
+    margin: 20px;
+    height: 100px;
+    padding: 0px;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .Seasons,
 .Opponents {
-  flex-basis: 48%;
-  height: 200px;
-  background-color: #ffbf2ab9;
-  color: #00532f;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  text-decoration: none !important;
-  box-shadow: 3px 5px #3a2100;
-  transition: background-color 0.2s ease-in-out;
+    flex-basis: 48%;
+    height: 200px;
+    background-color: #ffbf2ab9;
+    color: #00532f;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    text-decoration: none !important;
+    box-shadow: 3px 5px #3a2100;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .Seasons:hover,
 .Archive:hover,
 .Opponents:hover {
-  background-color: #ffbf2a;
-  color: #007241;
-  box-shadow: 3px 5px #502e03;
+    background-color: #ffbf2a;
+    color: #007241;
+    box-shadow: 3px 5px #502e03;
 }
 
 .Seasons div,
 .Archive div,
 .Opponents div {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .Archive h2 {
-  display: block;
-  margin: 0;
-  font-size: 28px;
+    display: block;
+    margin: 0;
+    font-size: 28px;
 }
 
 .Seasons h2,
 .Opponents h2 {
-  display: block;
-  font-size: 32px;
-  margin: 0;
+    display: block;
+    font-size: 32px;
+    margin: 0;
 }
 
 .Seasons p,
 .Opponents p {
-  font-weight: 600;
-  font-size: 16px;
-  margin: 0;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
 }
 
 @media (max-width: 768px) {
-  .Archive h2 {
-    font-size: 20px;
-  }
-  .Seasons h2,
-  .Opponents h2 {
-    font-size: 28px;
-  }
-  
-  .Seasons p,
-  .Opponents p {
-    font-size: 12px;
-  }
+    .Archive h2 {
+        font-size: 20px;
+    }
+    .Seasons h2,
+    .Opponents h2 {
+        font-size: 28px;
+    }
+    .Seasons p,
+    .Opponents p {
+        font-size: 12px;
+    }
 }
+
 @media (max-width: 500px) {
-  .Archive h2 {
-    font-size: 16px;
-  }
-  .Seasons h2,
-  .Opponents h2 {
-    font-size: 20px;
-  }
-  
-  .Seasons p,
-  .Opponents p {
-    font-size: 10px;
-  }
+    .Archive h2 {
+        font-size: 16px;
+    }
+    .Seasons h2,
+    .Opponents h2 {
+        font-size: 20px;
+    }
+    .Seasons p,
+    .Opponents p {
+        font-size: 10px;
+    }
 }
+
 @media (min-width: 1289px) {
-  .Archive h2 {
-    font-size: 32px;
-  }
-  .Seasons h2,
-  .Opponents h2 {
-    font-size: 36px;
-  }
-  
-  .Seasons p,
-  .Opponents p {
-    font-size: 20px;
-  }
+    .Archive h2 {
+        font-size: 32px;
+    }
+    .Seasons h2,
+    .Opponents h2 {
+        font-size: 36px;
+    }
+    .Seasons p,
+    .Opponents p {
+        font-size: 20px;
+    }
 }
 
 .yellow {
-  text-decoration: none !important;
-  color: #ffbf2a !important;
+    text-decoration: none !important;
+    color: #ffbf2a !important;
 }
