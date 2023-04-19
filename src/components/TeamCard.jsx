@@ -204,7 +204,7 @@ const TeamCard = ({ team, seasonID, archived }) => {
           </>
         ) : (
           <>
-            <Link to="/roster">
+            <Link to={`/roster/${team.id}`}>
               <Button
                 team={team}
                 variant="success wsd"
@@ -215,7 +215,7 @@ const TeamCard = ({ team, seasonID, archived }) => {
                 Add Roster
               </Button>
             </Link>
-            <Link to="/schedule">
+            <Link to={`/schedule/${team.id}`}>
               <Button
                 team={team}
                 variant="success wsd"
