@@ -175,22 +175,19 @@ const TeamCard = ({ team, seasonID, archived }) => {
           <>
             <Link to={`/roster/${team.id}`}>
               <Button
-                team={team}
+                teamID={team.id}
+                seasonID={seasonID.season}
                 variant="success wsd"
-                onClick={() =>
-                  console.log(team.id)
-                }
+                onClick={() => console.log(team.id)}
               >
                 View Roster
               </Button>
             </Link>
             <Link to={`/schedule/${team.id}`}>
               <Button
-                team={team}
+                team={team.id}
                 variant="success wsd"
-                onClick={() =>
-                  console.log(team.id)
-                }
+                onClick={() => console.log(team.id)}
               >
                 View Schedule
               </Button>
@@ -204,24 +201,24 @@ const TeamCard = ({ team, seasonID, archived }) => {
           </>
         ) : (
           <>
-            <Link to={`/roster/${team.id}`}>
+            <Link 
+              to={`/roster/${team.id}`}
+              teamID={team.id}
+              seasonID={seasonID.season}
+            >
               <Button
-                team={team}
                 variant="success wsd"
-                onClick={() =>
-                  console.log(team.id)
-                }
+                onClick={() => console.log("here " + team.id)}
               >
                 Add Roster
               </Button>
             </Link>
+            
             <Link to={`/schedule/${team.id}`}>
               <Button
                 team={team}
                 variant="success wsd"
-                onClick={() =>
-                  console.log(team.id)
-                }
+                onClick={() => console.log(team.id)}
               >
                 Add Schedule
               </Button>
