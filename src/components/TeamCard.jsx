@@ -201,17 +201,8 @@ const TeamCard = ({ team, seasonid, archived }) => {
           </>
         ) : (
           <>
-            <Link 
-              to={`/roster/${team.id}?seasonid=${seasonid}`}
-              teamid={team.id}
-              seasonid={seasonid}
-            >
-              <Button
-                variant="success wsd"
-                onClick={() => console.log("here " + team.id + " and " + seasonid)}
-              >
-                Add Roster
-              </Button>
+            <Link to={`/roster/${seasonid}/${team.id}`}>
+              <Button variant="success wsd">Add Roster</Button>
             </Link>
 
             <Link to={`/schedule/${team.id}`}>

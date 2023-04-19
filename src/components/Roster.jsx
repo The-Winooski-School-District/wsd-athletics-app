@@ -1,12 +1,13 @@
 import "../styles/Opponents.css";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 
-const Roster = ({ teamid, seasonid }) => {  
+const Roster = () => {  
   const [roster, setRoster] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const { teamid, seasonid } = useParams();
 
   console.log(teamid);
   console.log(seasonid);
@@ -20,7 +21,7 @@ const Roster = ({ teamid, seasonid }) => {
   }
 
   useEffect(() => {
-    const rosterRef = db.ref(`seasons/-NTP7b81Z_ukNDZDTYWO/teams/-NTP7dM88Q5jagDA5RdA/roster`);
+    const rosterRef = db.ref(`seasons/${seasonid}/teams/${teamid}/roster`);
     rosterRef.on("value", (snapshot) => {
       const rosterData = snapshot.val();
       if (rosterData) {
@@ -39,10 +40,9 @@ const Roster = ({ teamid, seasonid }) => {
   }
 
   function handleSave(playerInfo, index) {
-    console.log("handleSave");
-    const id = roster[index].id;
+    const id = playerInfo.id;
     const updatedPlayerInfo = { ...roster[index], ...playerInfo, id: id };
-    db.ref(`seasons/-NTP7b81Z_ukNDZDTYWO/teams/-NTP7dM88Q5jagDA5RdA/roster/${id}`).set(updatedPlayerInfo, (error) => {
+    db.ref(`seasons/${seasonid}/teams/${teamid}/roster/${id}`).set(updatedPlayerInfo, (error) => {
       if (error) {
         console.log("Error updating player information:", error);
       } else {
@@ -61,7 +61,7 @@ const Roster = ({ teamid, seasonid }) => {
     if (window.confirm("Are you sure you want to delete this player?")) {
       const updatedRoster = [...roster];
       updatedRoster.splice(index, 1);
-      db.ref(`seasons/-NTP7b81Z_ukNDZDTYWO/teams/-NTP7dM88Q5jagDA5RdA/roster/${id}`).remove();
+      db.ref(`seasons/${seasonid}/teams/${teamid}/roster/${id}`).remove();
       setRoster(updatedRoster);
       setEditIndex(null);
     }
@@ -79,7 +79,7 @@ const Roster = ({ teamid, seasonid }) => {
     const grade = event.target.elements.grade.value;
     const position = event.target.elements.position.value;
     const newplayer = { number, fName, lName, grade, position };
-    db.ref(`seasons/-NTP7b81Z_ukNDZDTYWO/teams/-NTP7dM88Q5jagDA5RdA/roster`).push(newplayer);
+    db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).push(newplayer);
     event.target.reset();
   }
 

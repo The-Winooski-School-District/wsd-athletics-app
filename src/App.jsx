@@ -20,7 +20,7 @@ const App = () => {
           <Route path='/seasons' element={<Seasons />} />
           <Route path='/opponents' element={<Opponents />} />
           <Route path='/archive' element={<Archive />} />
-          <Route path='/roster/*' element={<Roster />} />
+          <Route path='/roster/:seasonid/:teamid' element={<Roster />} />
           <Route path='/schedule/*' element={<Schedule />} />
         </Routes>
       </Router>
