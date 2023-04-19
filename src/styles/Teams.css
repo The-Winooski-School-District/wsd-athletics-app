@@ -27,9 +27,40 @@
     background-color: #1627168f;
 }
 
+.Col-xs-3 {
+    text-align: left !important;
+    margin: 1px 10px 0px;
+}
+
 .team-info {
     text-align: left;
     margin: 1px 10px;
+}
+
+.team-title-area {
+    margin: 10px 0 -10px 0;
+}
+
+.team-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.team-card p {
+    margin: 10px;
+    text-align: left;
+}
+
+.boys-team {
+    background-color: blue;
+}
+
+.girls-team {
+    background-color: red;
+}
+
+.other-team {
+    background-color: white;
 }
 
 @media (max-width: 1501px) {
@@ -44,15 +75,6 @@
         flex-basis: calc(100% - 20px);
         max-width: calc(100% - 20px);
     }
-}
-
-.team-buttons {
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.team-card p {
-    margin-top: 7px;
 }
 
 @media screen and (max-width: 500px) {
@@ -76,15 +98,3 @@
       width: 95%;
     }
   }
-
-.boys-team {
-    background-color: blue;
-}
-
-.girls-team {
-    background-color: red;
-}
-
-.other-team {
-    background-color: white;
-}

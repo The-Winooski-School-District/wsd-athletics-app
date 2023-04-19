@@ -94,9 +94,13 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
 
   return (
     <div className="team-card">
+      <div className="team-title-area">
+        <h4>Team!</h4>
+      </div>
+      <hr className="yellow"></hr>
       <Row>
         <Col xs={3}>
-          <p>Name</p>
+          <p>Name:</p>
         </Col>
         <Col>
           <div className="team-info">
@@ -106,7 +110,7 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
       </Row>
       <Row>
         <Col xs={3}>
-          <p>Sport</p>
+          <p>Sport:</p>
         </Col>
         <Col>
           <div className="team-info">
@@ -116,7 +120,7 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
       </Row>
       <Row>
         <Col xs={3}>
-          <p>ABBR</p>
+          <p>ABBR:</p>
         </Col>
         <Col>
           <div className="team-info">
@@ -126,7 +130,7 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
       </Row>
       <Row>
         <Col xs={3}>
-          <p>Teams</p>
+          <p>Teams:</p>
         </Col>
         <Col>
           <div className="team-info">
@@ -136,7 +140,7 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
       </Row>
       <Row>
         <Col xs={3}>
-          <p>Webpage</p>
+          <p>Webpage:</p>
         </Col>
         <Col>
           <div className="team-info">
@@ -146,7 +150,7 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
       </Row>
       <Row>
         <Col xs={3}>
-          <p>Picture</p>
+          <p>Picture:</p>
         </Col>
         <Col>
           <div className="team-info">
@@ -155,8 +159,8 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
         </Col>
       </Row>
       <Row>
-        <Col>
-          <p>Coaches</p>
+        <Col xs={3}>
+          <p>Coaches:</p>
         </Col>
         <Col>
           <div className="team-info">
@@ -164,7 +168,7 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
           </div>
         </Col>
       </Row>
-
+      <hr className="yellow"></hr>
       <div className="team-buttons">
         {isArchived ? (
           <>
