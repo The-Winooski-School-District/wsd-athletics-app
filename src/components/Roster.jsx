@@ -4,9 +4,12 @@ import { Link } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 
-const Roster = ({ teamID, seasonID }) => {
+const Roster = ({ teamid, seasonid }) => {  
   const [roster, setRoster] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+
+  console.log(teamid);
+  console.log(seasonid);
 
   function handleChange(event, index) {
     const { name, value } = event.target;
@@ -39,7 +42,7 @@ const Roster = ({ teamID, seasonID }) => {
     console.log("handleSave");
     const id = roster[index].id;
     const updatedPlayerInfo = { ...roster[index], ...playerInfo, id: id };
-    db.ref(`roster/${id}`).set(updatedPlayerInfo, (error) => {
+    db.ref(`seasons/-NTP7b81Z_ukNDZDTYWO/teams/-NTP7dM88Q5jagDA5RdA/roster/${id}`).set(updatedPlayerInfo, (error) => {
       if (error) {
         console.log("Error updating player information:", error);
       } else {
@@ -107,8 +110,12 @@ const Roster = ({ teamID, seasonID }) => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Number</th> <th>First Name</th> <th>Last Name</th>
-                <th>Grade</th> <th>Position</th> <th>Actions</th>
+                <th>Number</th> 
+                <th>First Name</th> 
+                <th>Last Name</th>
+                <th>Grade</th> 
+                <th>Position</th> 
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>

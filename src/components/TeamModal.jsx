@@ -74,7 +74,7 @@ const TeamModal = ({
             handleModalClose();
           }}
         >
-          <Form.Group controlId="teamName">
+          <Form.Group controlid="teamName">
             <Form.Label>Team Name</Form.Label>
             <Form.Control
               type="text"
@@ -86,7 +86,7 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId="sport">
+          <Form.Group controlid="sport">
             <Form.Label>Sport</Form.Label>
             <Form.Select
               as="select"
@@ -108,7 +108,7 @@ const TeamModal = ({
             </Form.Select>
           </Form.Group>
 
-          <Form.Group controlId="teamAbbr">
+          <Form.Group controlid="teamAbbr">
             <Form.Label>ABBR</Form.Label>
             <Form.Control
               type="text"
@@ -120,7 +120,7 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId="multipleTeams">
+          <Form.Group controlid="multipleTeams">
             <Form.Label>Multiple Teams?</Form.Label>
             <Form.Select
               type="text"
@@ -139,7 +139,7 @@ const TeamModal = ({
             </Form.Select>
           </Form.Group>
 
-          <Form.Group controlId="teamPage">
+          <Form.Group controlid="teamPage">
             <Form.Label>Team Page URL</Form.Label>
             <Form.Control
               type="text"
@@ -151,7 +151,7 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId="teamPic">
+          <Form.Group controlid="teamPic">
             <Form.Label>Picture URL</Form.Label>
             <Form.Control
               type="text"
@@ -163,7 +163,7 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId="teamCoaches">
+          <Form.Group controlid="teamCoaches">
             <Form.Label>Coaches</Form.Label>
             <Form.Control
               type="textarea"
@@ -175,7 +175,7 @@ const TeamModal = ({
             />
           </Form.Group>
 
-          <Form.Group controlId="delete">
+          <Form.Group controlid="delete">
             {editing && (
               <Form.Check
                 type="checkbox"

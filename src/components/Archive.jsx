@@ -12,7 +12,7 @@ const Archive = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  // editIdex not in use, removing it breaks stuff. So, here it is! in use :)
+  // editidex not in use, removing it breaks stuff. So, here it is! in use :)
   if (!editIndex) {
     /*Do Nothing*/
   }
@@ -38,7 +38,7 @@ const Archive = () => {
                   return {
                     id: key,
                     ...teamsData[key],
-                    seasonId: season.id,
+                    seasonid: season.id,
                     year: season.year,
                     season: season.season,
                   };
@@ -125,7 +125,7 @@ const Archive = () => {
             <tbody>
               {seasons.map((season, index) => {
                 const seasonTeams = teams.filter(
-                  (team) => team.seasonId === season.id
+                  (team) => team.seasonid === season.id
                 );
 
                 return (
@@ -161,7 +161,7 @@ const Archive = () => {
                               <TeamCard
                                 key={team.id}
                                 team={team}
-                                seasonID={season.id}
+                                seasonid={season.id}
                                 archived={true}
                               />
                             ))}

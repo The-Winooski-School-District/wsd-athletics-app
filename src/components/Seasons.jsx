@@ -268,7 +268,7 @@ const Seasons = () => {
                     <td colSpan="3" className="teams-row">
                       {/* render the "Add Team" button */}
                       <AddTeam
-                        seasonID={season.id}
+                        seasonid={season.id}
                         index={index}
                         onAddTeamClick={handleAddTeamClick}
                       />

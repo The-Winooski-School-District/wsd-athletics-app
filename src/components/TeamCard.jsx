@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import TeamModal from "./TeamModal";
 import { db } from "./Firebase";
 
-const TeamCard = ({ team, seasonID, archived }) => {
+const TeamCard = ({ team, seasonid, archived }) => {
   const [showModal, setShowModal] = useState(false);
-  const [season, setSeason] = useState(seasonID.season);
+  const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
 
   // I... don't know where this variable is used, but if I remove it above, it breaks everything. :D
@@ -16,7 +16,7 @@ const TeamCard = ({ team, seasonID, archived }) => {
   }
 
   useEffect(() => {
-    const teamsRef = db.ref(`seasons/${seasonID}/teams`);
+    const teamsRef = db.ref(`seasons/${seasonid}/teams`);
     teamsRef.on("value", (snapshot) => {
       const teamsData = snapshot.val();
       if (teamsData) {
@@ -29,7 +29,7 @@ const TeamCard = ({ team, seasonID, archived }) => {
       }
     });
 
-    const seasonRef = db.ref(`seasons/${seasonID}`);
+    const seasonRef = db.ref(`seasons/${seasonid}`);
     seasonRef.on("value", (snapshot) => {
       const seasonData = snapshot.val();
       if (seasonData) {
@@ -43,19 +43,19 @@ const TeamCard = ({ team, seasonID, archived }) => {
       teamsRef.off();
       seasonRef.off();
     };
-  }, [seasonID]);
+  }, [seasonid]);
 
   function handleTeamSave(teamInfo, index) {
     console.log(teamInfo, index);
-    const teamID = team.id;
-    if (!teamID) {
+    const teamid = team.id;
+    if (!teamid) {
       console.log(`No team found at index ${index}.`);
       return;
     }
 
     if (teamInfo.delete) {
       // Remove the team from the database
-      db.ref(`seasons/${seasonID}/teams/${teamID}`).remove((error) => {
+      db.ref(`seasons/${seasonid}/teams/${teamid}`).remove((error) => {
         if (error) {
           console.log("Error deleting team information:", error);
         } else {
@@ -72,7 +72,7 @@ const TeamCard = ({ team, seasonID, archived }) => {
       const { id: _, ...updatedTeamInfo } = teamInfo;
 
       // Update the team in the database
-      db.ref(`seasons/${seasonID}/teams/${teamID}`).set(
+      db.ref(`seasons/${seasonid}/teams/${teamid}`).set(
         updatedTeamInfo,
         (error) => {
           if (error) {
@@ -173,10 +173,10 @@ const TeamCard = ({ team, seasonID, archived }) => {
       <div className="team-buttons">
         {archived ? (
           <>
-            <Link to={`/roster/${team.id}`}>
+            <Link to={`/roster/${team.id}?seasonid=${seasonid}`}>
               <Button
-                teamID={team.id}
-                seasonID={seasonID.season}
+                teamid={team.id}
+                seasonid={seasonid.season}
                 variant="success wsd"
                 onClick={() => console.log(team.id)}
               >
@@ -202,18 +202,18 @@ const TeamCard = ({ team, seasonID, archived }) => {
         ) : (
           <>
             <Link 
-              to={`/roster/${team.id}`}
-              teamID={team.id}
-              seasonID={seasonID.season}
+              to={`/roster/${team.id}?seasonid=${seasonid}`}
+              teamid={team.id}
+              seasonid={seasonid}
             >
               <Button
                 variant="success wsd"
-                onClick={() => console.log("here " + team.id)}
+                onClick={() => console.log("here " + team.id + " and " + seasonid)}
               >
                 Add Roster
               </Button>
             </Link>
-            
+
             <Link to={`/schedule/${team.id}`}>
               <Button
                 team={team}

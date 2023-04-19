@@ -5,13 +5,13 @@ import { db } from "./Firebase";
 import TeamCard from "./TeamCard";
 import TeamModal from "./TeamModal";
 
-const AddTeam = ({ seasonID }) => {
+const AddTeam = ({ seasonid }) => {
   const [showModal, setShowModal] = useState(false);
   const [teams, setTeams] = useState([]);
   const [season, setSeason] = useState(null);
 
   useEffect(() => {
-    const teamsRef = db.ref(`seasons/${seasonID}/teams`);
+    const teamsRef = db.ref(`seasons/${seasonid}/teams`);
     teamsRef.on("value", (snapshot) => {
       const teamsData = snapshot.val();
       if (teamsData) {
@@ -24,7 +24,7 @@ const AddTeam = ({ seasonID }) => {
       }
     });
 
-    const seasonRef = db.ref(`seasons/${seasonID}`);
+    const seasonRef = db.ref(`seasons/${seasonid}`);
     seasonRef.on("value", (snapshot) => {
       const seasonData = snapshot.val();
       if (seasonData) {
@@ -38,7 +38,7 @@ const AddTeam = ({ seasonID }) => {
       teamsRef.off();
       seasonRef.off();
     };
-  }, [seasonID]);
+  }, [seasonid]);
 
   const handleAddTeam = (
     teamName,
@@ -49,12 +49,12 @@ const AddTeam = ({ seasonID }) => {
     teamPic,
     coaches
   ) => {
-    const teamID = db.ref().child(`seasons/${seasonID}/teams`).push().key;
+    const teamid = db.ref().child(`seasons/${seasonid}/teams`).push().key;
     const updatedSeason = {
       ...season,
       teams: {
         ...season.teams,
-        [teamID]: {
+        [teamid]: {
           name: teamName,
           sport: sport,
           abbr: abbr,
@@ -65,7 +65,7 @@ const AddTeam = ({ seasonID }) => {
         },
       },
     };
-    db.ref(`seasons/${seasonID}`).set(updatedSeason, (error) => {
+    db.ref(`seasons/${seasonid}`).set(updatedSeason, (error) => {
       if (error) {
         console.log("Error updating season information:", error);
       } else {
@@ -74,7 +74,7 @@ const AddTeam = ({ seasonID }) => {
         );
         setShowModal(false);
         const newTeam = {
-          id: teamID,
+          id: teamid,
           name: teamName,
           sport: sport,
           abbr: abbr,
@@ -97,7 +97,7 @@ const AddTeam = ({ seasonID }) => {
       </div>
       <div className='teams-area'>
         {teams.map((team) => (
-          <TeamCard key={team.id} team={team} seasonID={seasonID} />
+          <TeamCard key={team.id} team={team} seasonid={seasonid} />
         ))}
         <TeamModal
           editing={false}
