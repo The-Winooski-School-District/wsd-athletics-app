@@ -33,7 +33,7 @@ const Roster = () => {
         setRoster([]);
       }
     });
-  }, []);
+  }, [seasonid, teamid]);
 
   function handleEdit(index) {
     setEditIndex(index);

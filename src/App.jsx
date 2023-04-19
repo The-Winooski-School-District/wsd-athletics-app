@@ -21,7 +21,7 @@ const App = () => {
           <Route path='/opponents' element={<Opponents />} />
           <Route path='/archive' element={<Archive />} />
           <Route path='/roster/:seasonid/:teamid' element={<Roster />} />
-          <Route path='/schedule/*' element={<Schedule />} />
+          <Route path='/schedule/:seasonid/:teamid' element={<Schedule />} />
         </Routes>
       </Router>
     </div>
