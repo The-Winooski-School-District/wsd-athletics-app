@@ -7,6 +7,8 @@ import Seasons from "./components/Seasons";
 import Opponents from "./components/Opponents";
 import Archive from "./components/Archive";
 import Navigation from "./components/Navigation";
+import Roster from "./components/Roster";
+import Schedule from "./components/Schedule";
 
 const App = () => {
   return (
@@ -18,6 +20,8 @@ const App = () => {
           <Route path='/seasons' element={<Seasons />} />
           <Route path='/opponents' element={<Opponents />} />
           <Route path='/archive' element={<Archive />} />
+          <Route path='/roster/*' element={<Roster />} />
+          <Route path='/schedule/*' element={<Schedule />} />
         </Routes>
       </Router>
     </div>

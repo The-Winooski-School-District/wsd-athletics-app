@@ -1,10 +1,11 @@
 import "../styles/Teams.css";
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import TeamModal from "./TeamModal";
 import { db } from "./Firebase";
 
-const TeamCard = ({ team, seasonID, isArchived }) => {
+const TeamCard = ({ team, seasonID, archived }) => {
   const [showModal, setShowModal] = useState(false);
   const [season, setSeason] = useState(seasonID.season);
   const [teams, setTeams] = useState([]);
@@ -170,10 +171,30 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
       </Row>
       <hr className="yellow"></hr>
       <div className="team-buttons">
-        {isArchived ? (
+        {archived ? (
           <>
-            <Button variant="success wsd">View Roster</Button>
-            <Button variant="success wsd">View Schedule</Button>
+            <Link to="/roster">
+              <Button
+                team={team}
+                variant="success wsd"
+                onClick={() =>
+                  console.log(team.id)
+                }
+              >
+                View Roster
+              </Button>
+            </Link>
+            <Link to="/schedule">
+              <Button
+                team={team}
+                variant="success wsd"
+                onClick={() =>
+                  console.log(team.id)
+                }
+              >
+                View Schedule
+              </Button>
+            </Link>
             <Button
               variant="outline-warning wsd"
               onClick={() => setShowModal(true)}
@@ -183,8 +204,28 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
           </>
         ) : (
           <>
-            <Button variant="success wsd">Add Roster</Button>
-            <Button variant="success wsd">Add Schedule</Button>
+            <Link to="/roster">
+              <Button
+                team={team}
+                variant="success wsd"
+                onClick={() =>
+                  console.log(team.id)
+                }
+              >
+                Add Roster
+              </Button>
+            </Link>
+            <Link to="/schedule">
+              <Button
+                team={team}
+                variant="success wsd"
+                onClick={() =>
+                  console.log(team.id)
+                }
+              >
+                Add Schedule
+              </Button>
+            </Link>
             <Button
               variant="outline-warning wsd"
               onClick={() => setShowModal(true)}
@@ -196,8 +237,8 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
       </div>
       <TeamModal
         team={team}
-        editing={!isArchived}
-        isArchived={isArchived}
+        editing={!archived}
+        archived={archived}
         showModal={showModal}
         handleTeamSave={handleTeamSave}
         handleCloseModal={() => setShowModal(false)}

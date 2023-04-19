@@ -8,7 +8,7 @@ const TeamModal = ({
   handleTeamSave,
   handleCloseModal,
   editing,
-  isArchived,
+  archived,
 }) => {
   const [teamName, setTeamName] = useState(editing ? team.name : "");
   const [sport, setSport] = useState(editing ? team.sport : "");
@@ -82,29 +82,29 @@ const TeamModal = ({
               value={teamName}
               ref={teamNameRef}
               onChange={(event) => setTeamName(event.target.value)}
-              disabled={isArchived}
+              disabled={archived}
             />
           </Form.Group>
-
 
           <Form.Group controlId="sport">
             <Form.Label>Sport</Form.Label>
             <Form.Select
               as="select"
-              placeholder="Sport"
               value={sport}
               ref={sportRef}
               onChange={(event) => setSport(event.target.value)}
-              disabled={isArchived}
+              disabled={archived}
             >
-            <option value="" disabled selected>Select Sport</option>
-            <option value="Baseball">Baseball</option>
-            <option value="Softball">Softball</option>
-            <option value="Basketball">Basketball</option>
-            <option value="Football">Football</option>
-            <option value="Soccer">Soccer</option>
-            <option value="Track & Field">Track & Field</option>
-            <option value="Football">Cheerleading</option>
+              <option disabled selected>
+                Select Sport
+              </option>
+              <option value="Baseball">Baseball</option>
+              <option value="Softball">Softball</option>
+              <option value="Basketball">Basketball</option>
+              <option value="Football">Football</option>
+              <option value="Soccer">Soccer</option>
+              <option value="Track & Field">Track & Field</option>
+              <option value="Football">Cheerleading</option>
             </Form.Select>
           </Form.Group>
 
@@ -116,7 +116,7 @@ const TeamModal = ({
               value={abbr}
               ref={abbrRef}
               onChange={(event) => setAbbr(event.target.value)}
-              disabled={isArchived}
+              disabled={archived}
             />
           </Form.Group>
 
@@ -128,13 +128,15 @@ const TeamModal = ({
               value={multi}
               ref={multiRef}
               onChange={(event) => setMulti(event.target.value)}
-              disabled={isArchived}
-              >
-                <option value="" disabled selected>Multiple Teams?</option>
+              disabled={archived}
+            >
+              <option value="" disabled selected>
+                Multiple Teams?
+              </option>
               <option value="Single">Single Team</option>
               <option value="V&JV">Varsity & JV</option>
               <option value="A&B">A & B Teams</option>
-              </Form.Select>
+            </Form.Select>
           </Form.Group>
 
           <Form.Group controlId="teamPage">
@@ -145,7 +147,7 @@ const TeamModal = ({
               value={teamPage}
               ref={teamPageRef}
               onChange={(event) => setTeamPage(event.target.value)}
-              disabled={isArchived}
+              disabled={archived}
             />
           </Form.Group>
 
@@ -157,7 +159,7 @@ const TeamModal = ({
               value={teamPic}
               ref={teamPicRef}
               onChange={(event) => setTeamPic(event.target.value)}
-              disabled={isArchived}
+              disabled={archived}
             />
           </Form.Group>
 
@@ -169,7 +171,7 @@ const TeamModal = ({
               value={coaches}
               ref={coachesRef}
               onChange={(event) => setCoaches(event.target.value)}
-              disabled={isArchived}
+              disabled={archived}
             />
           </Form.Group>
 
@@ -180,14 +182,14 @@ const TeamModal = ({
                 label="Delete"
                 checked={deleteChecked}
                 onChange={(event) => setDeleteChecked(event.target.checked)}
-                disabled={isArchived}
+                disabled={archived}
               />
             )}
           </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        {isArchived ? (
+        {archived ? (
           <Button variant="secondary" onClick={handleModalClose}>
             Cancel
           </Button>

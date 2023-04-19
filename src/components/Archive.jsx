@@ -162,7 +162,7 @@ const Archive = () => {
                                 key={team.id}
                                 team={team}
                                 seasonID={season.id}
-                                isArchived={true}
+                                archived={true}
                               />
                             ))}
                           </div>

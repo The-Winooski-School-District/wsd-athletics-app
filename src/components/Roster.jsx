@@ -1,12 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const Roster = props => {
+const Roster = () => {
   return (
     <div>Roster</div>
   )
 }
-
-Roster.propTypes = {}
 
 export default Roster
