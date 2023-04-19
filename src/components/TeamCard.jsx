@@ -1,6 +1,6 @@
 import "../styles/Teams.css";
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Row, Col } from "react-bootstrap";
 import TeamModal from "./TeamModal";
 import { db } from "./Firebase";
 
@@ -94,28 +94,101 @@ const TeamCard = ({ team, seasonID, isArchived }) => {
 
   return (
     <div className="team-card">
-      <div className="team-info">
-        <p key={`${team.id}-name`}>Name: {team.name}</p>
-        <p key={`${team.id}-sport`}>Sport: {team.sport}</p>
-        <p key={`${team.id}-abbr`}>ABBR: {team.abbr}</p>
-        <p key={`${team.id}-multi`}>Teams: {team.multi}</p>
-        <p key={`${team.id}-teamPage`}>Webpage: {team.teamPage}</p>
-        <p key={`${team.id}-teamPic`}>Picture: {team.teamPic}</p>
-        <p key={`${team.id}-coaches`}>coaches: {team.coaches}</p>
-      </div>
+      <Row>
+        <Col xs={3}>
+          <p>Name</p>
+        </Col>
+        <Col>
+          <div className="team-info">
+            <p key={`${team.id}-name`}>{team.name}</p>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={3}>
+          <p>Sport</p>
+        </Col>
+        <Col>
+          <div className="team-info">
+            <p key={`${team.id}-sport`}>{team.sport}</p>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={3}>
+          <p>ABBR</p>
+        </Col>
+        <Col>
+          <div className="team-info">
+            <p key={`${team.id}-abbr`}>{team.abbr}</p>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={3}>
+          <p>Teams</p>
+        </Col>
+        <Col>
+          <div className="team-info">
+            <p key={`${team.id}-multi`}>{team.multi}</p>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={3}>
+          <p>Webpage</p>
+        </Col>
+        <Col>
+          <div className="team-info">
+            <p key={`${team.id}-teamPage`}>{team.teamPage}</p>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={3}>
+          <p>Picture</p>
+        </Col>
+        <Col>
+          <div className="team-info">
+            <p key={`${team.id}-teamPic`}>{team.teamPic}</p>
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <p>Coaches</p>
+        </Col>
+        <Col>
+          <div className="team-info">
+            <p key={`${team.id}-coaches`}>{team.coaches}</p>
+          </div>
+        </Col>
+      </Row>
+
       <div className="team-buttons">
-        <Button variant="success wsd">
-          {isArchived ? "View " : "Add "} Roster
-        </Button>
-        <Button variant="success wsd">
-          {isArchived ? "View " : "Add "} Schedule
-        </Button>
-        <Button
-          variant="outline-warning wsd"
-          onClick={() => setShowModal(true)}
-        >
-          {isArchived ? "View " : "Edit "} Team
-        </Button>
+        {isArchived ? (
+          <>
+            <Button variant="success wsd">View Roster</Button>
+            <Button variant="success wsd">View Schedule</Button>
+            <Button
+              variant="outline-warning wsd"
+              onClick={() => setShowModal(true)}
+            >
+              View Team
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="success wsd">Add Roster</Button>
+            <Button variant="success wsd">Add Schedule</Button>
+            <Button
+              variant="outline-warning wsd"
+              onClick={() => setShowModal(true)}
+            >
+              Edit Team
+            </Button>
+          </>
+        )}
       </div>
       <TeamModal
         team={team}

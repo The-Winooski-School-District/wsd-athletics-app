@@ -5,12 +5,14 @@
     color: #fff;
     background-color: #9c6900;
     border-color: #9c6900;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .action-buttons .wsd.btn-outline-primary,
 .wsd.btn-outline-primary {
     color: #9c6900;
     border-color: #9c6900;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .action-buttons .wsd.btn-primary:hover,
@@ -34,6 +36,7 @@
     color: #fff;
     background-color: #002e1a;
     border-color: #002e1a;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .action-buttons .wsd.btn-secondary:hover,
@@ -51,6 +54,7 @@
     color: #fff;
     background-color: #2a5c2a;
     border-color: #2a5c2a;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .wsd.btn-success:hover,
@@ -68,6 +72,7 @@
     color: #fff;
     background-color: #8c1c1c;
     border-color: #8c1c1c;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .action-buttons .wsd.btn-danger:hover,
@@ -84,11 +89,13 @@
     color: #212529;
     background-color: #b88000;
     border-color: #b88000;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .wsd.btn-outline-warning {
     border-color: #e9a60b;
     color: #e9a60b;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .wsd.btn-warning:hover {
@@ -111,6 +118,7 @@
     color: #fff;
     background-color: #0d5564;
     border-color: #0d5564;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .action-buttons .wsd.btn-info:hover,
@@ -129,6 +137,7 @@
     color: #212529;
     background-color: #c0c0c0;
     border-color: #c0c0c0;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .wsd.btn-light:hover,
@@ -145,6 +154,7 @@
     color: #fff;
     background-color: #141414;
     border-color: #141414;
+    transition: background-color 0.2s ease-in-out;
 }
 
 .wsd.btn-dark:hover,

@@ -20,11 +20,15 @@ const TeamModal = ({
   const [deleteChecked, setDeleteChecked] = useState(false);
 
   useEffect(() => {
-    if (team && team.name) {
+    if (team) {
       setTeamName(team.name);
-    }
-    if (team && team.delete) {
-      setDeleteChecked(true);
+      setSport(team.sport);
+      setAbbr(team.abbr);
+      setMulti(team.multi);
+      setTeamPage(team.teamPage);
+      setTeamPic(team.teamPic);
+      setCoaches(team.coaches);
+      setDeleteChecked(!!team.delete);
     }
   }, [team]);
 
@@ -82,16 +86,26 @@ const TeamModal = ({
             />
           </Form.Group>
 
+
           <Form.Group controlId="sport">
             <Form.Label>Sport</Form.Label>
-            <Form.Control
-              type="text"
+            <Form.Select
+              as="select"
               placeholder="Sport"
               value={sport}
               ref={sportRef}
               onChange={(event) => setSport(event.target.value)}
               disabled={isArchived}
-            />
+            >
+            <option value="" disabled selected>Select Sport</option>
+            <option value="Baseball">Baseball</option>
+            <option value="Softball">Softball</option>
+            <option value="Basketball">Basketball</option>
+            <option value="Football">Football</option>
+            <option value="Soccer">Soccer</option>
+            <option value="Track & Field">Track & Field</option>
+            <option value="Football">Cheerleading</option>
+            </Form.Select>
           </Form.Group>
 
           <Form.Group controlId="teamAbbr">
@@ -108,21 +122,26 @@ const TeamModal = ({
 
           <Form.Group controlId="multipleTeams">
             <Form.Label>Multiple Teams?</Form.Label>
-            <Form.Control
+            <Form.Select
               type="text"
               placeholder="Multiple Teams?"
               value={multi}
               ref={multiRef}
               onChange={(event) => setMulti(event.target.value)}
               disabled={isArchived}
-            />
+              >
+                <option value="" disabled selected>Multiple Teams?</option>
+              <option value="Single">Single Team</option>
+              <option value="V&JV">Varsity & JV</option>
+              <option value="A&B">A & B Teams</option>
+              </Form.Select>
           </Form.Group>
 
           <Form.Group controlId="teamPage">
             <Form.Label>Team Page URL</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter team page URL"
+              placeholder="https://your-website.com"
               value={teamPage}
               ref={teamPageRef}
               onChange={(event) => setTeamPage(event.target.value)}
@@ -134,7 +153,7 @@ const TeamModal = ({
             <Form.Label>Picture URL</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Enter team name"
+              placeholder="https://your-website.com"
               value={teamPic}
               ref={teamPicRef}
               onChange={(event) => setTeamPic(event.target.value)}
@@ -146,7 +165,7 @@ const TeamModal = ({
             <Form.Label>Coaches</Form.Label>
             <Form.Control
               type="textarea"
-              placeholder="Enter team name"
+              placeholder="Enter Coaches names"
               value={coaches}
               ref={coachesRef}
               onChange={(event) => setCoaches(event.target.value)}
