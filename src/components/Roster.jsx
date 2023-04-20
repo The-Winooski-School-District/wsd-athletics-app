@@ -1,14 +1,19 @@
 import "../styles/Opponents.css";
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 
 const Roster = () => {
+  const navigate = useNavigate();
   const [roster, setRoster] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [isArchived, setIsArchived] = useState(false);
   const { teamid, seasonid } = useParams();
+
+  function handleGoBack() {
+    navigate(-1);
+  }
 
   function handleChange(event, index) {
     const { name, value } = event.target;
@@ -123,6 +128,11 @@ const Roster = () => {
         </Link>
         <Link to="/roster" className="yellow">
           <Button variant="outline-warning wsd">Opponents</Button>
+        </Link>
+        <Link className="yellow">
+          <Button variant="danger wsd" onClick={handleGoBack}>
+            Go Back
+          </Button>
         </Link>
       </div>
       <hr className="top-hr" />
