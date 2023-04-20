@@ -1,86 +1,115 @@
 import "../styles/Opponents.css";
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 
 const Schedule = () => {
-  const [opponents, setOpponents] = useState([]);
+  const navigate = useNavigate();
+  const [schedule, setSchedule] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const [isArchived, setIsArchived] = useState(false);
+  const { teamid, seasonid } = useParams();
+
+  function handleGoBack() {
+    navigate(-1);
+  }
 
   function handleChange(event, index) {
     const { name, value } = event.target;
-    const updatedOpponents = [...opponents];
-    const updatedOpponentInfo = { ...updatedOpponents[index], [name]: value };
-    updatedOpponents[index] = updatedOpponentInfo;
-    setOpponents(updatedOpponents);
+    const updatedSchedule = [...schedule];
+    const updatedOpponentInfo = { ...updatedSchedule[index], [name]: value };
+    updatedSchedule[index] = updatedOpponentInfo;
+    setSchedule(updatedSchedule);
   }
 
   useEffect(() => {
-    const opponentsRef = db.ref("opponents");
-    opponentsRef.on("value", (snapshot) => {
-      const opponentsData = snapshot.val();
-      if (opponentsData) {
-        const opponentsList = Object.keys(opponentsData).map((key) => {
-          return { id: key, ...opponentsData[key] };
-        });
-        setOpponents(opponentsList);
-      } else {
-        setOpponents([]);
-      }
-    });
-  }, []);
+    db.ref(`seasons/${seasonid}`)
+      .once("value")
+      .then((snapshot) => {
+        const exists = snapshot.exists();
+        if (exists) {
+          db.ref(`seasons/${seasonid}/teams/${teamid}/schedule`).on(
+            "value",
+            (snapshot) => {
+              const scheduleData = snapshot.val();
+              if (scheduleData) {
+                const scheduleList = Object.keys(scheduleData).map((key) => {
+                  return { id: key, ...scheduleData[key] };
+                });
+                setSchedule(scheduleList);
+              } else {
+                setSchedule([]);
+              }
+            }
+          );
+        } else {
+          setIsArchived(true);
+          db.ref(`archived-seasons/${seasonid}/teams/${teamid}/schedule`).on(
+            "value",
+            (snapshot) => {
+              const scheduleData = snapshot.val();
+              if (scheduleData) {
+                const rosterList = Object.keys(scheduleData).map((key) => {
+                  return { id: key, ...scheduleData[key] };
+                });
+                setSchedule(rosterList);
+              } else {
+                setSchedule([]);
+              }
+            }
+          );
+        }
+      });
+  }, [seasonid, teamid]);
 
   function handleEdit(index) {
     setEditIndex(index);
   }
 
-  function handleSave(opponentInfo, index) {
-    console.log("handleSave");
-    const id = opponents[index].id;
-    const updatedOpponentInfo = {
-      ...opponents[index],
-      ...opponentInfo,
-      id: id,
-    };
-    db.ref(`opponents/${id}`).set(updatedOpponentInfo, (error) => {
-      if (error) {
-        console.log("Error updating opponent information:", error);
-      } else {
-        console.log(
-          "Opponent information updated successfully in Firebase database."
-        );
-        const updatedOpponents = [...opponents];
-        updatedOpponents[index] = updatedOpponentInfo;
-        setOpponents(updatedOpponents);
-        setEditIndex(null);
+  function handleSave(gameInfo, index) {
+    const id = gameInfo.id;
+    const updatedGameInfo = { ...schedule[index], ...gameInfo, id: id };
+    db.ref(`seasons/${seasonid}/teams/${teamid}/roster/${id}`).set(
+      updatedGameInfo,
+      (error) => {
+        if (error) {
+          console.log("Error updating game schedule information:", error);
+        } else {
+          console.log(
+            "Game schedule information updated successfully in Firebase database."
+          );
+          const updatedSchedule = [...schedule];
+          updatedSchedule[index] = updatedGameInfo;
+          setSchedule(updatedSchedule);
+          setEditIndex(null);
+        }
       }
-    });
+    );
   }
 
   function handleDelete(id, index) {
-    if (window.confirm("Are you sure you want to delete this opponent?")) {
-      const updatedOpponents = [...opponents];
-      updatedOpponents.splice(index, 1);
-      db.ref(`opponents/${id}`).remove();
-      setOpponents(updatedOpponents);
+    if (window.confirm("Are you sure you want to delete this game?")) {
+      const updatedSchedule = [...schedule];
+      updatedSchedule.splice(index, 1);
+      db.ref(`seasons/${seasonid}/teams/${teamid}/schedule/${id}`).remove();
+      setSchedule(updatedSchedule);
       setEditIndex(null);
     }
   }
-
   function handleCancel() {
     setEditIndex(null);
   }
 
-  function handleAddOpponent(event) {
+  function handleAddGame(event) {
     event.preventDefault();
-    const name = event.target.elements.name.value;
-    const school = event.target.elements.school.value;
-    const address = event.target.elements.address.value;
-    const phone = event.target.elements.phone.value;
-    const fax = event.target.elements.fax.value;
-    const newOpponent = { name, school, address, phone, fax };
-    db.ref("opponents").push(newOpponent);
+    const date = event.target.elements.date.value;
+    const opponent = event.target.elements.opponent.value;
+    const location = event.target.elements.location.value;
+    const time = event.target.elements.time.value;
+    const score = event.target.elements.score.value;
+    const newGame = { date, opponent, location, time, score };
+    db.ref(`seasons/${seasonid}/teams/${teamid}/schedule`).push(newGame);
     event.target.reset();
   }
 
@@ -98,146 +127,153 @@ const Schedule = () => {
           <Button variant="outline-warning wsd">Archive</Button>
         </Link>
         <Link to="/opponents" className="yellow">
-          <Button variant="outline-warning wsd" disabled>Opponents</Button>
+          <Button variant="outline-warning wsd">Opponents</Button>
         </Link>
-      </div>
-      
+        <Link className="yellow">
+          <Button variant="outline-danger wsd" onClick={handleGoBack}>
+            Go Back
+          </Button>
+        </Link>
+      </div>      
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
-          <h2>Opponents</h2>
+          <h2>Schedule</h2>
         </div>
-        <Form onSubmit={handleAddOpponent}>
+        <Form onSubmit={handleAddGame}>
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Number</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Grade</th>
-                <th>Position</th>
-                <th>Actions</th>
+                <th>Date</th>
+                <th>Opponent</th>
+                <th>Home/Away</th>
+                <th>Time</th>
+                <th>Score</th>
+                {isArchived ? null : <th>Actions</th>}
               </tr>
-            </thead>
+            </thead>           
             <tbody>
+            {isArchived ? null : (
               <tr>
                 <td>
                   <Form.Control
                     type="text"
-                    name="name"
-                    placeholder="number"
+                    name="date"
+                    placeholder="Date"
                     required
                   />
                 </td>
                 <td>
                   <Form.Control
                     type="text"
-                    name="fName"
-                    placeholder="First Name"
+                    name="opponent"
+                    placeholder="Opponent"
                     required
                   />
                 </td>
                 <td>
                   <Form.Control
                     type="text"
-                    name="lName"
-                    placeholder="Last Name"
+                    name="location"
+                    placeholder="Home/Away"
                     required
                   />
                 </td>
                 <td>
                   <Form.Control
                     type="text"
-                    name="grade"
-                    placeholder="Grade"
+                    name="time"
+                    placeholder="Time"
                     required
                   />
                 </td>
                 <td>
                   <Form.Control
                     type="text"
-                    name="Position(s)"
-                    placeholder="Position(s)"
+                    name="score"
+                    placeholder="SCore"
                   />
                 </td>
                 <td>
                   <Button variant="success wsd2" type="submit">
-                    Add Player
+                    Add Game
                   </Button>
                 </td>
               </tr>
-              {opponents.map((opponent, index) => (
-                <tr key={opponent.id}>
+              )}
+              {schedule.map((game, index) => (
+                <tr key={game.id}>
                   <td>
                     {editIndex === index ? (
                       <Form.Control
                         type="text"
-                        name="name"
-                        value={opponent.name}
+                        name="date"
+                        value={game.date}
                         onChange={(event) => handleChange(event, index)}
                         required
                       />
                     ) : (
-                      opponent.name
+                      game.date
                     )}
                   </td>
                   <td>
                     {editIndex === index ? (
                       <Form.Control
                         type="text"
-                        name="school"
-                        value={opponent.school}
+                        name="opponent"
+                        value={game.opponent}
                         onChange={(event) => handleChange(event, index)}
                         required
                       />
                     ) : (
-                      opponent.school
+                      game.opponent
                     )}
                   </td>
                   <td>
                     {editIndex === index ? (
                       <Form.Control
                         type="text"
-                        name="address"
-                        value={opponent.address}
+                        name="location"
+                        value={game.location}
                         onChange={(event) => handleChange(event, index)}
                         required
                       />
                     ) : (
-                      opponent.address
+                      game.location
                     )}
                   </td>
                   <td>
                     {editIndex === index ? (
                       <Form.Control
                         type="text"
-                        name="phone"
-                        value={opponent.phone}
+                        name="time"
+                        value={game.time}
                         onChange={(event) => handleChange(event, index)}
                         required
                       />
                     ) : (
-                      opponent.phone
+                      game.time
                     )}
                   </td>
                   <td>
                     {editIndex === index ? (
                       <Form.Control
                         type="text"
-                        name="fax"
-                        value={opponent.fax}
+                        name="score"
+                        value={game.score}
                         onChange={(event) => handleChange(event, index)}
                       />
                     ) : (
-                      opponent.fax
+                      game.score
                     )}
                   </td>
+                  {isArchived ? null : (
                   <td>
                     {editIndex === index ? (
                       <>
                         <Button
                           variant="primary wsd"
-                          onClick={() => handleSave(opponent, index)}
+                          onClick={() => handleSave(game, index)}
                         >
                           Save
                         </Button>
@@ -258,13 +294,14 @@ const Schedule = () => {
                         </Button>
                         <Button
                           variant="danger wsd"
-                          onClick={() => handleDelete(opponent.id, index)}
+                          onClick={() => handleDelete(game.id, index)}
                         >
                           Delete
                         </Button>
                       </div>
                     )}
                   </td>
+                  )}
                 </tr>
               ))}
             </tbody>

@@ -24,3 +24,4 @@ yarn-error.log*
 
 # sensitive
 /src/components/Firebase.jsx
+todo.txt

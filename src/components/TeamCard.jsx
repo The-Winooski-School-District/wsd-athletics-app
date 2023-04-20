@@ -10,6 +10,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
   const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
   const [hasRoster, setHasRoster] = useState(false);
+  const [hasSchedule, setHasSchedule] = useState(false);
 
   // I... don't know where this variable is used, but if I remove it above, it breaks everything. :D
   if (!season) {
@@ -46,10 +47,17 @@ const TeamCard = ({ team, seasonid, archived }) => {
       setHasRoster(hasRoster);
     });
 
+    const scheduleRef = db.ref(`seasons/${seasonid}/teams/${team.id}/schedule/`);
+    scheduleRef.once("value", (snapshot) => {
+      const hasSchedule = snapshot.exists();
+      setHasSchedule(hasSchedule);
+    });
+
     return () => {
       teamsRef.off();
       seasonRef.off();
       rosterRef.off();
+      scheduleRef.off();
     };
   }, [seasonid, team.id]);
 
@@ -206,7 +214,11 @@ const TeamCard = ({ team, seasonid, archived }) => {
             </Link>
 
             <Link to={`/schedule/${seasonid}/${team.id}`}>
-              <Button variant="success wsd">Add Schedule</Button>
+              {hasSchedule ? (
+                <Button variant="outline-warning wsd">Edit Schedule</Button>
+              ) : (
+                <Button variant="success wsd">Add Schedule</Button>
+              )}
             </Link>
 
             <Button

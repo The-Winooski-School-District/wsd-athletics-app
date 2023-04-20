@@ -130,7 +130,7 @@ const Roster = () => {
           <Button variant="outline-warning wsd">Opponents</Button>
         </Link>
         <Link className="yellow">
-          <Button variant="danger wsd" onClick={handleGoBack}>
+          <Button variant="outline-danger wsd" onClick={handleGoBack}>
             Go Back
           </Button>
         </Link>
