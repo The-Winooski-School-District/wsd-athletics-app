@@ -83,19 +83,22 @@ const TeamModal = ({
               ref={teamNameRef}
               onChange={(event) => setTeamName(event.target.value)}
               disabled={archived}
+              autoFocus
             />
           </Form.Group>
 
           <Form.Group controlid="sport">
             <Form.Label>Sport</Form.Label>
             <Form.Select
+              type="text"
+              placeholder="Select Sport"
               as="select"
               value={sport}
               ref={sportRef}
               onChange={(event) => setSport(event.target.value)}
               disabled={archived}
             >
-              <option disabled selected>
+              <option value="" disabled>
                 Select Sport
               </option>
               <option value="Baseball">Baseball</option>
@@ -104,7 +107,7 @@ const TeamModal = ({
               <option value="Football">Football</option>
               <option value="Soccer">Soccer</option>
               <option value="Track & Field">Track & Field</option>
-              <option value="Football">Cheerleading</option>
+              <option value="Cheerleading">Cheerleading</option>
             </Form.Select>
           </Form.Group>
 
@@ -130,7 +133,7 @@ const TeamModal = ({
               onChange={(event) => setMulti(event.target.value)}
               disabled={archived}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Multiple Teams?
               </option>
               <option value="Single">Single Team</option>

@@ -4,13 +4,11 @@ import { Link, useParams } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 
-const Roster = () => {  
+const Roster = () => {
   const [roster, setRoster] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const [isArchived, setIsArchived] = useState(false);
   const { teamid, seasonid } = useParams();
-
-  console.log(teamid);
-  console.log(seasonid);
 
   function handleChange(event, index) {
     const { name, value } = event.target;
@@ -21,19 +19,56 @@ const Roster = () => {
   }
 
   useEffect(() => {
-    const rosterRef = db.ref(`seasons/${seasonid}/teams/${teamid}/roster`);
-    rosterRef.on("value", (snapshot) => {
-      const rosterData = snapshot.val();
-      if (rosterData) {
-        const rosterList = Object.keys(rosterData).map((key) => {
-          return { id: key, ...rosterData[key] };
-        });
-        setRoster(rosterList);
-      } else {
-        setRoster([]);
-      }
-    });
+    db.ref(`seasons/${seasonid}`)
+      .once("value")
+      .then((snapshot) => {
+        const exists = snapshot.exists();
+        if (exists) {
+          db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).on(
+            "value",
+            (snapshot) => {
+              const rosterData = snapshot.val();
+              if (rosterData) {
+                const rosterList = Object.keys(rosterData).map((key) => {
+                  return { id: key, ...rosterData[key] };
+                });
+                setRoster(rosterList);
+              } else {
+                setRoster([]);
+              }
+            }
+          );
+        } else {
+          setIsArchived(true);
+          db.ref(`archived-seasons/${seasonid}/teams/${teamid}/roster`).on(
+            "value",
+            (snapshot) => {
+              const rosterData = snapshot.val();
+              if (rosterData) {
+                const rosterList = Object.keys(rosterData).map((key) => {
+                  return { id: key, ...rosterData[key] };
+                });
+                setRoster(rosterList);
+              } else {
+                setRoster([]);
+              }
+            }
+          );
+        }
+      });
   }, [seasonid, teamid]);
+
+  function handleAddplayer(event) {
+    event.preventDefault();
+    const number = event.target.elements.number.value;
+    const fName = event.target.elements.fName.value;
+    const lName = event.target.elements.lName.value;
+    const grade = event.target.elements.grade.value;
+    const position = event.target.elements.position.value;
+    const newplayer = { number, fName, lName, grade, position };
+    db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).push(newplayer);
+    event.target.reset();
+  }
 
   function handleEdit(index) {
     setEditIndex(index);
@@ -42,19 +77,22 @@ const Roster = () => {
   function handleSave(playerInfo, index) {
     const id = playerInfo.id;
     const updatedPlayerInfo = { ...roster[index], ...playerInfo, id: id };
-    db.ref(`seasons/${seasonid}/teams/${teamid}/roster/${id}`).set(updatedPlayerInfo, (error) => {
-      if (error) {
-        console.log("Error updating player information:", error);
-      } else {
-        console.log(
-          "player information updated successfully in Firebase database."
-        );
-        const updatedRoster = [...roster];
-        updatedRoster[index] = updatedPlayerInfo;
-        setRoster(updatedRoster);
-        setEditIndex(null);
+    db.ref(`seasons/${seasonid}/teams/${teamid}/roster/${id}`).set(
+      updatedPlayerInfo,
+      (error) => {
+        if (error) {
+          console.log("Error updating player information:", error);
+        } else {
+          console.log(
+            "player information updated successfully in Firebase database."
+          );
+          const updatedRoster = [...roster];
+          updatedRoster[index] = updatedPlayerInfo;
+          setRoster(updatedRoster);
+          setEditIndex(null);
+        }
       }
-    });
+    );
   }
 
   function handleDelete(id, index) {
@@ -71,18 +109,6 @@ const Roster = () => {
     setEditIndex(null);
   }
 
-  function handleAddplayer(event) {
-    event.preventDefault();
-    const number = event.target.elements.number.value;
-    const fName = event.target.elements.fName.value;
-    const lName = event.target.elements.lName.value;
-    const grade = event.target.elements.grade.value;
-    const position = event.target.elements.position.value;
-    const newplayer = { number, fName, lName, grade, position };
-    db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).push(newplayer);
-    event.target.reset();
-  }
-
   return (
     <div className="Container">
       <Link to="/*" className="yellow">
@@ -96,9 +122,7 @@ const Roster = () => {
           <Button variant="outline-warning wsd">Archive</Button>
         </Link>
         <Link to="/roster" className="yellow">
-          <Button variant="outline-warning wsd">
-            Opponents
-          </Button>
+          <Button variant="outline-warning wsd">Opponents</Button>
         </Link>
       </div>
       <hr className="top-hr" />
@@ -110,61 +134,63 @@ const Roster = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Number</th> 
-                <th>First Name</th> 
+                <th>Number</th>
+                <th>First Name</th>
                 <th>Last Name</th>
-                <th>Grade</th> 
-                <th>Position</th> 
-                <th>Actions</th>
+                <th>Grade</th>
+                <th>Position</th>
+                {isArchived ? null : <th>Actions</th>}
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="number"
-                    placeholder="number"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="fName"
-                    placeholder="First Name"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="lName"
-                    placeholder="Last Name"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="grade"
-                    placeholder="Grade"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="position"
-                    placeholder="Position(s)"
-                  />
-                </td>
-                <td>
-                  <Button variant="success wsd2" type="submit">
-                    Add Player
-                  </Button>
-                </td>
-              </tr>
+              {isArchived ? null : (
+                <tr>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      name="number"
+                      placeholder="number"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      name="fName"
+                      placeholder="First Name"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      name="lName"
+                      placeholder="Last Name"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      name="grade"
+                      placeholder="Grade"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      name="position"
+                      placeholder="Position(s)"
+                    />
+                  </td>
+                  <td>
+                    <Button variant="success wsd2" type="submit">
+                      Add Player
+                    </Button>
+                  </td>
+                </tr>
+              )}
               {roster.map((player, index) => (
                 <tr key={player.id}>
                   <td>
@@ -210,13 +236,13 @@ const Roster = () => {
                     {editIndex === index ? (
                       <Form.Control
                         type="text"
-                        name="number"
-                        value={player.number}
+                        name="grade"
+                        value={player.grade}
                         onChange={(event) => handleChange(event, index)}
                         required
                       />
                     ) : (
-                      player.number
+                      player.grade
                     )}
                   </td>
                   <td>
@@ -231,39 +257,41 @@ const Roster = () => {
                       player.position
                     )}
                   </td>
-                  <td>
-                    {editIndex === index ? (
-                      <>
-                        <Button
-                          variant="primary wsd"
-                          onClick={() => handleSave(player, index)}
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          variant="warning wsd"
-                          onClick={() => handleCancel()}
-                        >
-                          Cancel
-                        </Button>
-                      </>
-                    ) : (
-                      <div className="action-buttons">
-                        <Button
-                          variant="info wsd"
-                          onClick={() => handleEdit(index)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="danger wsd"
-                          onClick={() => handleDelete(player.id, index)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    )}
-                  </td>
+                  {isArchived ? null : (
+                    <td>
+                      {editIndex === index ? (
+                        <>
+                          <Button
+                            variant="primary wsd"
+                            onClick={() => handleSave(player, index)}
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            variant="warning wsd"
+                            onClick={() => handleCancel()}
+                          >
+                            Cancel
+                          </Button>
+                        </>
+                      ) : (
+                        <div className="action-buttons">
+                          <Button
+                            variant="info wsd"
+                            onClick={() => handleEdit(index)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="danger wsd"
+                            onClick={() => handleDelete(player.id, index)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      )}
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

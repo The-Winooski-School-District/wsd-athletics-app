@@ -66,18 +66,19 @@ const Archive = () => {
 
   function handleSeasonRestore(event, id, index) {
     event.preventDefault();
+    const seasonId = id;
+    const year_season = seasons[index].year_season;
     const year = seasons[index].year;
     const season = seasons[index].season;
-    const teams = seasons[index].teams ? seasons[index].teams : {}; // check if teams object exists, otherwise assign empty object
-    const year_season = `${year}_${season}`;
-    const newSeason = { year, season, year_season, teams };
+    const teams = seasons[index].teams ? seasons[index].teams : {};
+    const newSeason = { year, season, teams };
     if (window.confirm("Are you sure you want to restore this season?")) {
       const updatedSeasons = [...seasons];
       updatedSeasons.splice(index, 1);
-      db.ref(`archived-seasons/${id}`).remove();
+      db.ref(`archived-seasons/${seasonId}`).remove();
       setSeasons(updatedSeasons);
       setEditIndex(null);
-      db.ref("seasons").push(newSeason);
+      db.ref(`seasons/${seasonId}`).set({ year_season, ...newSeason });
     }
   }
 

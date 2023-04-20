@@ -173,24 +173,11 @@ const TeamCard = ({ team, seasonid, archived }) => {
       <div className="team-buttons">
         {archived ? (
           <>
-            <Link to={`/roster/${team.id}?seasonid=${seasonid}`}>
-              <Button
-                teamid={team.id}
-                seasonid={seasonid.season}
-                variant="success wsd"
-                onClick={() => console.log(team.id)}
-              >
-                View Roster
-              </Button>
+            <Link to={`/roster/${seasonid}/${team.id}`}>
+              <Button variant="outline-warning wsd">View Roster</Button>
             </Link>
-            <Link to={`/schedule/${team.id}`}>
-              <Button
-                team={team.id}
-                variant="success wsd"
-                onClick={() => console.log(team.id)}
-              >
-                View Schedule
-              </Button>
+            <Link to={`/schedule/${seasonid}/${team.id}`}>
+              <Button variant="outline-warning wsd">View Schedule</Button>
             </Link>
             <Button
               variant="outline-warning wsd"
@@ -200,19 +187,14 @@ const TeamCard = ({ team, seasonid, archived }) => {
             </Button>
           </>
         ) : (
+          // THIS!! This is how we make the individual team pages. Take note for schedule's sake.
           <>
             <Link to={`/roster/${seasonid}/${team.id}`}>
               <Button variant="success wsd">Add Roster</Button>
             </Link>
 
-            <Link to={`/schedule/${team.id}`}>
-              <Button
-                team={team}
-                variant="success wsd"
-                onClick={() => console.log(team.id)}
-              >
-                Add Schedule
-              </Button>
+            <Link to={`/schedule/${seasonid}/${team.id}`}>
+              <Button variant="success wsd">Add Schedule</Button>
             </Link>
             <Button
               variant="outline-warning wsd"
