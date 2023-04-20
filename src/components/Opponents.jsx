@@ -161,7 +161,7 @@ const Opponents = () => {
                   />
                 </td>
                 <td>
-                  <Button variant="success wsd2" type="submit">
+                  <Button variant="success oneline" type="submit">
                     Add Opponent
                   </Button>
                 </td>
@@ -234,7 +234,7 @@ const Opponents = () => {
                   </td>
                   <td>
                     {editIndex === index ? (
-                      <>
+                      <div className="action-buttons">
                         <Button
                           variant="primary wsd"
                           onClick={() => handleSave(opponent, index)}
@@ -242,12 +242,12 @@ const Opponents = () => {
                           Save
                         </Button>
                         <Button
-                          variant="warning wsd"
+                          variant="secondary wsd"
                           onClick={() => handleCancel()}
                         >
                           Cancel
                         </Button>
-                      </>
+                      </div>
                     ) : (
                       <div className="action-buttons">
                         <Button

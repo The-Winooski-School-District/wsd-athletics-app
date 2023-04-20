@@ -30,7 +30,17 @@ const TeamModal = ({
       setCoaches(team.coaches);
       setDeleteChecked(!!team.delete);
     }
-  }, [team]);
+    if (!showModal) {
+      setTeamName(editing ? team.name : "");
+      setSport(editing ? team.sport : "");
+      setAbbr(editing ? team.abbr : "");
+      setMulti(editing ? team.multi : "");
+      setTeamPage(editing ? team.teamPage : "");
+      setTeamPic(editing ? team.teamPic : "");
+      setCoaches(editing ? team.coaches : "");
+      setDeleteChecked(false);
+    }
+  }, [team, editing, showModal]);
 
   const teamNameRef = useRef(null);
   const sportRef = useRef(null);
@@ -40,15 +50,26 @@ const TeamModal = ({
   const teamPicRef = useRef(null);
   const coachesRef = useRef(null);
 
-  function handleModalClose() {
-    setTeamName("");
-    setSport("");
-    setAbbr("");
-    setMulti("");
-    setTeamPage("");
-    setTeamPic("");
-    setCoaches("");
-    handleCloseModal();
+  function handleModalClose(team, editing) {
+    if (team && editing) {
+      setTeamName(team.name);
+      setSport(team.sport);
+      setAbbr(team.abbr);
+      setMulti(team.multi);
+      setTeamPage(team.teamPage);
+      setTeamPic(team.teamPic);
+      setCoaches(team.coaches);
+      handleCloseModal();
+    } else {
+      setTeamName("");
+      setSport("");
+      setAbbr("");
+      setMulti("");
+      setTeamPage("");
+      setTeamPic("");
+      setCoaches("");
+      handleCloseModal();
+    }
   }
 
   return (

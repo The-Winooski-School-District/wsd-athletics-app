@@ -42,3 +42,7 @@ tr>td {
     opacity: 100%;
     border-width: 2px;
 }
+
+.oneline {
+    white-space: nowrap;
+}

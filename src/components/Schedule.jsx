@@ -195,7 +195,7 @@ const Schedule = () => {
                   />
                 </td>
                 <td>
-                  <Button variant="success wsd2" type="submit">
+                  <Button variant="success oneline" type="submit">
                     Add Game
                   </Button>
                 </td>
@@ -270,7 +270,7 @@ const Schedule = () => {
                   {isArchived ? null : (
                   <td>
                     {editIndex === index ? (
-                      <>
+                      <div className="action-buttons">
                         <Button
                           variant="primary wsd"
                           onClick={() => handleSave(game, index)}
@@ -278,12 +278,12 @@ const Schedule = () => {
                           Save
                         </Button>
                         <Button
-                          variant="warning wsd"
+                          variant="secondary wsd"
                           onClick={() => handleCancel()}
                         >
                           Cancel
                         </Button>
-                      </>
+                      </div>
                     ) : (
                       <div className="action-buttons">
                         <Button
