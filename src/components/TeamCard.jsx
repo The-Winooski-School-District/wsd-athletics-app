@@ -9,6 +9,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
   const [showModal, setShowModal] = useState(false);
   const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
+  const [hasRoster, setHasRoster] = useState(false);
 
   // I... don't know where this variable is used, but if I remove it above, it breaks everything. :D
   if (!season) {
@@ -39,11 +40,18 @@ const TeamCard = ({ team, seasonid, archived }) => {
       }
     });
 
+    const rosterRef = db.ref(`seasons/${seasonid}/teams/${team.id}/roster/`);
+    rosterRef.once("value", (snapshot) => {
+      const hasRoster = snapshot.exists();
+      setHasRoster(hasRoster);
+    });
+
     return () => {
       teamsRef.off();
       seasonRef.off();
+      rosterRef.off();
     };
-  }, [seasonid]);
+  }, [seasonid, team.id]);
 
   function handleTeamSave(teamInfo, index) {
     console.log(teamInfo, index);
@@ -190,12 +198,17 @@ const TeamCard = ({ team, seasonid, archived }) => {
           // THIS!! This is how we make the individual team pages. Take note for schedule's sake.
           <>
             <Link to={`/roster/${seasonid}/${team.id}`}>
-              <Button variant="success wsd">Add Roster</Button>
+              {hasRoster ? (
+                <Button variant="outline-warning wsd">Edit Roster</Button>
+              ) : (
+                <Button variant="success wsd">Add Roster</Button>
+              )}
             </Link>
 
             <Link to={`/schedule/${seasonid}/${team.id}`}>
               <Button variant="success wsd">Add Schedule</Button>
             </Link>
+
             <Button
               variant="outline-warning wsd"
               onClick={() => setShowModal(true)}
