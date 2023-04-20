@@ -9,6 +9,7 @@ const Schedule = () => {
   const [schedule, setSchedule] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [isArchived, setIsArchived] = useState(false);
+  const [opponents, setOpponents] = useState([]);
   const { teamid, seasonid } = useParams();
 
   function handleGoBack() {
@@ -61,6 +62,17 @@ const Schedule = () => {
           );
         }
       });
+    db.ref(`opponents`).on("value", (snapshot) => {
+      const opponentsData = snapshot.val();
+      if (opponentsData) {
+        const opponentsList = Object.keys(opponentsData).map((key) => {
+          return { id: key, ...opponentsData[key] };
+        });
+        setOpponents(opponentsList);
+      } else {
+        setOpponents([]);
+      }
+    });
   }, [seasonid, teamid]);
 
   function handleEdit(index) {
@@ -118,7 +130,7 @@ const Schedule = () => {
       <Link to="/*" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
-      
+
       <div className="navbuttons">
         <Link to="/seasons" className="yellow">
           <Button variant="outline-warning wsd">Seasons</Button>
@@ -134,7 +146,7 @@ const Schedule = () => {
             Go Back
           </Button>
         </Link>
-      </div>      
+      </div>
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
@@ -151,62 +163,77 @@ const Schedule = () => {
                 <th>Score</th>
                 {isArchived ? null : <th>Actions</th>}
               </tr>
-            </thead>           
+            </thead>
             <tbody>
-            {isArchived ? null : (
-              <tr>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="date"
-                    placeholder="Date"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="opponent"
-                    placeholder="Opponent"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="location"
-                    placeholder="Home/Away"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="time"
-                    placeholder="Time"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="score"
-                    placeholder="SCore"
-                  />
-                </td>
-                <td>
-                  <Button variant="success oneline" type="submit">
-                    Add Game
-                  </Button>
-                </td>
-              </tr>
+              {isArchived ? null : (
+                <tr>
+                  <td>
+                    <Form.Control
+                      type="date"
+                      name="date"
+                      placeholder="Date"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <Form.Select
+                      name="opponent"
+                      onChange={(event) => handleChange(event)}
+                      required
+                    >
+                      <option value="" disabled>
+                        Select an opponent
+                      </option>
+                      {opponents.map((opponent) => (
+                        <option key={opponent.id} value={opponent.name}>
+                          {opponent.name}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </td>
+                  <td>
+                    <Form.Select
+                      type="text"
+                      as="select"
+                      name="location"
+                      placeholder="Home/Away"
+                      required
+                    >
+                      <option value="" disabled>
+                        Home/Away
+                      </option>
+                      <option value="Home">Home</option>
+                      <option value="Away">Away</option>
+                    </Form.Select>
+                  </td>
+                  <td>
+                    <Form.Control
+                      type="time"
+                      name="time"
+                      placeholder="Time"
+                      required
+                    />
+                  </td>
+                  <td>
+                    <Form.Control
+                      type="text"
+                      name="score"
+                      placeholder="Score"
+                    />
+                  </td>
+                  <td>
+                    <Button variant="success oneline" type="submit">
+                      Add Game
+                    </Button>
+                  </td>
+                </tr>
               )}
               {schedule.map((game, index) => (
                 <tr key={game.id}>
                   <td>
                     {editIndex === index ? (
                       <Form.Control
-                        type="text"
+                        type="date"
                         name="date"
                         value={game.date}
                         onChange={(event) => handleChange(event, index)}
@@ -218,26 +245,39 @@ const Schedule = () => {
                   </td>
                   <td>
                     {editIndex === index ? (
-                      <Form.Control
-                        type="text"
+                      <Form.Select
                         name="opponent"
-                        value={game.opponent}
                         onChange={(event) => handleChange(event, index)}
                         required
-                      />
+                      >
+                        <option value="" disabled>
+                          Select an opponent
+                        </option>
+                        {opponents.map((opponent) => (
+                          <option key={opponent.id} value={opponent.name}>
+                            {opponent.name}
+                          </option>
+                        ))}
+                      </Form.Select>
                     ) : (
                       game.opponent
                     )}
                   </td>
                   <td>
                     {editIndex === index ? (
-                      <Form.Control
+                      <Form.Select
                         type="text"
+                        as="select"
                         name="location"
-                        value={game.location}
-                        onChange={(event) => handleChange(event, index)}
+                        placeholder="Home/Away"
                         required
-                      />
+                      >
+                        <option value="" disabled>
+                          Home/Away
+                        </option>
+                        <option value="Home">Home</option>
+                        <option value="Away">Away</option>
+                      </Form.Select>
                     ) : (
                       game.location
                     )}
@@ -245,7 +285,7 @@ const Schedule = () => {
                   <td>
                     {editIndex === index ? (
                       <Form.Control
-                        type="text"
+                        type="time"
                         name="time"
                         value={game.time}
                         onChange={(event) => handleChange(event, index)}
@@ -268,39 +308,39 @@ const Schedule = () => {
                     )}
                   </td>
                   {isArchived ? null : (
-                  <td>
-                    {editIndex === index ? (
-                      <div className="action-buttons">
-                        <Button
-                          variant="primary wsd"
-                          onClick={() => handleSave(game, index)}
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          variant="secondary wsd"
-                          onClick={() => handleCancel()}
-                        >
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="action-buttons">
-                        <Button
-                          variant="info wsd"
-                          onClick={() => handleEdit(index)}
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="danger wsd"
-                          onClick={() => handleDelete(game.id, index)}
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    )}
-                  </td>
+                    <td>
+                      {editIndex === index ? (
+                        <div className="action-buttons">
+                          <Button
+                            variant="primary wsd"
+                            onClick={() => handleSave(game, index)}
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            variant="secondary wsd"
+                            onClick={() => handleCancel()}
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="action-buttons">
+                          <Button
+                            variant="info wsd"
+                            onClick={() => handleEdit(index)}
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="danger wsd"
+                            onClick={() => handleDelete(game.id, index)}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      )}
+                    </td>
                   )}
                 </tr>
               ))}
@@ -310,6 +350,6 @@ const Schedule = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Schedule
+export default Schedule;

@@ -10,6 +10,8 @@ const Roster = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [isArchived, setIsArchived] = useState(false);
   const { teamid, seasonid } = useParams();
+  const [value, setValue] = useState("");
+
 
   function handleGoBack() {
     navigate(-1);
@@ -21,6 +23,15 @@ const Roster = () => {
     const updatedPlayerInfo = { ...updatedRoster[index], [name]: value };
     updatedRoster[index] = updatedPlayerInfo;
     setRoster(updatedRoster);
+
+    let newValue = event.target.value;
+    // Check if the new value is less than 0
+    if (newValue < 0) {
+      // Update the value to "00"
+      newValue = "00";
+    }
+
+    setValue(newValue);
   }
 
   useEffect(() => {
@@ -157,9 +168,13 @@ const Roster = () => {
                 <tr>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       name="number"
-                      placeholder="number"
+                      min="-1"
+                      max="99"
+                      value={value}
+                      placeholder="Player Number"
+                      onChange={handleChange}
                       required
                     />
                   </td>
@@ -181,8 +196,10 @@ const Roster = () => {
                   </td>
                   <td>
                     <Form.Control
-                      type="text"
+                      type="number"
                       name="grade"
+                      min="6"
+                      max="12"
                       placeholder="Grade"
                       required
                     />
@@ -206,8 +223,11 @@ const Roster = () => {
                   <td>
                     {editIndex === index ? (
                       <Form.Control
-                        type="text"
+                        type="number"
                         name="number"
+                        min="-1"
+                        max="99"
+                        placeholder="Player Number"
                         value={player.number}
                         onChange={(event) => handleChange(event, index)}
                         required
@@ -245,10 +265,12 @@ const Roster = () => {
                   <td>
                     {editIndex === index ? (
                       <Form.Control
-                        type="text"
+                        type="number"
                         name="grade"
                         value={player.grade}
-                        onChange={(event) => handleChange(event, index)}
+                        min="6"
+                        max="12"
+                        placeholder="Grade"
                         required
                       />
                     ) : (
