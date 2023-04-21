@@ -125,6 +125,18 @@ const Schedule = () => {
     event.target.reset();
   }
 
+  function formatTime(time) {
+    const [hours, minutes] = time.split(':');
+    const formattedHours = hours % 12 || 12;
+    const period = hours >= 12 ? 'PM' : 'AM';
+    return `${formattedHours}:${minutes} ${period}`;
+  }
+
+  function formatDate(date) {
+    const [year, month, day] = date.split('-');
+    return `${month} - ${day} - ${year}`;
+  }
+  
   return (
     <div className="Container">
       <Link to="/*" className="yellow">
@@ -240,7 +252,7 @@ const Schedule = () => {
                         required
                       />
                     ) : (
-                      game.date
+                      formatDate(game.date)
                     )}
                   </td>
                   <td>
@@ -292,7 +304,7 @@ const Schedule = () => {
                         required
                       />
                     ) : (
-                      game.time
+                      formatTime(game.time)
                     )}
                   </td>
                   <td>

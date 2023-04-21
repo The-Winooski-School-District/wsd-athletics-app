@@ -84,6 +84,7 @@ const Roster = () => {
     const newplayer = { number, fName, lName, grade, position };
     db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).push(newplayer);
     event.target.reset();
+    setValue(""); // reset the player.number field to its default value
   }
 
   function handleEdit(index) {
