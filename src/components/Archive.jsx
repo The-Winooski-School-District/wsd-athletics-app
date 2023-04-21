@@ -12,6 +12,24 @@ const Archive = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  const sortedSeasons = seasons.sort(compareSeasons);
+
+  // define the compare function to sort seasons in chronological order
+  function compareSeasons(seasonA, seasonB) {
+    // compare years first
+    if (seasonA.year > seasonB.year) {
+      return -1; // seasonA comes first
+    } else if (seasonA.year < seasonB.year) {
+      return 1; // seasonB comes first
+    } else {
+      // if years are equal, compare season types
+      const seasonOrder = ["Winter", "Spring", "Summer", "Fall"];
+      const seasonIndexA = seasonOrder.indexOf(seasonA.season);
+      const seasonIndexB = seasonOrder.indexOf(seasonB.season);
+      return seasonIndexB - seasonIndexA; // seasonA comes first if it's later in the year
+    }
+  }
+
   // editidex not in use, removing it breaks stuff. So, here it is! in use :)
   if (!editIndex) {
     /*Do Nothing*/
@@ -124,7 +142,7 @@ const Archive = () => {
           <Table striped bordered hover>
 
             <tbody>
-              {seasons.map((season, index) => {
+              {sortedSeasons.map((season, index) => {
                 const seasonTeams = teams.filter(
                   (team) => team.seasonid === season.id
                 );

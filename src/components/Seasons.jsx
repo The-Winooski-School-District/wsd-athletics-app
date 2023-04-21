@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Table, Button, Row, Col } from "react-bootstrap";
 import { db } from "./Firebase";
-import AddTeam from './AddTeam';
+import AddTeam from "./AddTeam";
 
 const Seasons = () => {
   const [seasons, setSeasons] = useState([]);
@@ -12,6 +12,24 @@ const Seasons = () => {
   const [newSeasonYear, setNewSeasonYear] = useState("");
   const [newSeasonType, setNewSeasonType] = useState("");
   const [clickedSeasonIndex, setClickedSeasonIndex] = useState(null);
+
+  const sortedSeasons = seasons.sort(compareSeasons);
+
+  // define the compare function to sort seasons in chronological order
+  function compareSeasons(seasonA, seasonB) {
+    // compare years first
+    if (seasonA.year > seasonB.year) {
+      return -1; // seasonA comes first
+    } else if (seasonA.year < seasonB.year) {
+      return 1; // seasonB comes first
+    } else {
+      // if years are equal, compare season types
+      const seasonOrder = ["Winter", "Spring", "Summer", "Fall"];
+      const seasonIndexA = seasonOrder.indexOf(seasonA.season);
+      const seasonIndexB = seasonOrder.indexOf(seasonB.season);
+      return seasonIndexB - seasonIndexA; // seasonA comes first if it's later in the year
+    }
+  }
 
   function handleAddTeamClick(index) {
     setClickedSeasonIndex(index);
@@ -42,16 +60,19 @@ const Seasons = () => {
     const year_season = `${year}_${season}`;
     const seasonsRef = db.ref("seasons");
     const archivedSeasonsRef = db.ref("archived-seasons");
-  
+
     return Promise.all([
       seasonsRef.orderByChild("year_season").equalTo(year_season).once("value"),
-      archivedSeasonsRef.orderByChild("year_season").equalTo(year_season).once("value")
+      archivedSeasonsRef
+        .orderByChild("year_season")
+        .equalTo(year_season)
+        .once("value"),
     ])
       .then((snapshots) => {
         const [seasonsSnapshot, archivedSeasonsSnapshot] = snapshots;
         const seasonExists = seasonsSnapshot.exists();
         const archivedSeasonExists = archivedSeasonsSnapshot.exists();
-  
+
         return { seasonExists, archivedSeasonExists };
       })
       .catch((error) => {
@@ -63,20 +84,26 @@ const Seasons = () => {
     event.preventDefault();
     const year = event.target.elements.year.value;
     const season = event.target.elements.season.value;
-  
-    yearSeasonChecker(year, season).then(({ seasonExists, archivedSeasonExists }) => {
-      if (seasonExists) {
-        alert(`Cannot add team: ${year} ${season} already exists in 'seasons' collection.`);
-      } else if (archivedSeasonExists) {
-        alert(`Cannot add team: ${year} ${season} already exists in 'archived-seasons' collection.`);
-      } else {
-        const newSeason = { year, season, year_season: `${year}_${season}` };
-        db.ref("seasons").push(newSeason);
-        event.target.reset();
+
+    yearSeasonChecker(year, season).then(
+      ({ seasonExists, archivedSeasonExists }) => {
+        if (seasonExists) {
+          alert(
+            `Cannot add team: ${year} ${season} already exists in 'seasons' collection.`
+          );
+        } else if (archivedSeasonExists) {
+          alert(
+            `Cannot add team: ${year} ${season} already exists in 'archived-seasons' collection.`
+          );
+        } else {
+          const newSeason = { year, season, year_season: `${year}_${season}` };
+          db.ref("seasons").push(newSeason);
+          event.target.reset();
+        }
       }
-    });
+    );
   }
-  
+
   function handleSeasonSave(seasonInfo, index) {
     const id = seasons[index].id;
     const updatedSeasonInfo = {
@@ -84,27 +111,35 @@ const Seasons = () => {
       ...seasonInfo,
       id: id,
     };
-  
+
     const { year, season } = updatedSeasonInfo;
-    yearSeasonChecker(year, season).then(({ seasonExists, archivedSeasonExists }) => {
-      if (seasonExists) {
-        alert(`Cannot update season: ${year} ${season} already exists in 'seasons' collection.`);
-      } else if (archivedSeasonExists) {
-        alert(`Cannot update season: ${year} ${season} already exists in 'archived-seasons' collection.`);
-      } else {
-        db.ref(`seasons/${id}`).set(updatedSeasonInfo, (error) => {
-          if (error) {
-            console.log("Error updating season information:", error);
-          } else {
-            console.log("Season information updated successfully in Firebase database.");
-            const updatedSeasons = [...seasons];
-            updatedSeasons[index] = updatedSeasonInfo;
-            setSeasons(updatedSeasons);
-            setEditIndex(null);
-          }
-        });
+    yearSeasonChecker(year, season).then(
+      ({ seasonExists, archivedSeasonExists }) => {
+        if (seasonExists) {
+          alert(
+            `Cannot update season: ${year} ${season} already exists in 'seasons' collection.`
+          );
+        } else if (archivedSeasonExists) {
+          alert(
+            `Cannot update season: ${year} ${season} already exists in 'archived-seasons' collection.`
+          );
+        } else {
+          db.ref(`seasons/${id}`).set(updatedSeasonInfo, (error) => {
+            if (error) {
+              console.log("Error updating season information:", error);
+            } else {
+              console.log(
+                "Season information updated successfully in Firebase database."
+              );
+              const updatedSeasons = [...seasons];
+              updatedSeasons[index] = updatedSeasonInfo;
+              setSeasons(updatedSeasons);
+              setEditIndex(null);
+            }
+          });
+        }
       }
-    });
+    );
   }
   function handleSeasonArchive(event, id, index) {
     event.preventDefault();
@@ -123,7 +158,7 @@ const Seasons = () => {
       db.ref(`archived-seasons/${seasonId}`).set({ year_season, ...newSeason });
     }
   }
-  
+
   function handleCancel() {
     setEditIndex(null);
   }
@@ -136,7 +171,9 @@ const Seasons = () => {
 
       <div className="navbuttons">
         <Link to="/seasons" className="yellow">
-          <Button variant="outline-warning wsd disabled" disabled>Seasons</Button>
+          <Button variant="outline-warning wsd disabled" disabled>
+            Seasons
+          </Button>
         </Link>
         <Link to="/archive" className="yellow">
           <Button variant="outline-warning wsd">Archive</Button>
@@ -190,7 +227,7 @@ const Seasons = () => {
         <Form>
           <Table striped bordered hover>
             <tbody>
-              {seasons.map((season, index) => (
+              {sortedSeasons.map((season, index) => (
                 <React.Fragment key={season.id}>
                   <tr>
                     <td>
