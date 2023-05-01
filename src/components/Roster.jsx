@@ -198,7 +198,7 @@ const Roster = () => {
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
-          <h2>{seasonName + " - " + teamName}</h2>
+          <h2>{seasonName + " - " + teamName} Roster</h2>
         </div>
 
         <CSVLink

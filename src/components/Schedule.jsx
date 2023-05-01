@@ -211,12 +211,12 @@ const Schedule = () => {
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
-          <h2>{seasonName + " - " + teamName}</h2>
+          <h2>{seasonName + " - " + teamName} Schedule</h2>
         </div>
 
         <CSVLink
           data={csvData}
-          filename={"opponents.csv"}
+          filename={"schedule.csv"}
           target="_blank"
           omit={["id"]}
         >
