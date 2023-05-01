@@ -15,19 +15,23 @@ const Home = () => {
               <hr className="top-hr"></hr>
               <div className="Select">
                 <Link to="/seasons" className="Seasons">
-                  <h2>Seasons</h2>
+                  <h2>Active Seasons</h2>
                   <br />
-                  <p>Seasons and Teams</p>
+                  <p>Rosters and Schedules</p>
                 </Link>
                 <Link to="/opponents" className="Opponents">
                   <h2>Opponents</h2>
                   <br />
-                  <p>Information</p>
+                  <p>Addresses and Contacts</p>
                 </Link>
               </div>
               <hr className="separator"></hr>
+              <Link to="/coaches" className="Archive">
+                <h2>Meet The Coaches</h2>
+              </Link>
+              <hr className="separator"></hr>
               <Link to="/archive" className="Archive">
-                <h2>Archive</h2>
+                <h2>Archived Seasons</h2>
               </Link>
             </div>
           </React.Fragment>

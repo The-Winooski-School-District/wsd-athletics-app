@@ -9,6 +9,7 @@ import Archive from "./components/Archive";
 import Navigation from "./components/Navigation";
 import Roster from "./components/Roster";
 import Schedule from "./components/Schedule";
+import Coaches from "./components/Coaches";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path='/seasons' element={<Seasons />} />
           <Route path='/opponents' element={<Opponents />} />
           <Route path='/archive' element={<Archive />} />
+          <Route path='/coaches' element={<Coaches />} />
           <Route path='/roster/:seasonid/:teamid' element={<Roster />} />
           <Route path='/schedule/:seasonid/:teamid' element={<Schedule />} />
         </Routes>
