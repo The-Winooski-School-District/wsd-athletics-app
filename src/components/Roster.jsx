@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
+import { CSVLink } from "react-csv";
 
 const Roster = () => {
   const navigate = useNavigate();
@@ -13,6 +14,14 @@ const Roster = () => {
   const [value, setValue] = useState("");
   const [teamName, setTeamName] = useState("");
   const [seasonName, setSeasonName] = useState("");
+
+  const csvData = roster.map(({ number, fName, lName, grade, position }) => ({
+    number,
+    fName,
+    lName,
+    grade,
+    position,
+  }));
 
   function handleGoBack() {
     navigate(-1);
@@ -46,7 +55,7 @@ const Roster = () => {
             const seasonName = seasonData.year + " " + seasonData.season;
             setSeasonName(seasonName);
           }
-          
+
           db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).on(
             "value",
             (snapshot) => {
@@ -177,7 +186,7 @@ const Roster = () => {
         <Link to="/archive" className="yellow">
           <Button variant="outline-warning wsd">Archive</Button>
         </Link>
-        <Link to="/roster" className="yellow">
+        <Link to="/opponents" className="yellow">
           <Button variant="outline-warning wsd">Opponents</Button>
         </Link>
         <Link className="yellow">
@@ -188,9 +197,18 @@ const Roster = () => {
       </div>
       <hr className="top-hr" />
       <div>
-        <div className="roster-title">
+        <div className="opponents-title">
           <h2>{seasonName + " - " + teamName}</h2>
         </div>
+
+        <CSVLink
+          data={csvData}
+          filename={"roster.csv"}
+          target="_blank"
+          omit={["id"]}
+        >
+          <Button variant="danger wsd csv"> Export to CSV </Button>
+        </CSVLink>
         <Form onSubmit={handleAddplayer}>
           <Table striped bordered hover>
             <thead>

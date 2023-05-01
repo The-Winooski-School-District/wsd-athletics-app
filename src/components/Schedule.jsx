@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
+import { CSVLink } from "react-csv";
 
 const Schedule = () => {
   const navigate = useNavigate();
@@ -14,6 +15,13 @@ const Schedule = () => {
   const [teamName, setTeamName] = useState("");
   const [seasonName, setSeasonName] = useState("");
 
+  const csvData = schedule.map(({ date, opponent, location, time, score }) => ({
+    date,
+    opponent,
+    location,
+    time,
+    score,
+  }));
 
   function handleGoBack() {
     navigate(-1);
@@ -38,7 +46,7 @@ const Schedule = () => {
             const seasonName = seasonData.year + " " + seasonData.season;
             setSeasonName(seasonName);
           }
-          
+
           db.ref(`seasons/${seasonid}/teams/${teamid}/schedule`).on(
             "value",
             (snapshot) => {
@@ -156,17 +164,17 @@ const Schedule = () => {
   }
 
   function formatTime(time) {
-    const [hours, minutes] = time.split(':');
+    const [hours, minutes] = time.split(":");
     const formattedHours = hours % 12 || 12;
-    const period = hours >= 12 ? 'PM' : 'AM';
+    const period = hours >= 12 ? "PM" : "AM";
     return `${formattedHours}:${minutes} ${period}`;
   }
 
   function formatDate(date) {
-    const [year, month, day] = date.split('-');
+    const [year, month, day] = date.split("-");
     return `${month} - ${day} - ${year}`;
   }
-  
+
   return (
     <div className="Container">
       <Link to="/*" className="yellow">
@@ -194,6 +202,15 @@ const Schedule = () => {
         <div className="opponents-title">
           <h2>{seasonName + " - " + teamName}</h2>
         </div>
+
+        <CSVLink
+          data={csvData}
+          filename={"schedule.csv"}
+          target="_blank"
+          omit={["id"]}
+        >
+          <Button variant="danger wsd csv"> Export to CSV </Button>
+        </CSVLink>
         <Form onSubmit={handleAddGame}>
           <Table striped bordered hover>
             <thead>
