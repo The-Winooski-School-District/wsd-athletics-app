@@ -10,7 +10,7 @@ const Schedule = () => {
   const [schedule, setSchedule] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [isArchived, setIsArchived] = useState(false);
-  const [opponents] = useState([]);
+  const [opponents, setOpponents] = useState([]);
   const { teamid, seasonid } = useParams();
   const [teamName, setTeamName] = useState("");
   const [seasonName, setSeasonName] = useState("");
@@ -111,6 +111,17 @@ const Schedule = () => {
             });
         }
       });
+      db.ref(`opponents`).on("value", (snapshot) => {
+        const opponentsData = snapshot.val();
+        if (opponentsData) {
+          const opponentsList = Object.keys(opponentsData).map((key) => {
+            return { id: key, ...opponentsData[key] };
+          });
+          setOpponents(opponentsList);
+        } else {
+          setOpponents([]);
+        }
+      });
   }, [seasonid, teamid]);
 
   function handleEdit(index) {
@@ -205,7 +216,7 @@ const Schedule = () => {
 
         <CSVLink
           data={csvData}
-          filename={"schedule.csv"}
+          filename={"opponents.csv"}
           target="_blank"
           omit={["id"]}
         >
