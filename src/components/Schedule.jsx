@@ -9,9 +9,11 @@ const Schedule = () => {
   const [schedule, setSchedule] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [isArchived, setIsArchived] = useState(false);
-  const [opponents, setOpponents] = useState([]);
+  const [opponents] = useState([]);
   const { teamid, seasonid } = useParams();
   const [teamName, setTeamName] = useState("");
+  const [seasonName, setSeasonName] = useState("");
+
 
   function handleGoBack() {
     navigate(-1);
@@ -31,6 +33,12 @@ const Schedule = () => {
       .then((snapshot) => {
         const exists = snapshot.exists();
         if (exists) {
+          const seasonData = snapshot.val();
+          if (seasonData) {
+            const seasonName = seasonData.year + " " + seasonData.season;
+            setSeasonName(seasonName);
+          }
+          
           db.ref(`seasons/${seasonid}/teams/${teamid}/schedule`).on(
             "value",
             (snapshot) => {
@@ -45,40 +53,56 @@ const Schedule = () => {
               }
             }
           );
+
+          db.ref(`seasons/${seasonid}/teams/${teamid}`)
+            .once("value")
+            .then((snapshot) => {
+              const teamData = snapshot.val();
+              if (teamData) {
+                const teamName = teamData.name;
+                // Set the team's name in state
+                setTeamName(teamName);
+              }
+            });
         } else {
           setIsArchived(true);
+          db.ref(`archived-seasons/${seasonid}`)
+            .once("value")
+            .then((snapshot) => {
+              const seasonData = snapshot.val();
+              if (seasonData) {
+                const seasonName = seasonData.year + " " + seasonData.season;
+                setSeasonName(seasonName);
+              }
+            });
+
           db.ref(`archived-seasons/${seasonid}/teams/${teamid}/schedule`).on(
             "value",
             (snapshot) => {
               const scheduleData = snapshot.val();
               if (scheduleData) {
-                const rosterList = Object.keys(scheduleData).map((key) => {
+                const scheduleList = Object.keys(scheduleData).map((key) => {
                   return { id: key, ...scheduleData[key] };
                 });
-                setSchedule(rosterList);
+                setSchedule(scheduleList);
               } else {
                 setSchedule([]);
               }
             }
           );
+
+          db.ref(`archived-seasons/${seasonid}/teams/${teamid}`)
+            .once("value")
+            .then((snapshot) => {
+              const teamData = snapshot.val();
+              if (teamData) {
+                const teamName = teamData.name;
+                // Set the team's name in state
+                setTeamName(teamName);
+              }
+            });
         }
       });
-    db.ref(`opponents`).on("value", (snapshot) => {
-      const opponentsData = snapshot.val();
-      if (opponentsData) {
-        const opponentsList = Object.keys(opponentsData).map((key) => {
-          return { id: key, ...opponentsData[key] };
-        });
-        setOpponents(opponentsList);
-      } else {
-        setOpponents([]);
-      }
-    });
-    
-    db.ref(`seasons/${seasonid}/teams/${teamid}/name`).once("value").then((snapshot) => {
-      const teamName = snapshot.val();
-      setTeamName(teamName);
-    });
   }, [seasonid, teamid]);
 
   function handleEdit(index) {
@@ -88,7 +112,7 @@ const Schedule = () => {
   function handleSave(gameInfo, index) {
     const id = gameInfo.id;
     const updatedGameInfo = { ...schedule[index], ...gameInfo, id: id };
-    db.ref(`seasons/${seasonid}/teams/${teamid}/roster/${id}`).set(
+    db.ref(`seasons/${seasonid}/teams/${teamid}/schedule/${id}`).set(
       updatedGameInfo,
       (error) => {
         if (error) {
@@ -168,7 +192,7 @@ const Schedule = () => {
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
-          <h2>{teamName}</h2>
+          <h2>{seasonName + " - " + teamName}</h2>
         </div>
         <Form onSubmit={handleAddGame}>
           <Table striped bordered hover>

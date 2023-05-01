@@ -12,7 +12,7 @@ const Roster = () => {
   const { teamid, seasonid } = useParams();
   const [value, setValue] = useState("");
   const [teamName, setTeamName] = useState("");
-
+  const [seasonName, setSeasonName] = useState("");
 
   function handleGoBack() {
     navigate(-1);
@@ -41,6 +41,12 @@ const Roster = () => {
       .then((snapshot) => {
         const exists = snapshot.exists();
         if (exists) {
+          const seasonData = snapshot.val();
+          if (seasonData) {
+            const seasonName = seasonData.year + " " + seasonData.season;
+            setSeasonName(seasonName);
+          }
+          
           db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).on(
             "value",
             (snapshot) => {
@@ -55,8 +61,29 @@ const Roster = () => {
               }
             }
           );
+
+          db.ref(`seasons/${seasonid}/teams/${teamid}`)
+            .once("value")
+            .then((snapshot) => {
+              const teamData = snapshot.val();
+              if (teamData) {
+                const teamName = teamData.name;
+                // Set the team's name in state
+                setTeamName(teamName);
+              }
+            });
         } else {
           setIsArchived(true);
+          db.ref(`archived-seasons/${seasonid}`)
+            .once("value")
+            .then((snapshot) => {
+              const seasonData = snapshot.val();
+              if (seasonData) {
+                const seasonName = seasonData.year + " " + seasonData.season;
+                setSeasonName(seasonName);
+              }
+            });
+
           db.ref(`archived-seasons/${seasonid}/teams/${teamid}/roster`).on(
             "value",
             (snapshot) => {
@@ -71,17 +98,17 @@ const Roster = () => {
               }
             }
           );
-        }
-      });
-    // Fetch the team's name from the database
-    db.ref(`seasons/${seasonid}/teams/${teamid}`)
-      .once("value")
-      .then((snapshot) => {
-        const teamData = snapshot.val();
-        if (teamData) {
-          const teamName = teamData.name;
-          // Set the team's name in state
-          setTeamName(teamName);
+
+          db.ref(`archived-seasons/${seasonid}/teams/${teamid}`)
+            .once("value")
+            .then((snapshot) => {
+              const teamData = snapshot.val();
+              if (teamData) {
+                const teamName = teamData.name;
+                // Set the team's name in state
+                setTeamName(teamName);
+              }
+            });
         }
       });
   }, [seasonid, teamid]);
@@ -162,7 +189,7 @@ const Roster = () => {
       <hr className="top-hr" />
       <div>
         <div className="roster-title">
-          <h2>{teamName}</h2>
+          <h2>{seasonName + " - " + teamName}</h2>
         </div>
         <Form onSubmit={handleAddplayer}>
           <Table striped bordered hover>
