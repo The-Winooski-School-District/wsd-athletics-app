@@ -96,8 +96,8 @@ const AddTeam = ({ seasonid }) => {
         </Button>
       </div>
       <div className='teams-area'>
-        {teams.map((team) => (
-          <TeamCard key={team.id} team={team} seasonid={seasonid} />
+        {teams.map((team, index) => (
+          <TeamCard key={team.id} team={team} index={index} seasonid={seasonid} teams={teams} />
         ))}
         <TeamModal
           editing={false}

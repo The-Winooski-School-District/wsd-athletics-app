@@ -1,8 +1,10 @@
 import "../styles/Opponents.css";
+import "../index.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
+import { CSVLink } from "react-csv";
 
 const Opponents = () => {
   const [opponents, setOpponents] = useState([]);
@@ -89,7 +91,7 @@ const Opponents = () => {
       <Link to="/*" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
-      
+
       <div className="navbuttons">
         <Link to="/seasons" className="yellow">
           <Button variant="outline-warning wsd">Seasons</Button>
@@ -98,15 +100,18 @@ const Opponents = () => {
           <Button variant="outline-warning wsd">Archive</Button>
         </Link>
         <Link to="/opponents" className="yellow">
-          <Button variant="outline-warning wsd" disabled>Opponents</Button>
+          <Button variant="outline-warning wsd" disabled>
+            Opponents
+          </Button>
         </Link>
       </div>
-      
+
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
           <h2>Opponents</h2>
         </div>
+
         <Form onSubmit={handleAddOpponent}>
           <Table striped bordered hover>
             <thead>
@@ -120,52 +125,6 @@ const Opponents = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder="Opponent name"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="school"
-                    placeholder="School name"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="address"
-                    placeholder="Opponent address"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="phone"
-                    placeholder="Opponent phone number"
-                    required
-                  />
-                </td>
-                <td>
-                  <Form.Control
-                    type="text"
-                    name="fax"
-                    placeholder="Opponent fax number"
-                  />
-                </td>
-                <td>
-                  <Button variant="success oneline" type="submit">
-                    Add Opponent
-                  </Button>
-                </td>
-              </tr>
               {opponents.map((opponent, index) => (
                 <tr key={opponent.id}>
                   <td>
@@ -204,7 +163,13 @@ const Opponents = () => {
                         required
                       />
                     ) : (
-                      opponent.address
+                      <a
+                        href={`https://www.google.com/maps/place/${opponent.address}`}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {opponent.address.replace(/\+/g, " ")}
+                      </a>
                     )}
                   </td>
                   <td>
@@ -217,7 +182,7 @@ const Opponents = () => {
                         required
                       />
                     ) : (
-                      opponent.phone
+                      <a href={`tel:${opponent.phone.replace(/\D/g, '')}`}>{opponent.phone}</a>
                     )}
                   </td>
                   <td>
@@ -229,7 +194,9 @@ const Opponents = () => {
                         onChange={(event) => handleChange(event, index)}
                       />
                     ) : (
-                      opponent.fax
+                      opponent.fax !== "NULL" ? (
+                        <a href={`tel:${opponent.fax.replace(/\D/g, '')}`}>{opponent.fax}</a>
+                      ) : null
                     )}
                   </td>
                   <td>

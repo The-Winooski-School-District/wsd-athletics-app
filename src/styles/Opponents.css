@@ -46,3 +46,32 @@ tr>td {
 .oneline {
     white-space: nowrap;
 }
+
+.drag-n-drop {
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: green;
+    height: 100px;
+    width: 60%;
+    border: 3px dashed rgba(0, 0, 0, 0.603);
+    border-radius: 10px;
+    background-color: #1d341d83;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .drag-n-drop:hover {
+    background-color: #17291786;
+  }
+
+  h3 {
+    color: #bd8a13cc;
+    transition: color 0.3s ease-in-out;
+  }
+
+  .drag-n-drop:hover h3 {
+    color: #997010cc;
+  }
+
+  
