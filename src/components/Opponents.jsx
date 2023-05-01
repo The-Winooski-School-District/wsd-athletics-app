@@ -205,12 +205,14 @@ const Opponents = () => {
                         <Button
                           variant="primary wsd"
                           onClick={() => handleSave(opponent, index)}
+                          disabled
                         >
                           Save
                         </Button>
                         <Button
                           variant="secondary wsd"
                           onClick={() => handleCancel()}
+                          disabled
                         >
                           Cancel
                         </Button>
@@ -220,12 +222,14 @@ const Opponents = () => {
                         <Button
                           variant="info wsd"
                           onClick={() => handleEdit(index)}
+                          disabled
                         >
                           Edit
                         </Button>
                         <Button
                           variant="danger wsd"
                           onClick={() => handleDelete(opponent.id, index)}
+                          disabled
                         >
                           Delete
                         </Button>
