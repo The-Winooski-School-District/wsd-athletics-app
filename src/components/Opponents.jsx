@@ -195,7 +195,7 @@ const Opponents = () => {
                       />
                     ) : (
                       opponent.fax !== "NULL" ? (
-                        <a href={`tel:${opponent.fax.replace(/\D/g, '')}`}>{opponent.fax}</a>
+                        <a href={`fax:${opponent.fax.replace(/\D/g, '')}`}>{opponent.fax}</a>
                       ) : null
                     )}
                   </td>

@@ -111,19 +111,10 @@ const TeamCard = ({ team, seasonid, archived }) => {
   return (
     <div className="team-card">
       <div className="team-title-area">
-        <h4>Team!</h4>
+        <h4>{team.name}</h4>
       </div>
       <hr className="yellow"></hr>
-      <Row>
-        <Col xs={3}>
-          <p>Name:</p>
-        </Col>
-        <Col>
-          <div className="team-info">
-            <p key={`${team.id}-name`}>{team.name}</p>
-          </div>
-        </Col>
-      </Row>
+
       <Row>
         <Col xs={3}>
           <p>Sport:</p>

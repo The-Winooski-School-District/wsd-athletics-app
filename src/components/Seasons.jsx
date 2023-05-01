@@ -193,7 +193,7 @@ const Seasons = () => {
               <Form.Control
                 type="number"
                 placeholder="Year"
-                min="2020"
+                min="2022"
                 max="2099"
                 id="year"
                 value={newSeasonYear}

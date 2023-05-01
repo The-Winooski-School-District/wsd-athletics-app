@@ -74,4 +74,13 @@ tr>td {
     color: #997010cc;
   }
 
+
+  td > a {
+    color: rgb(158, 184, 240);
+    text-decoration: none;
+  }
+
+  td > a:hover {
+    color: rgb(112, 145, 214);
+  }
   
