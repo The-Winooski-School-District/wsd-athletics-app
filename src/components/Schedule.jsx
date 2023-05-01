@@ -11,6 +11,7 @@ const Schedule = () => {
   const [isArchived, setIsArchived] = useState(false);
   const [opponents, setOpponents] = useState([]);
   const { teamid, seasonid } = useParams();
+  const [teamName, setTeamName] = useState("");
 
   function handleGoBack() {
     navigate(-1);
@@ -72,6 +73,11 @@ const Schedule = () => {
       } else {
         setOpponents([]);
       }
+    });
+    
+    db.ref(`seasons/${seasonid}/teams/${teamid}/name`).once("value").then((snapshot) => {
+      const teamName = snapshot.val();
+      setTeamName(teamName);
     });
   }, [seasonid, teamid]);
 
@@ -162,7 +168,7 @@ const Schedule = () => {
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
-          <h2>Schedule</h2>
+          <h2>{teamName}</h2>
         </div>
         <Form onSubmit={handleAddGame}>
           <Table striped bordered hover>

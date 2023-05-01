@@ -11,6 +11,7 @@ const Roster = () => {
   const [isArchived, setIsArchived] = useState(false);
   const { teamid, seasonid } = useParams();
   const [value, setValue] = useState("");
+  const [teamName, setTeamName] = useState("");
 
 
   function handleGoBack() {
@@ -70,6 +71,17 @@ const Roster = () => {
               }
             }
           );
+        }
+      });
+    // Fetch the team's name from the database
+    db.ref(`seasons/${seasonid}/teams/${teamid}`)
+      .once("value")
+      .then((snapshot) => {
+        const teamData = snapshot.val();
+        if (teamData) {
+          const teamName = teamData.name;
+          // Set the team's name in state
+          setTeamName(teamName);
         }
       });
   }, [seasonid, teamid]);
@@ -150,7 +162,7 @@ const Roster = () => {
       <hr className="top-hr" />
       <div>
         <div className="roster-title">
-          <h2>Roster</h2>
+          <h2>{teamName}</h2>
         </div>
         <Form onSubmit={handleAddplayer}>
           <Table striped bordered hover>
@@ -176,7 +188,6 @@ const Roster = () => {
                       value={value}
                       placeholder="Player Number"
                       onChange={handleChange}
-                      required
                     />
                   </td>
                   <td>
@@ -202,7 +213,6 @@ const Roster = () => {
                       min="6"
                       max="12"
                       placeholder="Grade"
-                      required
                     />
                   </td>
                   <td>
