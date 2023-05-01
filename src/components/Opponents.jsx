@@ -10,6 +10,14 @@ const Opponents = () => {
   const [opponents, setOpponents] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
 
+  const csvData = opponents.map(({ name, phone, address, school, fax }) => ({
+    name,
+    phone,
+    address,
+    school,
+    fax,
+  }));
+
   function handleChange(event, index) {
     const { name, value } = event.target;
     const updatedOpponents = [...opponents];
@@ -91,7 +99,6 @@ const Opponents = () => {
       <Link to="/*" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
-
       <div className="navbuttons">
         <Link to="/seasons" className="yellow">
           <Button variant="outline-warning wsd">Seasons</Button>
@@ -111,6 +118,15 @@ const Opponents = () => {
         <div className="opponents-title">
           <h2>Opponents</h2>
         </div>
+        
+          <CSVLink
+            data={csvData}
+            filename={"opponents.csv"}
+            target="_blank"
+            omit={["id"]}
+          >
+           <Button variant="danger wsd csv"> Export to CSV </Button>
+          </CSVLink>
 
         <Form onSubmit={handleAddOpponent}>
           <Table striped bordered hover>
@@ -182,7 +198,9 @@ const Opponents = () => {
                         required
                       />
                     ) : (
-                      <a href={`tel:${opponent.phone.replace(/\D/g, '')}`}>{opponent.phone}</a>
+                      <a href={`tel:${opponent.phone.replace(/\D/g, "")}`}>
+                        {opponent.phone}
+                      </a>
                     )}
                   </td>
                   <td>
@@ -193,11 +211,9 @@ const Opponents = () => {
                         value={opponent.fax}
                         onChange={(event) => handleChange(event, index)}
                       />
-                    ) : (
-                      opponent.fax !== "NULL" ? (
-                        <a href={`fax:${opponent.fax.replace(/\D/g, '')}`}>{opponent.fax}</a>
-                      ) : null
-                    )}
+                    ) : opponent.fax !== "NULL" ? (
+                      opponent.fax
+                    ) : null}
                   </td>
                   <td>
                     {editIndex === index ? (
