@@ -51,6 +51,14 @@
   text-align: left;
 }
 
+.team-pic {
+  max-height: 50px !important;
+}
+
+.teamPic {
+  max-height: 50px !important;
+}
+
 .boys-team {
   background-color: blue;
 }

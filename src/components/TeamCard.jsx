@@ -47,7 +47,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
       setHasRoster(hasRoster);
     });
 
-    const scheduleRef = db.ref(`seasons/${seasonid}/teams/${team.id}/schedule/`);
+    const scheduleRef = db.ref(
+      `seasons/${seasonid}/teams/${team.id}/schedule/`
+    );
     scheduleRef.once("value", (snapshot) => {
       const hasSchedule = snapshot.exists();
       setHasSchedule(hasSchedule);
@@ -67,14 +69,14 @@ const TeamCard = ({ team, seasonid, archived }) => {
       console.log(`No team found at index ${index}.`);
       return;
     }
-  
+
     const teamRef = db.ref(`seasons/${seasonid}/teams/${teamid}`);
     teamRef.once("value", (snapshot) => {
       const existingTeam = snapshot.val();
-  
+
       const updatedTeamInfo = { ...existingTeam, ...teamInfo };
       delete updatedTeamInfo.id; // Remove the ID property
-  
+
       // Update the team in the database
       teamRef.update(updatedTeamInfo, (error) => {
         if (error) {
@@ -93,7 +95,6 @@ const TeamCard = ({ team, seasonid, archived }) => {
       });
     });
   }
-  
 
   return (
     <div className="team-card">
@@ -138,7 +139,15 @@ const TeamCard = ({ team, seasonid, archived }) => {
         </Col>
         <Col>
           <div className="team-info">
-            <p key={`${team.id}-teamPage`}>{team.teamPage}</p>
+            <p key={`${team.id}-teamPage`}>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href={"https://www.wsdvt.org" + team.teamPage}
+              >
+                Team Page
+              </a>
+            </p>
           </div>
         </Col>
       </Row>
@@ -147,8 +156,20 @@ const TeamCard = ({ team, seasonid, archived }) => {
           <p>Picture:</p>
         </Col>
         <Col>
-          <div className="team-info">
-            <p key={`${team.id}-teamPic`}>{team.teamPic}</p>
+          <div className="team-info team-pic">
+            <p key={`${team.id}-teamPic`}>
+              <a
+                rel="noreferrer"
+                target="_blank"
+                href={"https://www.wsdvt.org" + team.teamPic}
+              >
+                <img
+                  className="teamPic"
+                  alt="NULL"
+                  src={"https://www.wsdvt.org" + team.teamPic}
+                />
+              </a>
+            </p>
           </div>
         </Col>
       </Row>
@@ -158,7 +179,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         </Col>
         <Col>
           <div className="team-info">
-            <p key={`${team.id}-coaches`}>{team.coaches}</p>
+            <p key={`${team.id}-coaches`}>{/*team.coaches*/}Coaches button that shows roles and pictures.</p>
           </div>
         </Col>
       </Row>
