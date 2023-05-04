@@ -1,6 +1,10 @@
 .opponents-title {
     margin-bottom: 15px;
     cursor: default;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
 }
 
 .action-buttons {
@@ -11,6 +15,10 @@
 
 .action-buttons>Button {
     margin: 3px;
+}
+
+.title-button {
+  margin-left: 20px;
 }
 
 tr>th,

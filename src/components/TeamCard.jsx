@@ -135,51 +135,61 @@ const TeamCard = ({ team, seasonid, archived }) => {
       </Row>
       <Row>
         <Col xs={3}>
-          <p>Webpage:</p>
+          <p>Page(s):</p>
         </Col>
         <Col>
-          <div className="team-info">
-            <p key={`${team.id}-teamPage`}>
-              <a
-                rel="noreferrer"
-                target="_blank"
-                href={"https://www.wsdvt.org" + team.teamPage}
-              >
-                Team Page
-              </a>
-            </p>
+          <div className="team-info team-page">
+            {team.teamPage.split("|").map((page, index) => (
+              <p key={`${team.id}-teamPage`}>
+                <a
+                  className="team-links"
+                  rel="noreferrer"
+                  target="_blank"
+                  href={"https://www.wsdvt.org" + page}
+                >
+                  Team Page
+                </a>
+              </p>
+            ))}
           </div>
         </Col>
       </Row>
       <Row>
         <Col xs={3}>
-          <p>Picture:</p>
+          <p>Picture(s):</p>
         </Col>
         <Col>
           <div className="team-info team-pic">
-            <p key={`${team.id}-teamPic`}>
-              <a
-                rel="noreferrer"
-                target="_blank"
-                href={"https://www.wsdvt.org" + team.teamPic}
-              >
-                <img
-                  className="teamPic"
-                  alt="NULL"
-                  src={"https://www.wsdvt.org" + team.teamPic}
-                />
-              </a>
-            </p>
+            {team.teamPic.split("|").map((pic, index) => (
+              <p key={`${team.id}-teamPic-${index}`}>
+                <a
+                  className="team-links"
+                  rel="noreferrer"
+                  target="_blank"
+                  href={"https://www.wsdvt.org" + pic}
+                >
+                  <img
+                    className="teamPic"
+                    alt="NULL"
+                    src={"https://www.wsdvt.org" + pic}
+                  />
+                </a>
+              </p>
+            ))}
           </div>
         </Col>
       </Row>
       <Row>
         <Col xs={3}>
-          <p>Coaches:</p>
+          <div classNmae="coaches">
+            <p>Coaches:</p>
+          </div>
         </Col>
         <Col>
-          <div className="team-info">
-            <p key={`${team.id}-coaches`}>{/*team.coaches*/}Coaches button that shows roles and pictures.</p>
+          <div className="team-info coaches">
+            <p key={`${team.id}-coaches`}>
+              {/*team.coaches*/}Coaches button that shows roles and pictures.
+            </p>
           </div>
         </Col>
       </Row>

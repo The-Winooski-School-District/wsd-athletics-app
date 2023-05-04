@@ -165,6 +165,7 @@ const Archive = () => {
                           <Button
                             variant="danger wsd"
                             onClick={() => handleSeasonDelete(season.id, index)}
+                            disabled
                           >
                             Delete
                           </Button>

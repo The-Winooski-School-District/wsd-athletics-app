@@ -51,12 +51,19 @@
   text-align: left;
 }
 
-.team-pic {
+.team-pic, .team-page {
   max-height: 50px !important;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .teamPic {
   max-height: 50px !important;
+}
+
+a.team-links {
+  color: rgb(158, 184, 240) !important;
+  text-decoration: none!important;
 }
 
 .boys-team {

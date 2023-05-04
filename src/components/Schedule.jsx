@@ -212,6 +212,9 @@ const Schedule = () => {
       <div>
         <div className="opponents-title">
           <h2>{seasonName + " - " + teamName} Schedule</h2>
+          <Link to={`/roster/${seasonid}/${teamid}`}>
+            <Button variant="info title-button wsd">View Roster</Button>
+          </Link>
         </div>
 
         <CSVLink

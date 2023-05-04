@@ -199,6 +199,9 @@ const Roster = () => {
       <div>
         <div className="opponents-title">
           <h2>{seasonName + " - " + teamName} Roster</h2>
+          <Link to={`/schedule/${seasonid}/${teamid}`}>
+            <Button variant="info title-button wsd">View Schedule</Button>
+          </Link>
         </div>
 
         <CSVLink
