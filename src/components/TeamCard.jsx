@@ -67,46 +67,33 @@ const TeamCard = ({ team, seasonid, archived }) => {
       console.log(`No team found at index ${index}.`);
       return;
     }
-
-    if (teamInfo.delete) {
-      // Remove the team from the database
-      db.ref(`seasons/${seasonid}/teams/${teamid}`).remove((error) => {
+  
+    const teamRef = db.ref(`seasons/${seasonid}/teams/${teamid}`);
+    teamRef.once("value", (snapshot) => {
+      const existingTeam = snapshot.val();
+  
+      const updatedTeamInfo = { ...existingTeam, ...teamInfo };
+      delete updatedTeamInfo.id; // Remove the ID property
+  
+      // Update the team in the database
+      teamRef.update(updatedTeamInfo, (error) => {
         if (error) {
-          console.log("Error deleting team information:", error);
+          console.log("Error updating team information:", error);
         } else {
           console.log(
-            "Team information deleted successfully from Firebase database."
+            "Team information updated successfully in Firebase database."
           );
           const updatedTeams = [...teams];
-          updatedTeams.splice(index, 1); // Remove the team from the array
+          updatedTeams[index] = {
+            ...teams[index],
+            ...updatedTeamInfo,
+          };
           setTeams(updatedTeams);
         }
       });
-    } else {
-      // Update the team in the database
-      const { id: _, ...updatedTeamInfo } = teamInfo;
-
-      // Update the team in the database
-      db.ref(`seasons/${seasonid}/teams/${teamid}`).set(
-        updatedTeamInfo,
-        (error) => {
-          if (error) {
-            console.log("Error updating team information:", error);
-          } else {
-            console.log(
-              "Team information updated successfully in Firebase database."
-            );
-            const updatedTeams = [...teams];
-            updatedTeams[index] = {
-              ...teams[index],
-              ...updatedTeamInfo,
-            };
-            setTeams(updatedTeams);
-          }
-        }
-      );
-    }
+    });
   }
+  
 
   return (
     <div className="team-card">
