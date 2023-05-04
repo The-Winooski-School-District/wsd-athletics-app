@@ -69,32 +69,51 @@ const TeamCard = ({ team, seasonid, archived }) => {
       console.log(`No team found at index ${index}.`);
       return;
     }
-
+  
     const teamRef = db.ref(`seasons/${seasonid}/teams/${teamid}`);
     teamRef.once("value", (snapshot) => {
       const existingTeam = snapshot.val();
-
+  
       const updatedTeamInfo = { ...existingTeam, ...teamInfo };
       delete updatedTeamInfo.id; // Remove the ID property
-
-      // Update the team in the database
-      teamRef.update(updatedTeamInfo, (error) => {
-        if (error) {
-          console.log("Error updating team information:", error);
-        } else {
-          console.log(
-            "Team information updated successfully in Firebase database."
-          );
-          const updatedTeams = [...teams];
-          updatedTeams[index] = {
-            ...teams[index],
-            ...updatedTeamInfo,
-          };
-          setTeams(updatedTeams);
-        }
-      });
+  
+      if (teamInfo.delete) {
+        // Remove the team from the database
+        teamRef.remove((error) => {
+          if (error) {
+            console.log("Error deleting team information:", error);
+          } else {
+            console.log(
+              "Team information deleted successfully from Firebase database."
+            );
+            const updatedTeams = [...teams];
+            updatedTeams.splice(index, 1); // Remove the team from the array
+            setTeams(updatedTeams);
+          }
+        });
+      } else {
+        // Update the team in the database
+        teamRef.update(updatedTeamInfo, (error) => {
+          if (error) {
+            console.log("Error updating team information:", error);
+          } else {
+            console.log(
+              "Team information updated successfully in Firebase database."
+            );
+            const updatedTeams = [...teams];
+            updatedTeams[index] = {
+              ...teams[index],
+              ...updatedTeamInfo,
+            };
+            setTeams(updatedTeams);
+          }
+        });
+      }
     });
   }
+  
+  
+  
 
   return (
     <div className="team-card">
@@ -181,7 +200,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
       </Row>
       <Row>
         <Col xs={3}>
-          <div classNmae="coaches">
+          <div className="coaches">
             <p>Coaches:</p>
           </div>
         </Col>

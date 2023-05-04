@@ -22,9 +22,6 @@ const TeamModal = ({
   useEffect(() => {
     
     if (team) {
-      if (team.roster !== undefined) {
-        console.log("1 " + team.roster["fName"]);
-      }
       setTeamName(team.name);
       setSport(team.sport);
       setAbbr(team.abbr);
@@ -43,7 +40,6 @@ const TeamModal = ({
       setTeamPic(editing ? team.teamPic : "");
       setCoaches(editing ? team.coaches : "");
       setDeleteChecked(false);
-      console.log("2 " + {team});
     }
   }, [team, editing, showModal]);
 
@@ -58,7 +54,6 @@ const TeamModal = ({
   function handleModalClose(team, editing) {
     
     if (team && editing) {
-      console.log("3 " + {team});
       setTeamName(team.name);
       setSport(team.sport);
       setAbbr(team.abbr);
@@ -76,7 +71,6 @@ const TeamModal = ({
       setTeamPic("");
       setCoaches("");
       handleCloseModal();
-      console.log("4 " + {team});
     }
   }
 
