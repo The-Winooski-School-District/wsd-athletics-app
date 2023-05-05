@@ -69,14 +69,14 @@ const TeamCard = ({ team, seasonid, archived }) => {
       console.log(`No team found at index ${index}.`);
       return;
     }
-  
+
     const teamRef = db.ref(`seasons/${seasonid}/teams/${teamid}`);
     teamRef.once("value", (snapshot) => {
       const existingTeam = snapshot.val();
-  
+
       const updatedTeamInfo = { ...existingTeam, ...teamInfo };
       delete updatedTeamInfo.id; // Remove the ID property
-  
+
       if (teamInfo.delete) {
         // Remove the team from the database
         teamRef.remove((error) => {
@@ -111,9 +111,6 @@ const TeamCard = ({ team, seasonid, archived }) => {
       }
     });
   }
-  
-  
-  
 
   return (
     <div className="team-card">
@@ -122,7 +119,8 @@ const TeamCard = ({ team, seasonid, archived }) => {
       </div>
       <hr className="yellow"></hr>
 
-      <Row>
+      {/* These fields don't help us as display but are necessary. */}
+      {/*<Row>
         <Col xs={3}>
           <p>Sport:</p>
         </Col>
@@ -151,67 +149,87 @@ const TeamCard = ({ team, seasonid, archived }) => {
             <p key={`${team.id}-multi`}>{team.multi}</p>
           </div>
         </Col>
-      </Row>
+      </Row>*/}
+      {/* This is the end of the unneccessary fields */}
+
       <Row>
-        <Col xs={3}>
-          <p>Page(s):</p>
-        </Col>
-        <Col>
-          <div className="team-info team-page">
-            {team.teamPage.split("|").map((page, index) => (
-              <p key={`${team.id}-teamPage`}>
-                <a
-                  className="team-links"
-                  rel="noreferrer"
-                  target="_blank"
-                  href={"https://www.wsdvt.org" + page}
-                >
-                  Team Page
-                </a>
+        {team.teamPage &&
+          team.teamPage.trim() !== "" &&
+          team.teamPage.trim() !== "NULL" && (
+            <React.Fragment>
+              <Col xs={3}>
+                <p>Page(s):</p>
+              </Col>
+              <Col>
+                <div className="team-info team-page">
+                  {team.teamPage.split("|").map((page, index) => (
+                    <p key={`${team.id}-teamPage`}>
+                      <a
+                        className="team-links"
+                        rel="noreferrer"
+                        target="_blank"
+                        href={"https://www.wsdvt.org/" + page}
+                      >
+                        Team Page
+                      </a>
+                    </p>
+                  ))}
+                </div>
+              </Col>
+            </React.Fragment>
+          )}
+      </Row>
+
+      <Row>
+        {team.teamPic &&
+          team.teamPic.trim() !== "" &&
+          team.teamPic.trim() !== "NULL" && (
+            <React.Fragment>
+              <Col xs={3}>
+                <p>Picture(s):</p>
+              </Col>
+              <Col>
+                <div className="team-info team-pic">
+                  {team.teamPic.split("|").map((pic, index) => (
+                    <p key={`${team.id}-teamPic-${index}`}>
+                      <a
+                        className="team-links"
+                        rel="noreferrer"
+                        target="_blank"
+                        href={"https://www.wsdvt.org" + pic}
+                      >
+                        <img
+                          className="teamPic"
+                          alt="bad URL"
+                          src={"https://www.wsdvt.org" + pic}
+                        />
+                      </a>
+                    </p>
+                  ))}
+                </div>
+              </Col>
+            </React.Fragment>
+          )}
+      </Row>
+
+      <Row>
+        <React.Fragment>
+          <Col xs={3}>
+            <div className="coaches">
+              <p>Coaches:</p>
+            </div>
+          </Col>
+          <Col>
+            <div className="team-info coaches">
+              <p key={`${team.id}-coaches`}>
+                {/*team.coaches*/}
+                <Button className="btn-info wsd">Coaches</Button>
               </p>
-            ))}
-          </div>
-        </Col>
+            </div>
+          </Col>
+        </React.Fragment>
       </Row>
-      <Row>
-        <Col xs={3}>
-          <p>Picture(s):</p>
-        </Col>
-        <Col>
-          <div className="team-info team-pic">
-            {team.teamPic.split("|").map((pic, index) => (
-              <p key={`${team.id}-teamPic-${index}`}>
-                <a
-                  className="team-links"
-                  rel="noreferrer"
-                  target="_blank"
-                  href={"https://www.wsdvt.org" + pic}
-                >
-                  <img
-                    className="teamPic"
-                    alt="NULL"
-                    src={"https://www.wsdvt.org" + pic}
-                  />
-                </a>
-              </p>
-            ))}
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={3}>
-          <div className="coaches">
-            <p>Coaches:</p>
-          </div>
-        </Col>
-        <Col>
-          <div className="team-info coaches">
-            <p key={`${team.id}-coaches`}>
-              {/*team.coaches*/}Coaches button that shows roles and pictures.
-            </p>
-          </div>
-        </Col>
-      </Row>
+
       <hr className="yellow"></hr>
       <div className="team-buttons">
         {archived ? (
@@ -232,22 +250,41 @@ const TeamCard = ({ team, seasonid, archived }) => {
         ) : (
           // THIS!! This is how we make the individual team pages. Take note for schedule's sake.
           <>
-            <Link to={`/roster/${seasonid}/${team.id}`}>
-              {hasRoster ? (
-                <Button variant="outline-warning wsd">Edit Roster</Button>
-              ) : (
-                <Button variant="success wsd">Add Roster</Button>
-              )}
-            </Link>
-
-            <Link to={`/schedule/${seasonid}/${team.id}`}>
-              {hasSchedule ? (
-                <Button variant="outline-warning wsd">Edit Schedule</Button>
-              ) : (
-                <Button variant="success wsd">Add Schedule</Button>
-              )}
-            </Link>
-
+            {team.multi === "Single" || team.multi === "" ? (
+              <>
+                <Link to={`/roster/${seasonid}/${team.id}`}>
+                  {hasRoster ? (
+                    <Button variant="outline-warning wsd">Edit Roster</Button>
+                  ) : (
+                    <Button variant="success wsd">Add Roster</Button>
+                  )}
+                </Link>
+                <Link to={`/schedule/${seasonid}/${team.id}`}>
+                  {hasSchedule ? (
+                    <Button variant="outline-warning wsd">Edit Schedule</Button>
+                  ) : (
+                    <Button variant="success wsd">Add Schedule</Button>
+                  )}
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to={`/roster/${seasonid}/${team.id}`}>
+                  {hasRoster ? (
+                    <Button variant="outline-warning wsd">Edit Rosters</Button>
+                  ) : (
+                    <Button variant="success wsd">Add Rosters</Button>
+                  )}
+                </Link>
+                <Link to={`/schedule/${seasonid}/${team.id}`}>
+                  {hasSchedule ? (
+                    <Button variant="outline-warning wsd">Edit Schedules</Button>
+                  ) : (
+                    <Button variant="success wsd">Add Schedules</Button>
+                  )}
+                </Link>
+              </>
+            )}
             <Button
               variant="outline-warning wsd"
               onClick={() => setShowModal(true)}
@@ -257,6 +294,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
           </>
         )}
       </div>
+
       <TeamModal
         team={team}
         editing={!archived}

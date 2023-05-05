@@ -66,6 +66,10 @@ a.team-links {
   text-decoration: none!important;
 }
 
+.coaches {
+  padding-top: 7px !important;
+}
+
 .boys-team {
   background-color: blue;
 }

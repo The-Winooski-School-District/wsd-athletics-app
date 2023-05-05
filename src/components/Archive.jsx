@@ -159,6 +159,7 @@ const Archive = () => {
                             onClick={(event) =>
                               handleSeasonRestore(event, season.id, index)
                             }
+                            disabled
                           >
                             Restore
                           </Button>
