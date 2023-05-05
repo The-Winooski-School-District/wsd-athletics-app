@@ -20,7 +20,6 @@ const TeamModal = ({
   const [deleteChecked, setDeleteChecked] = useState(false);
 
   useEffect(() => {
-    
     if (team) {
       setTeamName(team.name);
       setSport(team.sport);
@@ -52,7 +51,6 @@ const TeamModal = ({
   const coachesRef = useRef(null);
 
   function handleModalClose(team, editing) {
-    
     if (team && editing) {
       setTeamName(team.name);
       setSport(team.sport);
@@ -98,7 +96,6 @@ const TeamModal = ({
           }}
         >
           <Form.Group controlid="teamName">
-            <Form.Label>Team Name</Form.Label>
             <Form.Control
               type="text"
               placeholder="Enter team name"
@@ -111,7 +108,7 @@ const TeamModal = ({
           </Form.Group>
 
           <Form.Group controlid="sport">
-            <Form.Label>Sport</Form.Label>
+            <Form.Label></Form.Label>
             <Form.Select
               type="text"
               placeholder="Select Sport"
@@ -135,19 +132,46 @@ const TeamModal = ({
           </Form.Group>
 
           <Form.Group controlid="teamAbbr">
-            <Form.Label>ABBR</Form.Label>
-            <Form.Control
+            <Form.Label></Form.Label>
+            <Form.Select
               type="text"
               placeholder="ABBR"
               value={abbr}
               ref={abbrRef}
-              onChange={(event) => setAbbr(event.target.value)}
+              onChange={(event) => setMulti(event.target.value)}
               disabled={archived}
-            />
+            >
+              <option value="" disabled>
+                ABBR
+              </option>
+              <option value="VFOO">VFOO - Varsity Football</option>
+              <option value="VGSO">VGSO - Varsity Girls Soccer</option>
+              <option value="VBSO">VBSO - Varsity Boys Soccer</option>
+              <option value="MSGS">MSGS - Middleschool Girls Soccer</option>
+              <option value="MSBS">MSBS - Middleschool Boys Soccer</option>
+              <option value="FVCH">FVCH - Fall Varsity Cheerleading</option>
+              <option value="VJGB">
+                VJGB - Varsity And Junior Varsity Girls Basketball
+              </option>
+              <option value="VJBB">
+                VJBB - Varsity And Junior Varsity Boys Basketball
+              </option>
+              <option value="MSGB">MSGB - Middleschool Girls Basketball</option>
+              <option value="MSBB">MSBB - Middleschool Boys Basketball</option>
+              <option value="VTRF">VTRF - Varsity Track & Field</option>
+              <option value="VRSO">VRSO - Varsity Softball</option>
+              <option value="VRBA">VRBA - Varsity Baseball</option>
+              <option value="MSTF">MSTF - Middleschool Track & Field</option>
+              <option value="MSSO">MSSO - Middleschool Softball</option>
+              <option value="MSBA">MSBA - Middleschool Baseball</option>
+              <option value="JVGS">JVGS - Junior Varsity Girls Soccer</option>
+              <option value="JVBS">JVBS - Junior Varsity Boys Soccer</option>
+              <option value="WVCH">WVCH - Winter Varsity Cheerleading</option>
+            </Form.Select>
           </Form.Group>
 
           <Form.Group controlid="multipleTeams">
-            <Form.Label>Multiple Teams?</Form.Label>
+            <Form.Label></Form.Label>
             <Form.Select
               type="text"
               placeholder="Multiple Teams?"
@@ -166,10 +190,10 @@ const TeamModal = ({
           </Form.Group>
 
           <Form.Group controlid="teamPage">
-            <Form.Label>Team Page URL</Form.Label>
+            <Form.Label></Form.Label>
             <Form.Control
               type="text"
-              placeholder="https://your-website.com"
+              placeholder="Team Page URL"
               value={teamPage}
               ref={teamPageRef}
               onChange={(event) => setTeamPage(event.target.value)}
@@ -178,10 +202,10 @@ const TeamModal = ({
           </Form.Group>
 
           <Form.Group controlid="teamPic">
-            <Form.Label>Picture URL</Form.Label>
+            <Form.Label></Form.Label>
             <Form.Control
               type="text"
-              placeholder="https://your-website.com"
+              placeholder="Team Picture URL"
               value={teamPic}
               ref={teamPicRef}
               onChange={(event) => setTeamPic(event.target.value)}
@@ -190,17 +214,24 @@ const TeamModal = ({
           </Form.Group>
 
           <Form.Group controlid="teamCoaches">
-            <Form.Label>Coaches</Form.Label>
-            <Form.Control
+            <Form.Label></Form.Label>
+
+            <Button variant="info wsd set-coaches"> Set Coaches </Button>
+            {
+              /*<Form.Control
               type="textarea"
               placeholder="Enter Coaches names"
               value={coaches}
               ref={coachesRef}
               onChange={(event) => setCoaches(event.target.value)}
               disabled={archived}
-            />
+        />*/ console.log(coachesRef)
+            }
           </Form.Group>
-
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <div className="left-delete" style={{ marginRight: "auto" }}>
           <Form.Group controlid="delete">
             {editing && (
               <Form.Check
@@ -212,9 +243,7 @@ const TeamModal = ({
               />
             )}
           </Form.Group>
-        </Form>
-      </Modal.Body>
-      <Modal.Footer>
+        </div>
         {archived ? (
           <Button variant="secondary" onClick={handleModalClose}>
             Cancel

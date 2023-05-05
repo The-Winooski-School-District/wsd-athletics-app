@@ -57,6 +57,15 @@
   flex-wrap: wrap;
 }
 
+.set-coaches {
+  margin: 15px auto 0 auto;
+  display: flex;
+}
+
+.left-delete {
+  margin-right: "auto";
+}
+
 .teamPic {
   max-height: 50px !important;
 }
