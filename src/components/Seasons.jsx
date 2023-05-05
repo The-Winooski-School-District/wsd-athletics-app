@@ -212,7 +212,6 @@ const Seasons = () => {
                 <option value="Fall">Fall</option>
                 <option value="Winter">Winter</option>
                 <option value="Spring">Spring</option>
-                <option value="Summer">Summer</option>
               </Form.Control>
             </Col>
             <Col xs={3} className="border-control">
