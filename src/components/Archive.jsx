@@ -14,6 +14,14 @@ const Archive = () => {
 
   const sortedSeasons = seasons.sort(compareSeasons);
 
+  const [showTeams, setShowTeams] = useState(new Array(seasons.length).fill(false));
+
+  const toggleTeamDisplay = (index) => {
+    const newShowTeams = [...showTeams];
+    newShowTeams[index] = !newShowTeams[index];
+    setShowTeams(newShowTeams);
+  };
+
   // define the compare function to sort seasons in chronological order
   function compareSeasons(seasonA, seasonB) {
     // compare years first
@@ -148,32 +156,38 @@ const Archive = () => {
 
                 return (
                   <React.Fragment key={season.id}>
-                    <tr>
-                      <td><h4 className="column-title">{season.season}</h4></td>
-                      <td><h4 className="column-title">{season.year + ` - ${parseInt(season.year) + 1}`}</h4></td>
-                      <td className="last-col">
-                        <div className="action-buttons">
-                          <Button
-                            variant="info wsd"
-                            onClick={(event) =>
-                              handleSeasonRestore(event, season.id, index)
-                            }
-                            disabled
-                          >
-                            Restore
-                          </Button>
-                          <Button
-                            variant="danger wsd"
-                            onClick={() => handleSeasonDelete(season.id, index)}
-                            disabled
-                          >
-                            Delete
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr></tr>
-                    <tr>
+                  <tr className="always" onClick={() => toggleTeamDisplay(index)}>
+                    <td>
+                      <h4 className="column-title">{season.season}</h4>
+                    </td>
+                    <td>
+                      <h4 className="column-title">
+                        {season.year + ` - ${parseInt(season.year) + 1}`}
+                      </h4>
+                    </td>
+                    <td className="last-col">
+                      <div className="action-buttons">
+                        <Button
+                          variant="info wsd"
+                          onClick={(event) =>
+                            handleSeasonRestore(event, season.id, index)
+                          }
+                          disabled
+                        >
+                          Restore
+                        </Button>
+                        <Button
+                          variant="danger wsd"
+                          onClick={() => handleSeasonDelete(season.id, index)}
+                          disabled
+                        >
+                          Delete
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                  {showTeams[index] && (
+                    <tr className="onlyif">
                       <td colSpan="3" className="teams-row">
                         {seasonTeams.length > 0 ? (
                           <div className="teams-area">
@@ -198,7 +212,8 @@ const Archive = () => {
                         />
                       </td>
                     </tr>
-                  </React.Fragment>
+                  )}
+                </React.Fragment>
                 );
               })}
             </tbody>

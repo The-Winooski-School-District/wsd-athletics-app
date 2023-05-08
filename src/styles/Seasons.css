@@ -1,72 +1,76 @@
 .seasons-title {
-    padding: 0 0 20px 0;
-    cursor: default;
+  padding: 0 0 20px 0;
+  cursor: default;
 }
 
 .archive-title {
-    padding: 0 0 10px 0;
+  padding: 0 0 10px 0;
 }
 
 .action-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: center !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center !important;
 }
 
-.action-buttons>Button {
-    margin: 0 10px !important;
+.action-buttons > Button {
+  margin: 0 10px !important;
 }
 
 .column-title {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 
-tr>th,
-tr>td {
-    color: cornsilk !important;
+tr > th,
+tr > td {
+  color: cornsilk !important;
 }
 
-tr:hover>th,
-tr:hover>td {
-    color: white !important;
+tr:hover > th,
+tr:hover > td {
+  color: white !important;
 }
 
-tr>td {
-    font-weight: 600;
+tr > td {
+  font-weight: 600;
 }
 
-.navbuttons>.yellow {
-    margin: 5px;
+.navbuttons > .yellow {
+  margin: 5px;
 }
 
 .top-hr {
-    color: white;
-    opacity: 100%;
-    border-width: 2px;
+  color: white;
+  opacity: 100%;
+  border-width: 2px;
 }
 
 .season-adder {
-    margin: 20px 20px 40px 20px;
-    padding: auto;
+  margin: 20px 20px 40px 20px;
+  padding: auto;
 }
 
-Table>*>tr>td.last-col {
-    width: 50px !important;
+Table > * > tr > td.last-col {
+  width: 50px !important;
 }
 
 .season-adder Button {
-    min-width: 110px;
+  min-width: 110px;
+}
+
+.always {
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
-    .action-buttons {
-        flex-direction: column !important;
-    }
-    .action-buttons>Button:first-child {
-        margin-bottom: 10px !important;
-    }
+  .action-buttons {
+    flex-direction: column !important;
+  }
+  .action-buttons > Button:first-child {
+    margin-bottom: 10px !important;
+  }
 }
