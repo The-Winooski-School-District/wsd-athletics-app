@@ -24,7 +24,7 @@ const Seasons = () => {
       return 1; // seasonB comes first
     } else {
       // if years are equal, compare season types
-      const seasonOrder = ["Winter", "Spring", "Summer", "Fall"];
+      const seasonOrder = ["Summer", "Spring", "Winter", "Fall"];
       const seasonIndexA = seasonOrder.indexOf(seasonA.season);
       const seasonIndexB = seasonOrder.indexOf(seasonB.season);
       return seasonIndexB - seasonIndexA; // seasonA comes first if it's later in the year
@@ -229,23 +229,7 @@ const Seasons = () => {
               {sortedSeasons.map((season, index) => (
                 <React.Fragment key={season.id}>
                   <tr>
-                    <td>
-                      {editIndex === index ? (
-                        <Form.Control
-                          type="number"
-                          placeholder="Year"
-                          min="2020"
-                          max="2099"
-                          id="year"
-                          value={newSeasonYear}
-                          onChange={(e) => setNewSeasonYear(e.target.value)}
-                          required
-                        />
-                      ) : (
-                        season.year
-                      )}
-                    </td>
-                    <td>
+                  <td>
                       {editIndex === index ? (
                         <Form.Control
                           as="select"
@@ -260,7 +244,23 @@ const Seasons = () => {
                           <option value="Summer">Summer</option>
                         </Form.Control>
                       ) : (
-                        season.season
+                        <h4 className="column-title">{season.season}</h4>
+                      )}
+                    </td>
+                    <td>
+                      {editIndex === index ? (
+                        <Form.Control
+                          type="number"
+                          placeholder="Year"
+                          min="2020"
+                          max="2099"
+                          id="year"
+                          value={newSeasonYear}
+                          onChange={(e) => setNewSeasonYear(e.target.value)}
+                          required
+                        />
+                      ) : (
+                        <h4 className="column-title">{season.year + ` - ${parseInt(season.year) + 1}`}</h4>
                       )}
                     </td>
                     <td className="last-col">

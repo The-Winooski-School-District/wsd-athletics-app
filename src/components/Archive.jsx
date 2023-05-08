@@ -23,7 +23,7 @@ const Archive = () => {
       return 1; // seasonB comes first
     } else {
       // if years are equal, compare season types
-      const seasonOrder = ["Winter", "Spring", "Summer", "Fall"];
+      const seasonOrder = ["Summer", "Spring", "Winter", "Fall"];
       const seasonIndexA = seasonOrder.indexOf(seasonA.season);
       const seasonIndexB = seasonOrder.indexOf(seasonB.season);
       return seasonIndexB - seasonIndexA; // seasonA comes first if it's later in the year
@@ -140,7 +140,6 @@ const Archive = () => {
       <div>
         <Form>
           <Table striped bordered hover>
-
             <tbody>
               {sortedSeasons.map((season, index) => {
                 const seasonTeams = teams.filter(
@@ -150,8 +149,8 @@ const Archive = () => {
                 return (
                   <React.Fragment key={season.id}>
                     <tr>
-                      <td>{season.year}</td>
-                      <td>{season.season}</td>
+                      <td><h4 className="column-title">{season.season}</h4></td>
+                      <td><h4 className="column-title">{season.year + ` - ${parseInt(season.year) + 1}`}</h4></td>
                       <td className="last-col">
                         <div className="action-buttons">
                           <Button
@@ -188,7 +187,9 @@ const Archive = () => {
                             ))}
                           </div>
                         ) : (
-                          <div className="teams-area">No Teams To Display For This Season</div>
+                          <div className="teams-area">
+                            No Teams To Display For This Season
+                          </div>
                         )}
                         <TeamModal
                           editing={false}

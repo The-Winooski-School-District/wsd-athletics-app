@@ -17,6 +17,10 @@
     margin: 0 10px !important;
 }
 
+.column-title {
+    font-weight: 700;
+}
+
 td {
     vertical-align: middle;
 }
