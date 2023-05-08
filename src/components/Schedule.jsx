@@ -111,17 +111,17 @@ const Schedule = () => {
             });
         }
       });
-      db.ref(`opponents`).on("value", (snapshot) => {
-        const opponentsData = snapshot.val();
-        if (opponentsData) {
-          const opponentsList = Object.keys(opponentsData).map((key) => {
-            return { id: key, ...opponentsData[key] };
-          });
-          setOpponents(opponentsList);
-        } else {
-          setOpponents([]);
-        }
-      });
+    db.ref(`opponents`).on("value", (snapshot) => {
+      const opponentsData = snapshot.val();
+      if (opponentsData) {
+        const opponentsList = Object.keys(opponentsData).map((key) => {
+          return { id: key, ...opponentsData[key] };
+        });
+        setOpponents(opponentsList);
+      } else {
+        setOpponents([]);
+      }
+    });
   }, [seasonid, teamid]);
 
   function handleEdit(index) {
@@ -333,7 +333,16 @@ const Schedule = () => {
                         ))}
                       </Form.Select>
                     ) : (
-                      game.opponent
+                      <a
+                        href={`https://www.google.com/maps/place/${
+                          opponents.find((o) => o.name === game.opponent)
+                            ?.address
+                        }`}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {game.opponent}
+                      </a>
                     )}
                   </td>
                   <td>
