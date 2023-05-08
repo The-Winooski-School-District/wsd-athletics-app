@@ -138,7 +138,7 @@ const TeamModal = ({
               placeholder="ABBR"
               value={abbr}
               ref={abbrRef}
-              onChange={(event) => setMulti(event.target.value)}
+              onChange={(event) => setAbbr(event.target.value)}
               disabled={archived}
             >
               <option value="" disabled>
@@ -161,6 +161,8 @@ const TeamModal = ({
               <option value="VTRF">VTRF - Varsity Track & Field</option>
               <option value="VRSO">VRSO - Varsity Softball</option>
               <option value="VRBA">VRBA - Varsity Baseball</option>
+              <option value="JVSO">VRSO - Junior Varsity Softball</option>
+              <option value="JVBA">VRBA - Junior Varsity Baseball</option>
               <option value="MSTF">MSTF - Middleschool Track & Field</option>
               <option value="MSSO">MSSO - Middleschool Softball</option>
               <option value="MSBA">MSBA - Middleschool Baseball</option>

@@ -112,9 +112,39 @@ const TeamCard = ({ team, seasonid, archived }) => {
     });
   }
 
+
+  function getTeamGender(abbr) {
+    switch (abbr) {
+      case "VFOO":
+      case "VBSO":
+      case "MSBS":
+      case "VJBB":
+      case "MSBB":
+      case "VRBA":
+      case "MSBA":
+      case "JVBA":
+      case "JVBS":
+        return "boys-team";
+      case "VGSO":
+      case "FVCH":
+      case "MSGS":
+      case "VJGB":
+      case "MSGB":
+      case "VRSO":
+      case "MSSO":
+      case "JVSO":
+      case "JVGS":
+      case "WVCH":
+        return "girls-team";
+      default:
+        return "other-team";
+    }
+  }
+  
+
   return (
     <div className="team-card">
-      <div className="team-title-area">
+      <div className={`team-title-area ${getTeamGender(team.abbr)}`}>
         <h4>{team.name}</h4>
       </div>
       <hr className="yellow"></hr>

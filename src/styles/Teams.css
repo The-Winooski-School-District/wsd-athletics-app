@@ -38,7 +38,10 @@
 }
 
 .team-title-area {
-  margin: 10px 0 -10px 0;
+  padding-top: 10px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  margin-bottom: -16px;
 }
 
 .team-buttons {
@@ -68,6 +71,11 @@
 
 .teamPic {
   max-height: 50px !important;
+  transition: transform 0.2s ease-in-out;
+}
+
+.teamPic:hover {
+  transform: scale(3);
 }
 
 a.team-links {
@@ -80,15 +88,15 @@ a.team-links {
 }
 
 .boys-team {
-  background-color: blue;
+  background-color: rgba(81, 81, 218, 0.338);
 }
 
 .girls-team {
-  background-color: red;
+  background-color: rgba(247, 69, 99, 0.386)
 }
 
 .other-team {
-  background-color: white;
+  background-color: rgba(245, 242, 242, 0.281);
 }
 
 @media (max-width: 1501px) {

@@ -42,6 +42,16 @@ const Navigation = () => {
                 Opponents
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/coaches" onClick={toggleNav}>
+                Coaches
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="" onClick={toggleNav}>
+                Athlete Forms
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
