@@ -26,12 +26,12 @@ const Home = () => {
                 </Link>
               </div>
               <hr className="separator"></hr>
-              <Link to="/coaches" className="Archive">
-                <h2>Meet The Coaches</h2>
-              </Link>
-              <hr className="separator"></hr>
               <Link to="/archive" className="Archive">
                 <h2>Archived Seasons</h2>
+              </Link>
+              <hr className="separator"></hr>
+              <Link to="/coaches" className="Archive">
+                <h2>Meet The Coaches</h2>
               </Link>
             </div>
           </React.Fragment>

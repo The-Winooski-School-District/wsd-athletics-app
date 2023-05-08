@@ -12,7 +12,7 @@ const Navigation = () => {
   return (
     <nav className="navbar navbar-expand-sm">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/*">
+        <Link className="navbar-brand" to="/">
           WSD Athletics
         </Link>
         <button
@@ -25,34 +25,41 @@ const Navigation = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`} id="navbarNav">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className="nav-link" to="/seasons" onClick={toggleNav}>
-                Seasons
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/archive" onClick={toggleNav}>
-                Archive
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/opponents" onClick={toggleNav}>
-                Opponents
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/coaches" onClick={toggleNav}>
-                Coaches
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/forms" onClick={toggleNav}>
-                Athlete Forms
-              </Link>
-            </li>
-          </ul>
+        <div
+          className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
+          id="navbarNav"
+        >
+          <div className="container-fluid d-flex justify-content-between align-items-center">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link className="nav-link" to="/seasons" onClick={toggleNav}>
+                  Seasons
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/archive" onClick={toggleNav}>
+                  Archive
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/opponents" onClick={toggleNav}>
+                  Opponents
+                </Link>
+              </li>
+            </ul>
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link className="nav-link" to="/coaches" onClick={toggleNav}>
+                  Coaches
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/forms" onClick={toggleNav}>
+                  Athlete Forms
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>
