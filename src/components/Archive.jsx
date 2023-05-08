@@ -122,7 +122,7 @@ const Archive = () => {
 
   return (
     <div className="Container">
-      <Link to="/*" className="yellow">
+      <Link to="/" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
 
