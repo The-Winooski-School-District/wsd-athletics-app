@@ -179,6 +179,13 @@ const TeamCard = ({ team, seasonid, archived }) => {
         </Col>
       </Row>*/}
       {/* This is the end of the unneccessary fields */}
+      {team.multi === "A&B" || team.multi === "V&JV" ? (
+        <Row>
+          <Col xs={3}></Col>
+          <Col xs={4}>{team.multi === "A&B" ? "A" : "Varsity"}</Col>
+          <Col xs={4}>{team.multi === "A&B" ? "B" : "JV"}</Col>
+        </Row>
+      ) : null}
 
       <Row>
         {/* Display team pages */}
@@ -195,16 +202,15 @@ const TeamCard = ({ team, seasonid, archived }) => {
             <Col xs={3}>
               <p>Page(s):</p>
             </Col>
-            <Col>
-              <div className="team-info team-page">
-                {[team.teamPage, team.teamPageA, team.teamPageB]
-                  .filter(
-                    (page) =>
-                      page && page.trim() !== "" && page.trim() !== "NULL"
-                  )
-                  .flatMap((page) => page.split("|"))
-                  .map((page, index) => (
-                    <p key={`${team.id}-teamPage-${index}`}>
+            {[team.teamPage, team.teamPageA, team.teamPageB]
+              .filter(
+                (page) => page && page.trim() !== "" && page.trim() !== "NULL"
+              )
+              .flatMap((page) => page.split("|"))
+              .map((page, index) => (
+                <Col key={`${team.id}-teamPage-${index}`} xs={4}>
+                  <div className="team-info team-page">
+                    <p>
                       <a
                         className="team-links"
                         rel="noreferrer"
@@ -214,9 +220,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
                         Team Page
                       </a>
                     </p>
-                  ))}
-              </div>
-            </Col>
+                  </div>
+                </Col>
+              ))}
           </React.Fragment>
         ) : null}
       </Row>
@@ -236,15 +242,15 @@ const TeamCard = ({ team, seasonid, archived }) => {
             <Col xs={3}>
               <p>Picture(s):</p>
             </Col>
-            <Col>
-              <div className="team-info team-pic">
-                {[team.teamPic, team.teamPicA, team.teamPicB]
-                  .filter(
-                    (pic) => pic && pic.trim() !== "" && pic.trim() !== "NULL"
-                  )
-                  .flatMap((pic) => pic.split("|"))
-                  .map((pic, index) => (
-                    <p key={`${team.id}-teamPic-${index}`}>
+            {[team.teamPic, team.teamPicA, team.teamPicB]
+              .filter(
+                (pic) => pic && pic.trim() !== "" && pic.trim() !== "NULL"
+              )
+              .flatMap((pic) => pic.split("|"))
+              .map((pic, index) => (
+                <Col key={`${team.id}-teamPic-${index}`} xs={4}>
+                  <div className="team-info team-pic">
+                    <p>
                       <a
                         className="team-links"
                         rel="noreferrer"
@@ -258,12 +264,13 @@ const TeamCard = ({ team, seasonid, archived }) => {
                         />
                       </a>
                     </p>
-                  ))}
-              </div>
-            </Col>
+                  </div>
+                </Col>
+              ))}
           </React.Fragment>
         ) : null}
       </Row>
+
       {/* Gonna have to do to coaches what we did to pages and pics to show more than 1 if there's more than 1*/}
       <Row>
         <React.Fragment>
