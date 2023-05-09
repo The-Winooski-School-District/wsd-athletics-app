@@ -30,8 +30,8 @@ const TeamModal = ({
       setMulti(team.multi);
       setTeamPageA(team.teamPageA);
       setTeamPicA(team.teamPicA);
-      setTeamPageA(team.teamPageB);
-      setTeamPicA(team.teamPicB);
+      setTeamPageB(team.teamPageB);
+      setTeamPicB(team.teamPicB);
       setCoachesA(team.coachesA);
       setCoachesB(team.coachesB);
       setDeleteChecked(!!team.delete);
@@ -57,9 +57,9 @@ const TeamModal = ({
   const multiRef = useRef(null);
   const teamPageARef = useRef(null);
   const teamPicARef = useRef(null);
-  const coachesARef = useRef(null);
   const teamPageBRef = useRef(null);
   const teamPicBRef = useRef(null);
+  const coachesARef = useRef(null);
   const coachesBRef = useRef(null);
 
   function handleModalClose(team, editing) {
@@ -70,8 +70,8 @@ const TeamModal = ({
       setMulti(team.multi);
       setTeamPageA(team.teamPageA);
       setTeamPicA(team.teamPicA);
-      setTeamPageA(team.teamPageB);
-      setTeamPicA(team.teamPicB);
+      setTeamPageB(team.teamPageB);
+      setTeamPicB(team.teamPicB);
       setCoachesA(team.coachesA);
       setCoachesB(team.coachesB);
       handleCloseModal();
@@ -373,7 +373,7 @@ const TeamModal = ({
               ref={coachesRef}
               onChange={(event) => setCoaches(event.target.value)}
               disabled={archived}
-        />*/ console.log(coachesARef && coachesBRef)
+        />*/ console.log(coachesARef || coachesBRef)
                 }
               </Form.Group>
             </>
