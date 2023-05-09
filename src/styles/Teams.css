@@ -62,7 +62,22 @@
 
 .set-coaches {
   margin: 15px auto 0 auto;
+  width: 100%;
+}
+
+.coach-split {
   display: flex;
+  justify-content: space-between;
+}
+
+.coach-split > div {
+  width: 48%;
+}
+
+.multi-split {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .left-delete {

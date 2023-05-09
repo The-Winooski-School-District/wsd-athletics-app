@@ -211,8 +211,9 @@ const TeamModal = ({
 
           {multi === "A&B" ? (
             <>
+            <div className="multi-split">
               <Form.Group controlid="teamPageA">
-                <Form.Label></Form.Label>
+                <Form.Label>Pages</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Team A Page URL"
@@ -224,7 +225,7 @@ const TeamModal = ({
               </Form.Group>
 
               <Form.Group controlid="teamPicA">
-                <Form.Label></Form.Label>
+                <Form.Label>Pictures</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Team A Picture URL"
@@ -234,7 +235,8 @@ const TeamModal = ({
                   disabled={archived}
                 />
               </Form.Group>
-
+              </div>
+              <div className="multi-split">
               <Form.Group controlid="teamPageB">
                 <Form.Label></Form.Label>
                 <Form.Control
@@ -258,21 +260,24 @@ const TeamModal = ({
                   disabled={archived}
                 />
               </Form.Group>
+              </div>
+              <div className="coach-split">
+                <Form.Group controlid="teamCoachesA">
+                  <Form.Label></Form.Label>
+                  <Button variant="info wsd set-coaches w-100">Set A Coaches</Button>
+                </Form.Group>
 
-              <Form.Group controlid="teamCoachesA">
-                <Form.Label></Form.Label>
-                <Button variant="info wsd set-coachesA"> Set A Coaches </Button>
-              </Form.Group>
-
-              <Form.Group controlid="teamCoachesB">
-                <Form.Label></Form.Label>
-                <Button variant="info wsd set-coachesB"> Set B Coaches </Button>
-              </Form.Group>
+                <Form.Group controlid="teamCoachesB">
+                  <Form.Label></Form.Label>
+                  <Button variant="info wsd set-coaches w-100">Set B Coaches</Button>
+                </Form.Group>
+              </div>
             </>
           ) : multi === "V&JV" ? (
             <>
+            <div className="multi-split">
               <Form.Group controlid="teamPageA">
-                <Form.Label></Form.Label>
+                <Form.Label>Pages</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Varsity Team Page URL"
@@ -284,7 +289,7 @@ const TeamModal = ({
               </Form.Group>
 
               <Form.Group controlid="teamPicA">
-                <Form.Label></Form.Label>
+                <Form.Label>Pictures</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Varsity Team Picture URL"
@@ -294,7 +299,9 @@ const TeamModal = ({
                   disabled={archived}
                 />
               </Form.Group>
+              </div>
 
+              <div className="multi-split">
               <Form.Group controlid="teamPageB">
                 <Form.Label></Form.Label>
                 <Form.Control
@@ -318,22 +325,21 @@ const TeamModal = ({
                   disabled={archived}
                 />
               </Form.Group>
+              </div>
 
-              <Form.Group controlid="teamCoachesA">
-                <Form.Label></Form.Label>
-                <Button variant="info wsd set-coachesA">
-                  
-                  Set Varsity Coaches
-                </Button>
-              </Form.Group>
+              <div className="coach-split">
+                <Form.Group controlid="teamCoachesA">
+                  <Form.Label></Form.Label>
+                  <Button variant="info wsd set-coaches w-100">
+                    Set Varsity Coaches
+                  </Button>
+                </Form.Group>
 
-              <Form.Group controlid="teamCoachesB">
-                <Form.Label></Form.Label>
-                <Button variant="info wsd set-coachesB">
-                  
-                  Set JV Coaches
-                </Button>
-              </Form.Group>
+                <Form.Group controlid="teamCoachesB">
+                  <Form.Label></Form.Label>
+                  <Button variant="info wsd set-coaches w-100">Set JV Coaches</Button>
+                </Form.Group>
+              </div>
             </>
           ) : (
             <>
