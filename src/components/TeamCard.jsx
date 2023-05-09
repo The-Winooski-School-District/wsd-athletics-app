@@ -183,16 +183,16 @@ const TeamCard = ({ team, seasonid, archived }) => {
       {/* This is the end of the unneccessary fields */}
 
       <Row>
-        {team.teamPage &&
-          team.teamPage.trim() !== "" &&
-          team.teamPage.trim() !== "NULL" && (
+        {team.teamPageA &&
+          team.teamPageA.trim() !== "" &&
+          team.teamPageA.trim() !== "NULL" && (
             <React.Fragment>
               <Col xs={3}>
                 <p>Page(s):</p>
               </Col>
               <Col>
                 <div className="team-info team-page">
-                  {team.teamPage.split("|").map((page, index) => (
+                  {team.teamPageA.split("|").map((page, index) => (
                     <p key={`${team.id}-teamPage`}>
                       <a
                         className="team-links"
@@ -211,16 +211,16 @@ const TeamCard = ({ team, seasonid, archived }) => {
       </Row>
 
       <Row>
-        {team.teamPic &&
-          team.teamPic.trim() !== "" &&
-          team.teamPic.trim() !== "NULL" && (
+        {team.teamPicA &&
+          team.teamPicA.trim() !== "" &&
+          team.teamPicA.trim() !== "NULL" && (
             <React.Fragment>
               <Col xs={3}>
                 <p>Picture(s):</p>
               </Col>
               <Col>
                 <div className="team-info team-pic">
-                  {team.teamPic.split("|").map((pic, index) => (
+                  {team.teamPicA.split("|").map((pic, index) => (
                     <p key={`${team.id}-teamPic-${index}`}>
                       <a
                         className="team-links"

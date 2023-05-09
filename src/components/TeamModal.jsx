@@ -58,6 +58,9 @@ const TeamModal = ({
   const teamPageARef = useRef(null);
   const teamPicARef = useRef(null);
   const coachesARef = useRef(null);
+  const teamPageBRef = useRef(null);
+  const teamPicBRef = useRef(null);
+  const coachesBRef = useRef(null);
 
   function handleModalClose(team, editing) {
     if (team && editing) {
@@ -238,6 +241,7 @@ const TeamModal = ({
                   type="text"
                   placeholder="Team B Page URL"
                   value={teamPageB}
+                  ref={teamPageBRef}
                   onChange={(event) => setTeamPageB(event.target.value)}
                   disabled={archived}
                 />
@@ -249,17 +253,18 @@ const TeamModal = ({
                   type="text"
                   placeholder="Team B Picture URL"
                   value={teamPicB}
+                  ref={teamPicBRef}
                   onChange={(event) => setTeamPicB(event.target.value)}
                   disabled={archived}
                 />
               </Form.Group>
 
-              <Form.Group controlid="teamcoachesA">
+              <Form.Group controlid="teamCoachesA">
                 <Form.Label></Form.Label>
                 <Button variant="info wsd set-coachesA"> Set A Coaches </Button>
               </Form.Group>
 
-              <Form.Group controlid="teamcoachesB">
+              <Form.Group controlid="teamCoachesB">
                 <Form.Label></Form.Label>
                 <Button variant="info wsd set-coachesB"> Set B Coaches </Button>
               </Form.Group>
@@ -296,6 +301,7 @@ const TeamModal = ({
                   type="text"
                   placeholder="JV Team Page URL"
                   value={teamPageB}
+                  ref={teamPageBRef}
                   onChange={(event) => setTeamPageB(event.target.value)}
                   disabled={archived}
                 />
@@ -307,6 +313,7 @@ const TeamModal = ({
                   type="text"
                   placeholder="JV Team Picture URL"
                   value={teamPicB}
+                  ref={teamPicBRef}
                   onChange={(event) => setTeamPicB(event.target.value)}
                   disabled={archived}
                 />
@@ -366,7 +373,7 @@ const TeamModal = ({
               ref={coachesRef}
               onChange={(event) => setCoaches(event.target.value)}
               disabled={archived}
-        />*/ console.log(coachesARef)
+        />*/ console.log(coachesARef && coachesBRef)
                 }
               </Form.Group>
             </>

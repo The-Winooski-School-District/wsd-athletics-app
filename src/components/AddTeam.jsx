@@ -46,8 +46,8 @@ const AddTeam = ({ seasonid }) => {
     abbr,
     multi,
     teamPageA,
-    teamPageB,
     teamPicA,
+    teamPageB,
     teamPicB,
     coachesA,
     coachesB
@@ -63,8 +63,8 @@ const AddTeam = ({ seasonid }) => {
           abbr: abbr,
           multi: multi,
           teamPageA: teamPageA,
-          teamPageB: teamPageB,
           teamPicA: teamPicA,
+          teamPageB: teamPageB,
           teamPicB: teamPicB,
           coachesA: coachesA,
           coachesB: coachesB
@@ -86,8 +86,8 @@ const AddTeam = ({ seasonid }) => {
           abbr: abbr,
           multi: multi,
           teamPageA: teamPageA,
-          teamPageB: teamPageB,
           teamPicA: teamPicA,
+          teamPageB: teamPageB,
           teamPicB: teamPicB,
           coachesA: coachesA,
           coachesB: coachesB
