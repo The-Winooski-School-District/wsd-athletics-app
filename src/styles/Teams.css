@@ -114,6 +114,10 @@ a.team-links {
   background-color: rgba(245, 242, 242, 0.281);
 }
 
+.cieling {
+  margin-top: 5px;
+}
+
 @media (max-width: 1501px) {
   .team-card {
     flex-basis: calc(50% - 20px);

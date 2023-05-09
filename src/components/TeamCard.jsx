@@ -112,7 +112,6 @@ const TeamCard = ({ team, seasonid, archived }) => {
     });
   }
 
-
   function getTeamGender(abbr) {
     switch (abbr) {
       case "VFOO":
@@ -140,7 +139,6 @@ const TeamCard = ({ team, seasonid, archived }) => {
         return "other-team";
     }
   }
-  
 
   return (
     <div className="team-card">
@@ -183,17 +181,30 @@ const TeamCard = ({ team, seasonid, archived }) => {
       {/* This is the end of the unneccessary fields */}
 
       <Row>
-        {team.teamPageA &&
+        {/* Display team pages */}
+        {(team.teamPage &&
+          team.teamPage.trim() !== "" &&
+          team.teamPage.trim() !== "NULL") ||
+        (team.teamPageA &&
           team.teamPageA.trim() !== "" &&
-          team.teamPageA.trim() !== "NULL" && (
-            <React.Fragment>
-              <Col xs={3}>
-                <p>Page(s):</p>
-              </Col>
-              <Col>
-                <div className="team-info team-page">
-                  {team.teamPageA.split("|").map((page, index) => (
-                    <p key={`${team.id}-teamPage`}>
+          team.teamPageA.trim() !== "NULL") ||
+        (team.teamPageB &&
+          team.teamPageB.trim() !== "" &&
+          team.teamPageB.trim() !== "NULL") ? (
+          <React.Fragment>
+            <Col xs={3}>
+              <p>Page(s):</p>
+            </Col>
+            <Col>
+              <div className="team-info team-page">
+                {[team.teamPage, team.teamPageA, team.teamPageB]
+                  .filter(
+                    (page) =>
+                      page && page.trim() !== "" && page.trim() !== "NULL"
+                  )
+                  .flatMap((page) => page.split("|"))
+                  .map((page, index) => (
+                    <p key={`${team.id}-teamPage-${index}`}>
                       <a
                         className="team-links"
                         rel="noreferrer"
@@ -204,23 +215,35 @@ const TeamCard = ({ team, seasonid, archived }) => {
                       </a>
                     </p>
                   ))}
-                </div>
-              </Col>
-            </React.Fragment>
-          )}
+              </div>
+            </Col>
+          </React.Fragment>
+        ) : null}
       </Row>
 
       <Row>
-        {team.teamPicA &&
+        {/* Display team pictures */}
+        {(team.teamPic &&
+          team.teamPic.trim() !== "" &&
+          team.teamPic.trim() !== "NULL") ||
+        (team.teamPicA &&
           team.teamPicA.trim() !== "" &&
-          team.teamPicA.trim() !== "NULL" && (
-            <React.Fragment>
-              <Col xs={3}>
-                <p>Picture(s):</p>
-              </Col>
-              <Col>
-                <div className="team-info team-pic">
-                  {team.teamPicA.split("|").map((pic, index) => (
+          team.teamPicA.trim() !== "NULL") ||
+        (team.teamPicB &&
+          team.teamPicB.trim() !== "" &&
+          team.teamPicB.trim() !== "NULL") ? (
+          <React.Fragment>
+            <Col xs={3}>
+              <p>Picture(s):</p>
+            </Col>
+            <Col>
+              <div className="team-info team-pic">
+                {[team.teamPic, team.teamPicA, team.teamPicB]
+                  .filter(
+                    (pic) => pic && pic.trim() !== "" && pic.trim() !== "NULL"
+                  )
+                  .flatMap((pic) => pic.split("|"))
+                  .map((pic, index) => (
                     <p key={`${team.id}-teamPic-${index}`}>
                       <a
                         className="team-links"
@@ -236,12 +259,12 @@ const TeamCard = ({ team, seasonid, archived }) => {
                       </a>
                     </p>
                   ))}
-                </div>
-              </Col>
-            </React.Fragment>
-          )}
+              </div>
+            </Col>
+          </React.Fragment>
+        ) : null}
       </Row>
-
+      {/* Gonna have to do to coaches what we did to pages and pics to show more than 1 if there's more than 1*/}
       <Row>
         <React.Fragment>
           <Col xs={3}>
@@ -308,7 +331,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
                 </Link>
                 <Link to={`/schedule/${seasonid}/${team.id}`}>
                   {hasSchedule ? (
-                    <Button variant="outline-warning wsd">Edit Schedules</Button>
+                    <Button variant="outline-warning wsd">
+                      Edit Schedules
+                    </Button>
                   ) : (
                     <Button variant="success wsd">Add Schedules</Button>
                   )}

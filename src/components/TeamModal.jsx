@@ -213,7 +213,7 @@ const TeamModal = ({
             <>
             <div className="multi-split">
               <Form.Group controlid="teamPageA">
-                <Form.Label>Pages</Form.Label>
+                <Form.Label className="cieling">Pages</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Team A Page URL"
@@ -225,7 +225,7 @@ const TeamModal = ({
               </Form.Group>
 
               <Form.Group controlid="teamPicA">
-                <Form.Label>Pictures</Form.Label>
+                <Form.Label className="cieling">Pictures</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Team A Picture URL"
@@ -277,7 +277,7 @@ const TeamModal = ({
             <>
             <div className="multi-split">
               <Form.Group controlid="teamPageA">
-                <Form.Label>Pages</Form.Label>
+                <Form.Label className="cieling">Pages</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Varsity Team Page URL"
@@ -289,7 +289,7 @@ const TeamModal = ({
               </Form.Group>
 
               <Form.Group controlid="teamPicA">
-                <Form.Label>Pictures</Form.Label>
+                <Form.Label className="cieling">Pictures</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Varsity Team Picture URL"
