@@ -241,7 +241,6 @@ const Seasons = () => {
                           <option value="Fall">Fall</option>
                           <option value="Winter">Winter</option>
                           <option value="Spring">Spring</option>
-                          <option value="Summer">Summer</option>
                         </Form.Control>
                       ) : (
                         <h4 className="column-title">{season.season}</h4>
@@ -252,7 +251,7 @@ const Seasons = () => {
                         <Form.Control
                           type="number"
                           placeholder="Year"
-                          min="2020"
+                          min="2023"
                           max="2099"
                           id="year"
                           value={newSeasonYear}
