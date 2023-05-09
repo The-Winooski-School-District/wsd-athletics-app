@@ -45,9 +45,12 @@ const AddTeam = ({ seasonid }) => {
     sport,
     abbr,
     multi,
-    teamPage,
-    teamPic,
-    coaches
+    teamPageA,
+    teamPageB,
+    teamPicA,
+    teamPicB,
+    coachesA,
+    coachesB
   ) => {
     const teamid = db.ref().child(`seasons/${seasonid}/teams`).push().key;
     const updatedSeason = {
@@ -59,9 +62,12 @@ const AddTeam = ({ seasonid }) => {
           sport: sport,
           abbr: abbr,
           multi: multi,
-          teamPage: teamPage,
-          teamPic: teamPic,
-          coaches: coaches,
+          teamPageA: teamPageA,
+          teamPageB: teamPageB,
+          teamPicA: teamPicA,
+          teamPicB: teamPicB,
+          coachesA: coachesA,
+          coachesB: coachesB
         },
       },
     };
@@ -79,9 +85,12 @@ const AddTeam = ({ seasonid }) => {
           sport: sport,
           abbr: abbr,
           multi: multi,
-          teamPage: teamPage,
-          teamPic: teamPic,
-          coaches: coaches,
+          teamPageA: teamPageA,
+          teamPageB: teamPageB,
+          teamPicA: teamPicA,
+          teamPicB: teamPicB,
+          coachesA: coachesA,
+          coachesB: coachesB
         }; // create a new team object
         setTeams([...teams, newTeam]); // add the new team to the state
       }

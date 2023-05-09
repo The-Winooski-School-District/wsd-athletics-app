@@ -14,9 +14,12 @@ const TeamModal = ({
   const [sport, setSport] = useState(editing ? team.sport : "");
   const [abbr, setAbbr] = useState(editing ? team.abbr : "");
   const [multi, setMulti] = useState(editing ? team.multi : "");
-  const [teamPage, setTeamPage] = useState(editing ? team.teamPage : "");
-  const [teamPic, setTeamPic] = useState(editing ? team.teamPic : "");
-  const [coaches, setCoaches] = useState(editing ? team.coaches : "");
+  const [teamPageA, setTeamPageA] = useState(editing ? team.teamPageA : "");
+  const [teamPicA, setTeamPicA] = useState(editing ? team.teamPicA : "");
+  const [teamPageB, setTeamPageB] = useState(editing ? team.teamPageB : "");
+  const [teamPicB, setTeamPicB] = useState(editing ? team.teamPicB : "");
+  const [coachesA, setCoachesA] = useState(editing ? team.coachesA : "");
+  const [coachesB, setCoachesB] = useState(editing ? team.coachesB : "");
   const [deleteChecked, setDeleteChecked] = useState(false);
 
   useEffect(() => {
@@ -25,9 +28,12 @@ const TeamModal = ({
       setSport(team.sport);
       setAbbr(team.abbr);
       setMulti(team.multi);
-      setTeamPage(team.teamPage);
-      setTeamPic(team.teamPic);
-      setCoaches(team.coaches);
+      setTeamPageA(team.teamPageA);
+      setTeamPicA(team.teamPicA);
+      setTeamPageA(team.teamPageB);
+      setTeamPicA(team.teamPicB);
+      setCoachesA(team.coachesA);
+      setCoachesB(team.coachesB);
       setDeleteChecked(!!team.delete);
     }
     if (!showModal) {
@@ -35,9 +41,12 @@ const TeamModal = ({
       setSport(editing ? team.sport : "");
       setAbbr(editing ? team.abbr : "");
       setMulti(editing ? team.multi : "");
-      setTeamPage(editing ? team.teamPage : "");
-      setTeamPic(editing ? team.teamPic : "");
-      setCoaches(editing ? team.coaches : "");
+      setTeamPageA(editing ? team.teamPageA : "");
+      setTeamPicA(editing ? team.teamPicA : "");
+      setTeamPageB(editing ? team.teamPageB : "");
+      setTeamPicB(editing ? team.teamPicB : "");
+      setCoachesA(editing ? team.coachesA : "");
+      setCoachesB(editing ? team.coachesB : "");
       setDeleteChecked(false);
     }
   }, [team, editing, showModal]);
@@ -46,9 +55,9 @@ const TeamModal = ({
   const sportRef = useRef(null);
   const abbrRef = useRef(null);
   const multiRef = useRef(null);
-  const teamPageRef = useRef(null);
-  const teamPicRef = useRef(null);
-  const coachesRef = useRef(null);
+  const teamPageARef = useRef(null);
+  const teamPicARef = useRef(null);
+  const coachesARef = useRef(null);
 
   function handleModalClose(team, editing) {
     if (team && editing) {
@@ -56,18 +65,24 @@ const TeamModal = ({
       setSport(team.sport);
       setAbbr(team.abbr);
       setMulti(team.multi);
-      setTeamPage(team.teamPage);
-      setTeamPic(team.teamPic);
-      setCoaches(team.coaches);
+      setTeamPageA(team.teamPageA);
+      setTeamPicA(team.teamPicA);
+      setTeamPageA(team.teamPageB);
+      setTeamPicA(team.teamPicB);
+      setCoachesA(team.coachesA);
+      setCoachesB(team.coachesB);
       handleCloseModal();
     } else {
       setTeamName("");
       setSport("");
       setAbbr("");
       setMulti("");
-      setTeamPage("");
-      setTeamPic("");
-      setCoaches("");
+      setTeamPageA("");
+      setTeamPicA("");
+      setTeamPageB("");
+      setTeamPicB("");
+      setCoachesA("");
+      setCoachesB("");
       handleCloseModal();
     }
   }
@@ -162,7 +177,7 @@ const TeamModal = ({
               <option value="VRSO">VRSO - Varsity Softball</option>
               <option value="VRBA">VRBA - Varsity Baseball</option>
               <option value="JVSO">VRSO - Junior Varsity Softball</option>
-              <option value="JVBA">VRBA - Junior Varsity Baseball</option>
+              <option value="JVBA">VRBA - JuniorVarsity Baseball</option>
               <option value="MSTF">MSTF - Middleschool Track & Field</option>
               <option value="MSSO">MSSO - Middleschool Softball</option>
               <option value="MSBA">MSBA - Middleschool Baseball</option>
@@ -191,45 +206,171 @@ const TeamModal = ({
             </Form.Select>
           </Form.Group>
 
-          <Form.Group controlid="teamPage">
-            <Form.Label></Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Team Page URL"
-              value={teamPage}
-              ref={teamPageRef}
-              onChange={(event) => setTeamPage(event.target.value)}
-              disabled={archived}
-            />
-          </Form.Group>
+          {multi === "A&B" ? (
+            <>
+              <Form.Group controlid="teamPageA">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Team A Page URL"
+                  value={teamPageA}
+                  ref={teamPageARef}
+                  onChange={(event) => setTeamPageA(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
 
-          <Form.Group controlid="teamPic">
-            <Form.Label></Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Team Picture URL"
-              value={teamPic}
-              ref={teamPicRef}
-              onChange={(event) => setTeamPic(event.target.value)}
-              disabled={archived}
-            />
-          </Form.Group>
+              <Form.Group controlid="teamPicA">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Team A Picture URL"
+                  value={teamPicA}
+                  ref={teamPicARef}
+                  onChange={(event) => setTeamPicA(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
 
-          <Form.Group controlid="teamCoaches">
-            <Form.Label></Form.Label>
+              <Form.Group controlid="teamPageB">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Team B Page URL"
+                  value={teamPageB}
+                  onChange={(event) => setTeamPageB(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
 
-            <Button variant="info wsd set-coaches"> Set Coaches </Button>
-            {
-              /*<Form.Control
+              <Form.Group controlid="teamPicB">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Team B Picture URL"
+                  value={teamPicB}
+                  onChange={(event) => setTeamPicB(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
+
+              <Form.Group controlid="teamcoachesA">
+                <Form.Label></Form.Label>
+                <Button variant="info wsd set-coachesA"> Set A Coaches </Button>
+              </Form.Group>
+
+              <Form.Group controlid="teamcoachesB">
+                <Form.Label></Form.Label>
+                <Button variant="info wsd set-coachesB"> Set B Coaches </Button>
+              </Form.Group>
+            </>
+          ) : multi === "V&JV" ? (
+            <>
+              <Form.Group controlid="teamPageA">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Varsity Team Page URL"
+                  value={teamPageA}
+                  ref={teamPageARef}
+                  onChange={(event) => setTeamPageA(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
+
+              <Form.Group controlid="teamPicA">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Varsity Team Picture URL"
+                  value={teamPicA}
+                  ref={teamPicARef}
+                  onChange={(event) => setTeamPicA(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
+
+              <Form.Group controlid="teamPageB">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="JV Team Page URL"
+                  value={teamPageB}
+                  onChange={(event) => setTeamPageB(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
+
+              <Form.Group controlid="teamPicB">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="JV Team Picture URL"
+                  value={teamPicB}
+                  onChange={(event) => setTeamPicB(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
+
+              <Form.Group controlid="teamCoachesA">
+                <Form.Label></Form.Label>
+                <Button variant="info wsd set-coachesA">
+                  
+                  Set Varsity Coaches
+                </Button>
+              </Form.Group>
+
+              <Form.Group controlid="teamCoachesB">
+                <Form.Label></Form.Label>
+                <Button variant="info wsd set-coachesB">
+                  
+                  Set JV Coaches
+                </Button>
+              </Form.Group>
+            </>
+          ) : (
+            <>
+              <Form.Group controlid="teamPageA">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Team Page URL"
+                  value={teamPageA}
+                  ref={teamPageARef}
+                  onChange={(event) => setTeamPageA(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
+
+              <Form.Group controlid="teamPicA">
+                <Form.Label></Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Team Picture URL"
+                  value={teamPicA}
+                  ref={teamPicARef}
+                  onChange={(event) => setTeamPicA(event.target.value)}
+                  disabled={archived}
+                />
+              </Form.Group>
+
+              <Form.Group controlid="teamCoaches">
+                <Form.Label></Form.Label>
+
+                <Button variant="info wsd set-coaches"> Set Coaches </Button>
+                {
+                  /*<Form.Control
               type="textarea"
               placeholder="Enter Coaches names"
               value={coaches}
               ref={coachesRef}
               onChange={(event) => setCoaches(event.target.value)}
               disabled={archived}
-        />*/ console.log(coachesRef)
-            }
-          </Form.Group>
+        />*/ console.log(coachesARef)
+                }
+              </Form.Group>
+            </>
+          )}
         </Form>
       </Modal.Body>
       <Modal.Footer>
@@ -264,9 +405,12 @@ const TeamModal = ({
                     sport: sport,
                     abbr: abbr,
                     multi: multi,
-                    teamPage: teamPage,
-                    teamPic: teamPic,
-                    coaches: coaches,
+                    teamPageA: teamPageA,
+                    teamPicA: teamPicA,
+                    teamPageB: teamPageB,
+                    teamPicB: teamPicB,
+                    coachesA: coachesA,
+                    coachesB: coachesB,
                     delete: deleteValue,
                   }); // Pass the value of the "Delete" checkbox
                 } else {
@@ -275,9 +419,12 @@ const TeamModal = ({
                     sport,
                     abbr,
                     multi,
-                    teamPage,
-                    teamPic,
-                    coaches
+                    teamPageA,
+                    teamPicA,
+                    teamPageB,
+                    teamPicB,
+                    coachesA,
+                    coachesB
                   );
                 }
                 handleModalClose();
