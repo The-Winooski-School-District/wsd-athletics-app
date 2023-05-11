@@ -70,14 +70,14 @@ const TeamCard = ({ team, seasonid, archived }) => {
       console.log(`No team found at index ${index}.`);
       return;
     }
-
+  
     const teamRef = db.ref(`seasons/${seasonid}/teams/${teamid}`);
     teamRef.once("value", (snapshot) => {
       const existingTeam = snapshot.val();
-
-      const updatedTeamInfo = { ...existingTeam,  ...teamInfo };
+  
+      const updatedTeamInfo = { ...existingTeam, ...teamInfo };
       delete updatedTeamInfo.id; // Remove the ID property
-
+  
       if (teamInfo.delete) {
         // Remove the team from the database
         teamRef.remove((error) => {
@@ -93,7 +93,15 @@ const TeamCard = ({ team, seasonid, archived }) => {
           }
         });
       } else {
+        // Set identical fields to true if multi is "Single Team" or ""
+        if (updatedTeamInfo.multi === "Single Team" || updatedTeamInfo.multi === "") {
+          updatedTeamInfo.identicalRosters = true;
+          updatedTeamInfo.identicalSchedules = true;
+          updatedTeamInfo.identicalCoaches = true;
+        }
+  
         // Update the team in the database
+        delete updatedTeamInfo.delete; // Remove the delete property
         teamRef.update(updatedTeamInfo, (error) => {
           if (error) {
             console.log("Error updating team information:", error);
@@ -112,6 +120,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
       }
     });
   }
+  
 
   function getTeamGender(abbr) {
     switch (abbr) {

@@ -47,9 +47,9 @@ const TeamModal = ({
       setSport(editing ? team.sport : "");
       setAbbr(editing ? team.abbr : "");
       setMulti(editing ? team.multi : "");
-      setIdenticalRosters(editing? team.identicalRosters : false)
-      setIdenticalSchedules(editing? team.identicalSchedules : false)
-      setIdenticalCoaches(editing? team.identicalCoaches : false);
+      setIdenticalRosters(editing? team.identicalRosters : true)
+      setIdenticalSchedules(editing? team.identicalSchedules : true)
+      setIdenticalCoaches(editing? team.identicalCoaches : true);
       setTeamPageA(editing ? team.teamPageA : "");
       setTeamPicA(editing ? team.teamPicA : "");
       setTeamPageB(editing ? team.teamPageB : "");
