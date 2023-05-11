@@ -64,6 +64,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
   }, [seasonid, team.id]);
 
   function handleTeamSave(teamInfo, index) {
+    console.log(teamInfo);
     const teamid = team.id;
     if (!teamid) {
       console.log(`No team found at index ${index}.`);
@@ -74,7 +75,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
     teamRef.once("value", (snapshot) => {
       const existingTeam = snapshot.val();
 
-      const updatedTeamInfo = { ...existingTeam, ...teamInfo };
+      const updatedTeamInfo = { ...existingTeam,  ...teamInfo };
       delete updatedTeamInfo.id; // Remove the ID property
 
       if (teamInfo.delete) {

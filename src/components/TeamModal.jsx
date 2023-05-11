@@ -14,6 +14,9 @@ const TeamModal = ({
   const [sport, setSport] = useState(editing ? team.sport : "");
   const [abbr, setAbbr] = useState(editing ? team.abbr : "");
   const [multi, setMulti] = useState(editing ? team.multi : "");
+  const [identicalCoaches, setIdenticalCoaches] = useState(editing ? team.identicalCoaches : false);
+  const [identicalRosters, setIdenticalRosters] = useState(editing? team.identicalRosters : false)
+  const [identicalSchedules, setIdenticalSchedules] = useState(editing? team.identicalSchedules : false)
   const [teamPageA, setTeamPageA] = useState(editing ? team.teamPageA : "");
   const [teamPicA, setTeamPicA] = useState(editing ? team.teamPicA : "");
   const [teamPageB, setTeamPageB] = useState(editing ? team.teamPageB : "");
@@ -28,6 +31,9 @@ const TeamModal = ({
       setSport(team.sport);
       setAbbr(team.abbr);
       setMulti(team.multi);
+      setIdenticalRosters(team.identicalRosters ?? false);
+      setIdenticalSchedules(team.identicalSchedules ?? false);
+      setIdenticalCoaches(team.identicalCoaches ?? false);
       setTeamPageA(team.teamPageA);
       setTeamPicA(team.teamPicA);
       setTeamPageB(team.teamPageB);
@@ -41,6 +47,9 @@ const TeamModal = ({
       setSport(editing ? team.sport : "");
       setAbbr(editing ? team.abbr : "");
       setMulti(editing ? team.multi : "");
+      setIdenticalRosters(editing? team.identicalRosters : false)
+      setIdenticalSchedules(editing? team.identicalSchedules : false)
+      setIdenticalCoaches(editing? team.identicalCoaches : false);
       setTeamPageA(editing ? team.teamPageA : "");
       setTeamPicA(editing ? team.teamPicA : "");
       setTeamPageB(editing ? team.teamPageB : "");
@@ -55,6 +64,9 @@ const TeamModal = ({
   const sportRef = useRef(null);
   const abbrRef = useRef(null);
   const multiRef = useRef(null);
+  const identicalRostersRef = useRef(null);
+  const identicalSchedulesRef = useRef(null);
+  const identicalCoachesRef = useRef(null);
   const teamPageARef = useRef(null);
   const teamPicARef = useRef(null);
   const teamPageBRef = useRef(null);
@@ -68,6 +80,9 @@ const TeamModal = ({
       setSport(team.sport);
       setAbbr(team.abbr);
       setMulti(team.multi);
+      setIdenticalRosters(team.identicalRosters);
+      setIdenticalSchedules(team.identicalSchedules);
+      setIdenticalCoaches(team.identicalCoaches);
       setTeamPageA(team.teamPageA);
       setTeamPicA(team.teamPicA);
       setTeamPageB(team.teamPageB);
@@ -80,6 +95,9 @@ const TeamModal = ({
       setSport("");
       setAbbr("");
       setMulti("");
+      setIdenticalRosters(false);
+      setIdenticalSchedules(false);
+      setIdenticalCoaches(false);
       setTeamPageA("");
       setTeamPicA("");
       setTeamPageB("");
@@ -207,80 +225,97 @@ const TeamModal = ({
               <option value="V&JV">Varsity & JV</option>
               <option value="A&B">A & B Teams</option>
             </Form.Select>
-
-            {(multi === "A&B" || multi === "V&JV") && (
-              <div className="tri-split cieling2">
-                <Form.Group controlId="identicalRosters">
-                <Form.Label>Rosters identical?</Form.Label>
-                  <div className="multi-check">
-                    
-                    <div className="radio">
-                    <Form.Check
-                      inline
-                      label="Yes"
-                      name="identicalRosters"
-                      type="radio"
-                      id="identicalRostersYes"
-                    />
-                    <Form.Check
-                      inline
-                      label="No"
-                      name="identicalRosters"
-                      type="radio"
-                      id="identicalRostersNo"
-                    />
-                    </div>
-                  </div>
-                </Form.Group>
-
-                <Form.Group controlId="identicalSchedules">
-                <Form.Label>Schedules identical?</Form.Label>
-                  <div className="multi-check">
-                    
-                    <div className="radio">
-                      <Form.Check
-                        inline
-                        label="Yes"
-                        name="identicalSchedules"
-                        type="radio"
-                        id="identicalSchedulesYes"
-                      />
-                      <Form.Check
-                        inline
-                        label="No"
-                        name="identicalSchedules"
-                        type="radio"
-                        id="identicalSchedulesNo"
-                      />
-                    </div>
-                  </div>
-                </Form.Group>
-
-                <Form.Group controlId="identicalCoaches">
-                <Form.Label>Coaches identical?</Form.Label>
-                  <div className="multi-check">
-                    
-                    <div className="radio">
-                      <Form.Check
-                        inline
-                        label="Yes"
-                        name="identicalCoaches"
-                        type="radio"
-                        id="identicalCoachesYes"
-                      />
-                      <Form.Check
-                        inline
-                        label="No"
-                        name="identicalCoaches"
-                        type="radio"
-                        id="identicalCoachesNo"
-                      />
-                    </div>
-                  </div>
-                </Form.Group>
-              </div>
-            )}
           </Form.Group>
+          {(multi === "A&B" || multi === "V&JV") && (
+            <div className="tri-split cieling2">
+              <Form.Group controlId="identicalRosters">
+                <Form.Label>Rosters identical?</Form.Label>
+
+                <div className="radio">
+                  <Form.Check
+                    inline
+                    label="Yes"
+                    name="identicalRosters"
+                    type="radio"
+                    id="identicalRostersYes"
+                    value={true}
+                    ref={identicalRostersRef}
+                    onChange={(event) => setIdenticalRosters(true)}
+                    defaultChecked={identicalRosters === true}
+                  />
+                  <Form.Check
+                    inline
+                    label="No"
+                    name="identicalRosters"
+                    type="radio"
+                    id="identicalRostersNo"
+                    value={false}
+                    ref={identicalRostersRef}
+                    onChange={(event) => setIdenticalRosters(false)}
+                    defaultChecked={identicalRosters === false}
+                  />
+                </div>
+              </Form.Group>
+
+              <Form.Group controlId="identicalSchedules">
+                <Form.Label>Schedules identical?</Form.Label>
+
+                <div className="radio">
+                  <Form.Check
+                    inline
+                    label="Yes"
+                    name="identicalSchedules"
+                    type="radio"
+                    id="identicalSchedulesYes"
+                    value={true}
+                    ref={identicalSchedulesRef}
+                    onChange={(event) => setIdenticalSchedules(true)}
+                    defaultChecked={identicalSchedules === true}
+                  />
+                  <Form.Check
+                    inline
+                    label="No"
+                    name="identicalSchedules"
+                    type="radio"
+                    id="identicalSchedulesNo"
+                    value={false}
+                    ref={identicalSchedulesRef}
+                    onChange={(event) => setIdenticalSchedules(false)}
+                    defaultChecked={identicalSchedules === false}
+                  />
+                </div>
+              </Form.Group>
+
+              <Form.Group controlId="identicalCoaches">
+                <Form.Label>Coaches identical?</Form.Label>
+
+                <div className="radio">
+                  <Form.Check
+                    inline
+                    label="Yes"
+                    name="identicalCoaches"
+                    type="radio"
+                    id="identicalCoachesYes"
+                    value={true}
+                    ref={identicalCoachesRef}
+                    onChange={(event) => setIdenticalCoaches(true)}
+                    defaultChecked={identicalCoaches === true}
+                  />
+                  <Form.Check
+                    inline
+                    label="No"
+                    name="identicalCoaches"
+                    type="radio"
+                    id="identicalCoachesNo"
+                    value={false}
+                    ref={identicalCoachesRef}
+                    onChange={(event) => setIdenticalCoaches(false)}                   
+                    defaultChecked={identicalCoaches === false}
+                  />
+                </div>
+              </Form.Group>
+            </div>
+          )}
 
           {multi === "A&B" ? (
             <>
@@ -497,6 +532,9 @@ const TeamModal = ({
                     sport: sport,
                     abbr: abbr,
                     multi: multi,
+                    identicalRosters: identicalRosters,
+                    identicalSchedules: identicalSchedules,
+                    identicalCoaches: identicalCoaches,
                     teamPageA: teamPageA,
                     teamPicA: teamPicA,
                     teamPageB: teamPageB,
@@ -511,6 +549,9 @@ const TeamModal = ({
                     sport,
                     abbr,
                     multi,
+                    identicalRosters,
+                    identicalSchedules,
+                    identicalCoaches,
                     teamPageA,
                     teamPicA,
                     teamPageB,

@@ -132,10 +132,6 @@ a.team-links {
 .radio {
   display: flex;
   justify-content: space-between;
-}
-
-
-.multi-check {
   margin: auto auto 5px auto;
   padding: 5px;
   border-radius: 5px;
@@ -145,6 +141,9 @@ a.team-links {
   justify-content: center;
   align-items: center;
 }
+
+
+
 
 @media (max-width: 1501px) {
   .team-card {
