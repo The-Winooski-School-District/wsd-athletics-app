@@ -216,7 +216,7 @@ const Schedule = () => {
             <Button variant="info title-button wsd">View Roster</Button>
           </Link>
         </div>
-
+        <Button variant="primary wsd csv import-export"> Import CSV </Button>
         <CSVLink
           data={csvData}
           filename={"schedule.csv"}

@@ -69,6 +69,10 @@ Table > * > tr > td.last-col {
   user-select: none; /* Standard syntax */
 }
 
+.import-export {
+  margin: 0 10px;
+}
+
 @media (max-width: 768px) {
   .action-buttons {
     flex-direction: column !important;

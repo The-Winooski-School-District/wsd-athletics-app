@@ -203,14 +203,14 @@ const Roster = () => {
             <Button variant="info title-button wsd">View Schedule</Button>
           </Link>
         </div>
-
+        <Button variant="primary wsd csv import-export"> Import CSV </Button>
         <CSVLink
           data={csvData}
           filename={"roster.csv"}
           target="_blank"
           omit={["id"]}
         >
-          <Button variant="danger wsd csv"> Export to CSV </Button>
+          <Button variant="danger wsd csv import-export"> Export CSV </Button>
         </CSVLink>
         <Form onSubmit={handleAddplayer}>
           <Table striped bordered hover>

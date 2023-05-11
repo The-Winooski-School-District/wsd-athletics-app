@@ -111,7 +111,7 @@ const Seasons = () => {
       ...seasonInfo,
       id: id,
     };
-
+  
     const { year, season } = updatedSeasonInfo;
     yearSeasonChecker(year, season).then(
       ({ seasonExists, archivedSeasonExists }) => {
@@ -124,6 +124,9 @@ const Seasons = () => {
             `Cannot update season: ${year} ${season} already exists in 'archived-seasons' collection.`
           );
         } else {
+          // Update the year_season field
+          updatedSeasonInfo.year_season = `${year}_${season}`;
+  
           db.ref(`seasons/${id}`).set(updatedSeasonInfo, (error) => {
             if (error) {
               console.log("Error updating season information:", error);
@@ -141,6 +144,8 @@ const Seasons = () => {
       }
     );
   }
+  
+
   function handleSeasonArchive(event, id, index) {
     event.preventDefault();
     const seasonId = id;
