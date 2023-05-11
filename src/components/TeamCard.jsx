@@ -291,7 +291,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
               <p>Coaches:</p>
             </div>
           </Col>
-          <Col>
+          <Col xs={4}>
             <div className="team-info coaches">
               <p key={`${team.id}-coaches`}>
                 {/*team.coaches*/}
@@ -300,7 +300,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
             </div>
           </Col>
           {!team.identicalCoaches && (
-            <Col>
+            <Col xs={4}>
               <div className="team-info coaches">
                 <p key={`${team.id}-coaches`}>
                   {/*team.coaches*/}
