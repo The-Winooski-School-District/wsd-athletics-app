@@ -49,6 +49,10 @@ tr > td {
   border-width: 2px;
 }
 
+.modal-hr {
+  margin: 23px 0 0 0 ;
+}
+
 .season-adder {
   margin: 20px 20px 40px 20px;
   padding: auto;

@@ -14,9 +14,15 @@ const TeamModal = ({
   const [sport, setSport] = useState(editing ? team.sport : "");
   const [abbr, setAbbr] = useState(editing ? team.abbr : "");
   const [multi, setMulti] = useState(editing ? team.multi : "");
-  const [identicalCoaches, setIdenticalCoaches] = useState(editing ? team.identicalCoaches : false);
-  const [identicalRosters, setIdenticalRosters] = useState(editing? team.identicalRosters : false)
-  const [identicalSchedules, setIdenticalSchedules] = useState(editing? team.identicalSchedules : false)
+  const [identicalCoaches, setIdenticalCoaches] = useState(
+    editing ? team.identicalCoaches : false
+  );
+  const [identicalRosters, setIdenticalRosters] = useState(
+    editing ? team.identicalRosters : false
+  );
+  const [identicalSchedules, setIdenticalSchedules] = useState(
+    editing ? team.identicalSchedules : false
+  );
   const [teamPageA, setTeamPageA] = useState(editing ? team.teamPageA : "");
   const [teamPicA, setTeamPicA] = useState(editing ? team.teamPicA : "");
   const [teamPageB, setTeamPageB] = useState(editing ? team.teamPageB : "");
@@ -47,9 +53,9 @@ const TeamModal = ({
       setSport(editing ? team.sport : "");
       setAbbr(editing ? team.abbr : "");
       setMulti(editing ? team.multi : "");
-      setIdenticalRosters(editing? team.identicalRosters : true)
-      setIdenticalSchedules(editing? team.identicalSchedules : true)
-      setIdenticalCoaches(editing? team.identicalCoaches : true);
+      setIdenticalRosters(editing ? team.identicalRosters : true);
+      setIdenticalSchedules(editing ? team.identicalSchedules : true);
+      setIdenticalCoaches(editing ? team.identicalCoaches : true);
       setTeamPageA(editing ? team.teamPageA : "");
       setTeamPicA(editing ? team.teamPicA : "");
       setTeamPageB(editing ? team.teamPageB : "");
@@ -226,6 +232,8 @@ const TeamModal = ({
               <option value="A&B">A & B Teams</option>
             </Form.Select>
           </Form.Group>
+
+          <hr className="modal-hr"></hr>
           {(multi === "A&B" || multi === "V&JV") && (
             <div className="tri-split cieling2">
               <Form.Group controlId="identicalRosters">
@@ -309,7 +317,7 @@ const TeamModal = ({
                     id="identicalCoachesNo"
                     value={false}
                     ref={identicalCoachesRef}
-                    onChange={(event) => setIdenticalCoaches(false)}                   
+                    onChange={(event) => setIdenticalCoaches(false)}
                     defaultChecked={identicalCoaches === false}
                   />
                 </div>
@@ -369,21 +377,6 @@ const TeamModal = ({
                   />
                 </Form.Group>
               </div>
-              <div className="coach-split">
-                <Form.Group controlid="teamCoachesA">
-                  <Form.Label></Form.Label>
-                  <Button variant="info wsd set-coaches w-100">
-                    Set A Coaches
-                  </Button>
-                </Form.Group>
-
-                <Form.Group controlid="teamCoachesB">
-                  <Form.Label></Form.Label>
-                  <Button variant="info wsd set-coaches w-100">
-                    Set B Coaches
-                  </Button>
-                </Form.Group>
-              </div>
             </>
           ) : multi === "V&JV" ? (
             <>
@@ -438,22 +431,6 @@ const TeamModal = ({
                   />
                 </Form.Group>
               </div>
-
-              <div className="coach-split">
-                <Form.Group controlid="teamCoachesA">
-                  <Form.Label></Form.Label>
-                  <Button variant="info wsd set-coaches w-100">
-                    Set Varsity Coaches
-                  </Button>
-                </Form.Group>
-
-                <Form.Group controlid="teamCoachesB">
-                  <Form.Label></Form.Label>
-                  <Button variant="info wsd set-coaches w-100">
-                    Set JV Coaches
-                  </Button>
-                </Form.Group>
-              </div>
             </>
           ) : (
             <>
@@ -480,23 +457,49 @@ const TeamModal = ({
                   disabled={archived}
                 />
               </Form.Group>
-
-              <Form.Group controlid="teamCoaches">
-                <Form.Label></Form.Label>
-
-                <Button variant="info wsd set-coaches"> Set Coaches </Button>
-                {
-                  /*<Form.Control
-              type="textarea"
-              placeholder="Enter Coaches names"
-              value={coaches}
-              ref={coachesRef}
-              onChange={(event) => setCoaches(event.target.value)}
-              disabled={archived}
-        />*/ console.log(coachesARef || coachesBRef)
-                }
-              </Form.Group>
             </>
+          )}
+
+          {identicalCoaches ? (
+            <Form.Group controlId="teamCoaches">
+              <Form.Label></Form.Label>
+              <Button variant="info wsd set-coaches"> Set Coaches </Button>
+            </Form.Group>
+          ) : multi === "A&B" ? (
+            <div className="coach-split">
+              <Form.Group controlId="teamCoachesA">
+                <Form.Label></Form.Label>
+                <Button variant="info wsd set-coaches w-100">
+                  Set A Coaches
+                </Button>
+              </Form.Group>
+              <Form.Group controlId="teamCoachesB">
+                <Form.Label></Form.Label>
+                <Button variant="info wsd set-coaches w-100">
+                  Set B Coaches
+                </Button>
+              </Form.Group>
+            </div>
+          ) : multi === "V&JV" ? (
+            <div className="coach-split">
+              <Form.Group controlId="teamCoachesA">
+                <Form.Label></Form.Label>
+                <Button variant="info wsd set-coaches w-100">
+                  Set Varsity Coaches
+                </Button>
+              </Form.Group>
+              <Form.Group controlId="teamCoachesB">
+                <Form.Label></Form.Label>
+                <Button variant="info wsd set-coaches w-100">
+                  Set JV Coaches
+                </Button>
+              </Form.Group>
+            </div>
+          ) : (
+            <Form.Group controlId="teamCoaches">
+              <Form.Label></Form.Label>
+              <Button variant="info wsd set-coaches"> Set Coaches </Button>
+            </Form.Group>
           )}
         </Form>
       </Modal.Body>
@@ -510,6 +513,7 @@ const TeamModal = ({
                 checked={deleteChecked}
                 onChange={(event) => setDeleteChecked(event.target.checked)}
                 disabled={archived}
+                ok={console.log(coachesARef || coachesBRef)}
               />
             )}
           </Form.Group>
