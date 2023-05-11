@@ -10,7 +10,7 @@ const Archive = () => {
   const [seasons, setSeasons] = useState([]);
   const [teams, setTeams] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [showTeamModal, setshowTeamModal] = useState(false);
 
   const sortedSeasons = seasons.sort(compareSeasons);
 
@@ -207,8 +207,8 @@ const Archive = () => {
                         )}
                         <TeamModal
                           editing={false}
-                          showModal={showModal}
-                          handleCloseModal={() => setShowModal(false)}
+                          showTeamModal={showTeamModal}
+                          handleCloseModal={() => setshowTeamModal(false)}
                         />
                       </td>
                     </tr>

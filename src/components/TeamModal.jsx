@@ -3,7 +3,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 
 const TeamModal = ({
   team,
-  showModal,
+  showTeamModal,
   handleAddTeam,
   handleTeamSave,
   handleCloseModal,
@@ -36,7 +36,7 @@ const TeamModal = ({
       setCoachesB(team.coachesB);
       setDeleteChecked(!!team.delete);
     }
-    if (!showModal) {
+    if (!showTeamModal) {
       setTeamName(editing ? team.name : "");
       setSport(editing ? team.sport : "");
       setAbbr(editing ? team.abbr : "");
@@ -49,7 +49,7 @@ const TeamModal = ({
       setCoachesB(editing ? team.coachesB : "");
       setDeleteChecked(false);
     }
-  }, [team, editing, showModal]);
+  }, [team, editing, showTeamModal]);
 
   const teamNameRef = useRef(null);
   const sportRef = useRef(null);
@@ -91,7 +91,7 @@ const TeamModal = ({
   }
 
   return (
-    <Modal show={showModal} onHide={handleModalClose}>
+    <Modal show={showTeamModal} onHide={handleModalClose}>
       <Modal.Header closeButton>
         <Modal.Title>{editing ? "Edit Team" : "Add Team"}</Modal.Title>
       </Modal.Header>

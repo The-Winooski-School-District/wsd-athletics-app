@@ -6,7 +6,7 @@ import TeamModal from "./TeamModal";
 import { db } from "./Firebase";
 
 const TeamCard = ({ team, seasonid, archived }) => {
-  const [showModal, setShowModal] = useState(false);
+  const [showTeamModal, setshowTeamModal] = useState(false);
   const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
   const [hasRoster, setHasRoster] = useState(false);
@@ -302,7 +302,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
             </Link>
             <Button
               variant="outline-warning wsd"
-              onClick={() => setShowModal(true)}
+              onClick={() => setshowTeamModal(true)}
             >
               View Team
             </Button>
@@ -349,7 +349,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
             )}
             <Button
               variant="outline-warning wsd"
-              onClick={() => setShowModal(true)}
+              onClick={() => setshowTeamModal(true)}
             >
               Edit Team
             </Button>
@@ -361,9 +361,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
         team={team}
         editing={!archived}
         archived={archived}
-        showModal={showModal}
+        showTeamModal={showTeamModal}
         handleTeamSave={handleTeamSave}
-        handleCloseModal={() => setShowModal(false)}
+        handleCloseModal={() => setshowTeamModal(false)}
       />
     </div>
   );
