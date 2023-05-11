@@ -70,14 +70,14 @@ const TeamCard = ({ team, seasonid, archived }) => {
       console.log(`No team found at index ${index}.`);
       return;
     }
-  
+
     const teamRef = db.ref(`seasons/${seasonid}/teams/${teamid}`);
     teamRef.once("value", (snapshot) => {
       const existingTeam = snapshot.val();
-  
+
       const updatedTeamInfo = { ...existingTeam, ...teamInfo };
       delete updatedTeamInfo.id; // Remove the ID property
-  
+
       if (teamInfo.delete) {
         // Remove the team from the database
         teamRef.remove((error) => {
@@ -94,12 +94,15 @@ const TeamCard = ({ team, seasonid, archived }) => {
         });
       } else {
         // Set identical fields to true if multi is "Single Team" or ""
-        if (updatedTeamInfo.multi === "Single Team" || updatedTeamInfo.multi === "") {
+        if (
+          updatedTeamInfo.multi === "Single Team" ||
+          updatedTeamInfo.multi === ""
+        ) {
           updatedTeamInfo.identicalRosters = true;
           updatedTeamInfo.identicalSchedules = true;
           updatedTeamInfo.identicalCoaches = true;
         }
-  
+
         // Update the team in the database
         delete updatedTeamInfo.delete; // Remove the delete property
         teamRef.update(updatedTeamInfo, (error) => {
@@ -120,7 +123,6 @@ const TeamCard = ({ team, seasonid, archived }) => {
       }
     });
   }
-  
 
   function getTeamGender(abbr) {
     switch (abbr) {
@@ -297,6 +299,16 @@ const TeamCard = ({ team, seasonid, archived }) => {
               </p>
             </div>
           </Col>
+          {!team.identicalCoaches && (
+            <Col>
+              <div className="team-info coaches">
+                <p key={`${team.id}-coaches`}>
+                  {/*team.coaches*/}
+                  <Button className="btn-info wsd">Coaches</Button>
+                </p>
+              </div>
+            </Col>
+          )}
         </React.Fragment>
       </Row>
 
