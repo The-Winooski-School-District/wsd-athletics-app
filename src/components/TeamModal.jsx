@@ -207,124 +207,201 @@ const TeamModal = ({
               <option value="V&JV">Varsity & JV</option>
               <option value="A&B">A & B Teams</option>
             </Form.Select>
+
+            {(multi === "A&B" || multi === "V&JV") && (
+              <div className="tri-split cieling2">
+                <Form.Group controlId="identicalRosters">
+                <Form.Label>Rosters identical?</Form.Label>
+                  <div className="multi-check">
+                    
+                    <div className="radio">
+                    <Form.Check
+                      inline
+                      label="Yes"
+                      name="identicalRosters"
+                      type="radio"
+                      id="identicalRostersYes"
+                    />
+                    <Form.Check
+                      inline
+                      label="No"
+                      name="identicalRosters"
+                      type="radio"
+                      id="identicalRostersNo"
+                    />
+                    </div>
+                  </div>
+                </Form.Group>
+
+                <Form.Group controlId="identicalSchedules">
+                <Form.Label>Schedules identical?</Form.Label>
+                  <div className="multi-check">
+                    
+                    <div className="radio">
+                      <Form.Check
+                        inline
+                        label="Yes"
+                        name="identicalSchedules"
+                        type="radio"
+                        id="identicalSchedulesYes"
+                      />
+                      <Form.Check
+                        inline
+                        label="No"
+                        name="identicalSchedules"
+                        type="radio"
+                        id="identicalSchedulesNo"
+                      />
+                    </div>
+                  </div>
+                </Form.Group>
+
+                <Form.Group controlId="identicalCoaches">
+                <Form.Label>Coaches identical?</Form.Label>
+                  <div className="multi-check">
+                    
+                    <div className="radio">
+                      <Form.Check
+                        inline
+                        label="Yes"
+                        name="identicalCoaches"
+                        type="radio"
+                        id="identicalCoachesYes"
+                      />
+                      <Form.Check
+                        inline
+                        label="No"
+                        name="identicalCoaches"
+                        type="radio"
+                        id="identicalCoachesNo"
+                      />
+                    </div>
+                  </div>
+                </Form.Group>
+              </div>
+            )}
           </Form.Group>
 
           {multi === "A&B" ? (
             <>
-            <div className="multi-split">
-              <Form.Group controlid="teamPageA">
-                <Form.Label className="cieling">Pages</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Team A Page URL"
-                  value={teamPageA}
-                  ref={teamPageARef}
-                  onChange={(event) => setTeamPageA(event.target.value)}
-                  disabled={archived}
-                />
-              </Form.Group>
+              <div className="multi-split">
+                <Form.Group controlid="teamPageA">
+                  <Form.Label className="cieling">Pages</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Team A Page URL"
+                    value={teamPageA}
+                    ref={teamPageARef}
+                    onChange={(event) => setTeamPageA(event.target.value)}
+                    disabled={archived}
+                  />
+                </Form.Group>
 
-              <Form.Group controlid="teamPicA">
-                <Form.Label className="cieling">Pictures</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Team A Picture URL"
-                  value={teamPicA}
-                  ref={teamPicARef}
-                  onChange={(event) => setTeamPicA(event.target.value)}
-                  disabled={archived}
-                />
-              </Form.Group>
+                <Form.Group controlid="teamPicA">
+                  <Form.Label className="cieling">Pictures</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Team A Picture URL"
+                    value={teamPicA}
+                    ref={teamPicARef}
+                    onChange={(event) => setTeamPicA(event.target.value)}
+                    disabled={archived}
+                  />
+                </Form.Group>
               </div>
               <div className="multi-split">
-              <Form.Group controlid="teamPageB">
-                <Form.Label></Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Team B Page URL"
-                  value={teamPageB}
-                  ref={teamPageBRef}
-                  onChange={(event) => setTeamPageB(event.target.value)}
-                  disabled={archived}
-                />
-              </Form.Group>
+                <Form.Group controlid="teamPageB">
+                  <Form.Label></Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Team B Page URL"
+                    value={teamPageB}
+                    ref={teamPageBRef}
+                    onChange={(event) => setTeamPageB(event.target.value)}
+                    disabled={archived}
+                  />
+                </Form.Group>
 
-              <Form.Group controlid="teamPicB">
-                <Form.Label></Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Team B Picture URL"
-                  value={teamPicB}
-                  ref={teamPicBRef}
-                  onChange={(event) => setTeamPicB(event.target.value)}
-                  disabled={archived}
-                />
-              </Form.Group>
+                <Form.Group controlid="teamPicB">
+                  <Form.Label></Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Team B Picture URL"
+                    value={teamPicB}
+                    ref={teamPicBRef}
+                    onChange={(event) => setTeamPicB(event.target.value)}
+                    disabled={archived}
+                  />
+                </Form.Group>
               </div>
               <div className="coach-split">
                 <Form.Group controlid="teamCoachesA">
                   <Form.Label></Form.Label>
-                  <Button variant="info wsd set-coaches w-100">Set A Coaches</Button>
+                  <Button variant="info wsd set-coaches w-100">
+                    Set A Coaches
+                  </Button>
                 </Form.Group>
 
                 <Form.Group controlid="teamCoachesB">
                   <Form.Label></Form.Label>
-                  <Button variant="info wsd set-coaches w-100">Set B Coaches</Button>
+                  <Button variant="info wsd set-coaches w-100">
+                    Set B Coaches
+                  </Button>
                 </Form.Group>
               </div>
             </>
           ) : multi === "V&JV" ? (
             <>
-            <div className="multi-split">
-              <Form.Group controlid="teamPageA">
-                <Form.Label className="cieling">Pages</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Varsity Team Page URL"
-                  value={teamPageA}
-                  ref={teamPageARef}
-                  onChange={(event) => setTeamPageA(event.target.value)}
-                  disabled={archived}
-                />
-              </Form.Group>
+              <div className="multi-split">
+                <Form.Group controlid="teamPageA">
+                  <Form.Label className="cieling">Pages</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Varsity Team Page URL"
+                    value={teamPageA}
+                    ref={teamPageARef}
+                    onChange={(event) => setTeamPageA(event.target.value)}
+                    disabled={archived}
+                  />
+                </Form.Group>
 
-              <Form.Group controlid="teamPicA">
-                <Form.Label className="cieling">Pictures</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Varsity Team Picture URL"
-                  value={teamPicA}
-                  ref={teamPicARef}
-                  onChange={(event) => setTeamPicA(event.target.value)}
-                  disabled={archived}
-                />
-              </Form.Group>
+                <Form.Group controlid="teamPicA">
+                  <Form.Label className="cieling">Pictures</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Varsity Team Picture URL"
+                    value={teamPicA}
+                    ref={teamPicARef}
+                    onChange={(event) => setTeamPicA(event.target.value)}
+                    disabled={archived}
+                  />
+                </Form.Group>
               </div>
 
               <div className="multi-split">
-              <Form.Group controlid="teamPageB">
-                <Form.Label></Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="JV Team Page URL"
-                  value={teamPageB}
-                  ref={teamPageBRef}
-                  onChange={(event) => setTeamPageB(event.target.value)}
-                  disabled={archived}
-                />
-              </Form.Group>
+                <Form.Group controlid="teamPageB">
+                  <Form.Label></Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="JV Team Page URL"
+                    value={teamPageB}
+                    ref={teamPageBRef}
+                    onChange={(event) => setTeamPageB(event.target.value)}
+                    disabled={archived}
+                  />
+                </Form.Group>
 
-              <Form.Group controlid="teamPicB">
-                <Form.Label></Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="JV Team Picture URL"
-                  value={teamPicB}
-                  ref={teamPicBRef}
-                  onChange={(event) => setTeamPicB(event.target.value)}
-                  disabled={archived}
-                />
-              </Form.Group>
+                <Form.Group controlid="teamPicB">
+                  <Form.Label></Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="JV Team Picture URL"
+                    value={teamPicB}
+                    ref={teamPicBRef}
+                    onChange={(event) => setTeamPicB(event.target.value)}
+                    disabled={archived}
+                  />
+                </Form.Group>
               </div>
 
               <div className="coach-split">
@@ -337,7 +414,9 @@ const TeamModal = ({
 
                 <Form.Group controlid="teamCoachesB">
                   <Form.Label></Form.Label>
-                  <Button variant="info wsd set-coaches w-100">Set JV Coaches</Button>
+                  <Button variant="info wsd set-coaches w-100">
+                    Set JV Coaches
+                  </Button>
                 </Form.Group>
               </div>
             </>
