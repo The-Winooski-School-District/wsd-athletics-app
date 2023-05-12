@@ -186,39 +186,6 @@ const TeamCard = ({ team, seasonid, archived }) => {
         <h4>{team.name}</h4>
       </div>
       <hr className="yellow"></hr>
-
-      {/* These fields don't help us as display but are necessary. */}
-      {/*<Row>
-        <Col xs={3}>
-          <p>Sport:</p>
-        </Col>
-        <Col>
-          <div className="team-info">
-            <p key={`${team.id}-sport`}>{team.sport}</p>
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={3}>
-          <p>ABBR:</p>
-        </Col>
-        <Col>
-          <div className="team-info">
-            <p key={`${team.id}-abbr`}>{team.abbr}</p>
-          </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={3}>
-          <p>Teams:</p>
-        </Col>
-        <Col>
-          <div className="team-info">
-            <p key={`${team.id}-multi`}>{team.multi}</p>
-          </div>
-        </Col>
-      </Row>*/}
-      {/* This is the end of the unneccessary fields */}
       {team.multi === "A&B" || team.multi === "V&JV" ? (
         <Row>
           <Col xs={3}></Col>
@@ -255,7 +222,10 @@ const TeamCard = ({ team, seasonid, archived }) => {
                         className="team-links"
                         rel="noreferrer"
                         target="_blank"
-                        href={"https://www.wsdvt.org/" + page}
+                        href={
+                          "https://www.wsdvt.org/" +
+                          (page.charAt(0) === "/" ? page.substring(1) : page)
+                        }
                       >
                         Team Page
                       </a>
@@ -295,12 +265,18 @@ const TeamCard = ({ team, seasonid, archived }) => {
                         className="team-links"
                         rel="noreferrer"
                         target="_blank"
-                        href={"https://www.wsdvt.org" + pic}
+                        href={
+                          "https://www.wsdvt.org/" +
+                          (pic.charAt(0) === "/" ? pic.substring(1) : pic)
+                        }
                       >
                         <img
                           className="teamPic"
                           alt="bad URL"
-                          src={"https://www.wsdvt.org" + pic}
+                          src={
+                            "https://www.wsdvt.org/" +
+                            (pic.charAt(0) === "/" ? pic.substring(1) : pic)
+                          }
                         />
                       </a>
                     </p>
@@ -358,45 +334,53 @@ const TeamCard = ({ team, seasonid, archived }) => {
             </Button>
           </>
         ) : (
-          // THIS!! This is how we make the individual team pages. Take note for schedule's sake.
           <>
-            {team.multi === "Single" || team.multi === "" ? (
-              <>
-                <Link to={`/roster/${seasonid}/${team.id}`}>
-                  {hasRoster ? (
-                    <Button variant="outline-warning wsd">Edit Roster</Button>
-                  ) : (
-                    <Button variant="success wsd">Add Roster</Button>
-                  )}
-                </Link>
-                <Link to={`/schedule/${seasonid}/${team.id}`}>
-                  {hasSchedule ? (
-                    <Button variant="outline-warning wsd">Edit Schedule</Button>
-                  ) : (
-                    <Button variant="success wsd">Add Schedule</Button>
-                  )}
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link to={`/roster/${seasonid}/${team.id}`}>
-                  {hasRoster ? (
-                    <Button variant="outline-warning wsd">Edit Rosters</Button>
-                  ) : (
-                    <Button variant="success wsd">Add Rosters</Button>
-                  )}
-                </Link>
-                <Link to={`/schedule/${seasonid}/${team.id}`}>
-                  {hasSchedule ? (
-                    <Button variant="outline-warning wsd">
-                      Edit Schedules
-                    </Button>
-                  ) : (
-                    <Button variant="success wsd">Add Schedules</Button>
-                  )}
-                </Link>
-              </>
-            )}
+            <>
+              <Link to={`/roster/${seasonid}/${team.id}`}>
+                {hasRoster ? (
+                  <>
+                    {team.identicalRosters === false ? (
+                      <Button variant="outline-warning wsd">Edit Roster</Button>
+                    ) : (
+                      <Button variant="outline-warning wsd">
+                        Edit Rosters
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {team.identicalRosters === false ? (
+                      <Button variant="success wsd">Add Rosters</Button>
+                    ) : (
+                      <Button variant="success wsd">Add Roster</Button>
+                    )}
+                  </>
+                )}
+              </Link>
+              <Link to={`/schedule/${seasonid}/${team.id}`}>
+                {hasSchedule ? (
+                  <>
+                    {team.identicalSchedules === false ? (
+                      <Button variant="outline-warning wsd">
+                        Edit Schedule
+                      </Button>
+                    ) : (
+                      <Button variant="outline-warning wsd">
+                        Edit Scheduless
+                      </Button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {team.identicalSchedules === false ? (
+                      <Button variant="success wsd">Add Schedules</Button>
+                    ) : (
+                      <Button variant="success wsd">Add Schedule</Button>
+                    )}
+                  </>
+                )}
+              </Link>
+            </>
             <Button
               variant="outline-warning wsd"
               onClick={() => setshowTeamModal(true)}
