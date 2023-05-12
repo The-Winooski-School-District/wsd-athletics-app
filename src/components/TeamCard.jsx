@@ -389,7 +389,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
               Edit Team
             </Button>
             <Button
-              variant="outline-warning wsd"
+              variant="danger wsd"
               onClick={() => setshowMultiModal(true)}
             >
               TEST

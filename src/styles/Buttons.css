@@ -1,4 +1,8 @@
 /* Primary Button */
+.wsd {
+  padding-top: 4px !important;
+  padding-bottom: 5px !important;
+}
 
 .action-buttons .wsd.btn-primary,
 .wsd.btn-primary {

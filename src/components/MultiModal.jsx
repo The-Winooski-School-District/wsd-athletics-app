@@ -2,10 +2,12 @@ import React /* useRef, useState, useEffect */ from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
 const MultiModal = ({ team, showMultiModal, handleCloseMultiModal }) => {
+
   const handleMultiModalClose = () => {
     console.log(team);
     handleCloseMultiModal();
   };
+
   return (
     <div>
       <Modal show={showMultiModal} onHide={handleMultiModalClose}>
