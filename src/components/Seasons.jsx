@@ -111,7 +111,7 @@ const Seasons = () => {
       ...seasonInfo,
       id: id,
     };
-  
+
     const { year, season } = updatedSeasonInfo;
     yearSeasonChecker(year, season).then(
       ({ seasonExists, archivedSeasonExists }) => {
@@ -126,7 +126,7 @@ const Seasons = () => {
         } else {
           // Update the year_season field
           updatedSeasonInfo.year_season = `${year}_${season}`;
-  
+
           db.ref(`seasons/${id}`).set(updatedSeasonInfo, (error) => {
             if (error) {
               console.log("Error updating season information:", error);
@@ -144,7 +144,6 @@ const Seasons = () => {
       }
     );
   }
-  
 
   function handleSeasonArchive(event, id, index) {
     event.preventDefault();
@@ -234,7 +233,7 @@ const Seasons = () => {
               {sortedSeasons.map((season, index) => (
                 <React.Fragment key={season.id}>
                   <tr>
-                  <td>
+                    <td>
                       {editIndex === index ? (
                         <Form.Control
                           as="select"
@@ -264,7 +263,9 @@ const Seasons = () => {
                           required
                         />
                       ) : (
-                        <h4 className="column-title">{season.year + ` - ${parseInt(season.year) + 1}`}</h4>
+                        <h4 className="column-title">
+                          {season.year + ` - ${parseInt(season.year) + 1}`}
+                        </h4>
                       )}
                     </td>
                     <td className="last-col">

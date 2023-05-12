@@ -341,11 +341,11 @@ const TeamCard = ({ team, seasonid, archived }) => {
                 {hasRoster ? (
                   <>
                     {team.identicalRosters === false ? (
-                      <Button variant="outline-warning wsd">Edit Rosters</Button>
-                    ) : (
                       <Button variant="outline-warning wsd">
-                        Edit Roster
+                        Edit Rosters
                       </Button>
+                    ) : (
+                      <Button variant="outline-warning wsd">Edit Roster</Button>
                     )}
                   </>
                 ) : (
@@ -397,7 +397,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
           </>
         )}
       </div>
-      <MultiModal 
+      <MultiModal
         team={team}
         showMultiModal={showMultiModal}
         handleCloseMultiModal={() => setshowMultiModal(false)}

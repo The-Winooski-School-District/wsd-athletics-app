@@ -73,7 +73,7 @@ const AddTeam = ({ seasonid }) => {
           teamPageB: teamPageB,
           teamPicB: teamPicB,
           coachesA: coachesA,
-          coachesB: coachesB
+          coachesB: coachesB,
         },
       },
     };
@@ -99,7 +99,7 @@ const AddTeam = ({ seasonid }) => {
           teamPageB: teamPageB,
           teamPicB: teamPicB,
           coachesA: coachesA,
-          coachesB: coachesB
+          coachesB: coachesB,
         }; // create a new team object
         setTeams([...teams, newTeam]); // add the new team to the state
       }
@@ -108,14 +108,20 @@ const AddTeam = ({ seasonid }) => {
 
   return (
     <div>
-      <div className='add-team-btn'>
-        <Button variant='primary wsd' onClick={() => setshowTeamModal(true)}>
+      <div className="add-team-btn">
+        <Button variant="primary wsd" onClick={() => setshowTeamModal(true)}>
           Add Team
         </Button>
       </div>
-      <div className='teams-area'>
+      <div className="teams-area">
         {teams.map((team, index) => (
-          <TeamCard key={team.id} team={team} index={index} seasonid={seasonid} teams={teams} />
+          <TeamCard
+            key={team.id}
+            team={team}
+            index={index}
+            seasonid={seasonid}
+            teams={teams}
+          />
         ))}
         <TeamModal
           editing={false}

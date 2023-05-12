@@ -54,7 +54,8 @@
   text-align: left;
 }
 
-.team-pic, .team-page {
+.team-pic,
+.team-page {
   max-height: 50px !important;
   display: flex;
   flex-wrap: wrap;
@@ -104,7 +105,7 @@
 
 a.team-links {
   color: rgb(158, 184, 240) !important;
-  text-decoration: none!important;
+  text-decoration: none !important;
 }
 
 .coaches {
@@ -116,7 +117,7 @@ a.team-links {
 }
 
 .girls-team {
-  background-color: rgba(247, 69, 99, 0.386)
+  background-color: rgba(247, 69, 99, 0.386);
 }
 
 .other-team {

@@ -117,15 +117,15 @@ const Opponents = () => {
         <div className="opponents-title">
           <h2>Opponents</h2>
         </div>
-        
-          <CSVLink
-            data={csvData}
-            filename={"opponents.csv"}
-            target="_blank"
-            omit={["id"]}
-          >
-           <Button variant="danger wsd csv"> Export to CSV </Button>
-          </CSVLink>
+
+        <CSVLink
+          data={csvData}
+          filename={"opponents.csv"}
+          target="_blank"
+          omit={["id"]}
+        >
+          <Button variant="danger wsd csv"> Export to CSV </Button>
+        </CSVLink>
 
         <Form onSubmit={handleAddOpponent}>
           <Table striped bordered hover>

@@ -2,163 +2,156 @@
 
 .action-buttons .wsd.btn-primary,
 .wsd.btn-primary {
-    color: #fff !important;
-    background-color: #9c6900 !important;
-    border-color: #9c6900 !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #fff !important;
+  background-color: #9c6900 !important;
+  border-color: #9c6900 !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .action-buttons .wsd.btn-outline-primary,
 .wsd.btn-outline-primary {
-    color: #9c6900 !important;
-    border-color: #9c6900 !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #9c6900 !important;
+  border-color: #9c6900 !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .action-buttons .wsd.btn-primary:hover,
 .wsd.btn-primary:hover {
-    background-color: #7e5500 !important;
-    border-color: #7e5500 !important;
+  background-color: #7e5500 !important;
+  border-color: #7e5500 !important;
 }
 
 .action-buttons .wsd.btn-outline-primary:hover,
 .wsd.btn-outline-primary:hover {
-    color: #7e5500 !important;
-    border-color: #7e5500 !important;
+  color: #7e5500 !important;
+  border-color: #7e5500 !important;
 }
-
 
 /* Secondary Button */
 
 .action-buttons .wsd.btn-secondary,
 .wsd.btn-secondary,
 .wsd.btn-outline-secondary {
-    color: #fff !important;
-    background-color: #002e1a !important;
-    border-color: #002e1a !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #fff !important;
+  background-color: #002e1a !important;
+  border-color: #002e1a !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .action-buttons .wsd.btn-secondary:hover,
 .wsd.btn-secondary:hover,
 .wsd.btn-outline-secondary:hover {
-    background-color: #00220f !important;
-    border-color: #00220f !important;
+  background-color: #00220f !important;
+  border-color: #00220f !important;
 }
-
 
 /* Success Button */
 
 .wsd.btn-success,
 .wsd.btn-outline-success {
-    color: #fff !important;
-    background-color: #2a5c2a !important;
-    border-color: #2a5c2a !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #fff !important;
+  background-color: #2a5c2a !important;
+  border-color: #2a5c2a !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .wsd.btn-success:hover,
 .wsd.btn-outline-success:hover {
-    background-color: #214821 !important;
-    border-color: #214821 !important;
+  background-color: #214821 !important;
+  border-color: #214821 !important;
 }
-
 
 /* Danger Button */
 
 .action-buttons .wsd.btn-danger,
 .wsd.btn-danger,
 .wsd.btn-outline-danger {
-    color: #fff !important;
-    background-color: #8c1c1c !important;
-    border-color: #8c1c1c !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #fff !important;
+  background-color: #8c1c1c !important;
+  border-color: #8c1c1c !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .action-buttons .wsd.btn-danger:hover,
 .wsd.btn-danger:hover,
 .wsd.btn-outline-danger:hover {
-    background-color: #701717 !important;
-    border-color: #701717 !important;
+  background-color: #701717 !important;
+  border-color: #701717 !important;
 }
-
 
 /* Warning Button */
 
 .wsd.btn-warning {
-    color: #212529 !important;
-    background-color: #b88000 !important;
-    border-color: #b88000 !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #212529 !important;
+  background-color: #b88000 !important;
+  border-color: #b88000 !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .wsd.btn-outline-warning {
-    border-color: #e9a60b !important;
-    color: #e9a60b !important;
-    transition: background-color 0.2s ease-in-out !important;
+  border-color: #e9a60b !important;
+  color: #e9a60b !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .wsd.btn-warning:hover {
-    background-color: #a36c00 !important;
-    border-color: #a36c00 !important;
+  background-color: #a36c00 !important;
+  border-color: #a36c00 !important;
 }
 
 .wsd.btn-outline-warning:hover {
-    color: #fff !important;
-    background-color: #9c6900 !important;
-    border-color: #9c6900 !important;
+  color: #fff !important;
+  background-color: #9c6900 !important;
+  border-color: #9c6900 !important;
 }
-
 
 /* Info Button */
 
 .action-buttons .wsd.btn.btn-info,
 .wsd.btn.btn-info,
 .wsd.btn.btn-outline-info {
-    color: #fff !important;
-    background-color: #0d5564 !important;
-    border-color: #0d5564 !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #fff !important;
+  background-color: #0d5564 !important;
+  border-color: #0d5564 !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .action-buttons .wsd.btn-info:hover,
 .wsd.btn-info:hover,
 .wsd.btn-outline-info:hover {
-    color: #fff !important;
-    background-color: #0b4451 !important;
-    border-color: #0b4451 !important;
+  color: #fff !important;
+  background-color: #0b4451 !important;
+  border-color: #0b4451 !important;
 }
-
 
 /* Light Button */
 
 .wsd.btn-light,
 .wsd.btn-outline-light {
-    color: #212529 !important;
-    background-color: #c0c0c0 !important;
-    border-color: #c0c0c0 !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #212529 !important;
+  background-color: #c0c0c0 !important;
+  border-color: #c0c0c0 !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .wsd.btn-light:hover,
 .wsd.btn-outline-light:hover {
-    background-color: #a6a6a6 !important;
-    border-color: #a6a6a6 !important;
+  background-color: #a6a6a6 !important;
+  border-color: #a6a6a6 !important;
 }
-
 
 /* Dark Button */
 
 .wsd.btn-dark,
 .wsd.btn-outline-dark {
-    color: #fff !important;
-    background-color: #141414 !important;
-    border-color: #141414 !important;
-    transition: background-color 0.2s ease-in-out !important;
+  color: #fff !important;
+  background-color: #141414 !important;
+  border-color: #141414 !important;
+  transition: background-color 0.2s ease-in-out !important;
 }
 
 .wsd.btn-dark:hover,
 .wsd.btn-outline-dark:hover {
-    background-color: #0b0b0b !important;
-    border-color: #0b0b0b !important;
+  background-color: #0b0b0b !important;
+  border-color: #0b0b0b !important;
 }

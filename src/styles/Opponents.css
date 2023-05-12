@@ -1,97 +1,96 @@
 .opponents-title {
-    margin-bottom: 15px;
-    cursor: default;
-    display: flex;
-    align-items: center;
-    align-content: center;
-    justify-content: center;
+  margin-bottom: 15px;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
 
 .action-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.action-buttons>Button {
-    margin: 3px;
+.action-buttons > Button {
+  margin: 3px;
 }
 
 .title-button {
   margin-left: 20px;
 }
 
-tr>th,
-tr>td {
-    color: cornsilk !important;
+tr > th,
+tr > td {
+  color: cornsilk !important;
 }
 
-tr:hover>th,
-tr:hover>td {
-    color: white !important;
+tr:hover > th,
+tr:hover > td {
+  color: white !important;
 }
 
-tr>td {
-    font-weight: 600;
+tr > td {
+  font-weight: 600;
 }
 
 .navbuttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
-.navbuttons>.yellow {
-    margin: 5px;
+.navbuttons > .yellow {
+  margin: 5px;
 }
 
 .top-hr {
-    color: white;
-    opacity: 100%;
-    border-width: 2px;
+  color: white;
+  opacity: 100%;
+  border-width: 2px;
 }
 
 .oneline {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .drag-n-drop {
-    margin: 0 auto 20px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: green;
-    height: 100px;
-    width: 60%;
-    border: 3px dashed rgba(0, 0, 0, 0.603);
-    border-radius: 10px;
-    background-color: #1d341d83;
-    transition: background-color 0.3s ease-in-out;
-  }
+  margin: 0 auto 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: green;
+  height: 100px;
+  width: 60%;
+  border: 3px dashed rgba(0, 0, 0, 0.603);
+  border-radius: 10px;
+  background-color: #1d341d83;
+  transition: background-color 0.3s ease-in-out;
+}
 
-  .drag-n-drop:hover {
-    background-color: #17291786;
-  }
+.drag-n-drop:hover {
+  background-color: #17291786;
+}
 
-  h3 {
-    color: #bd8a13cc;
-    transition: color 0.3s ease-in-out;
-  }
+h3 {
+  color: #bd8a13cc;
+  transition: color 0.3s ease-in-out;
+}
 
-  .drag-n-drop:hover h3 {
-    color: #997010cc;
-  }
+.drag-n-drop:hover h3 {
+  color: #997010cc;
+}
 
+td > a {
+  color: rgb(158, 184, 240);
+  text-decoration: none;
+}
 
-  td > a {
-    color: rgb(158, 184, 240);
-    text-decoration: none;
-  }
+td > a:hover {
+  color: rgb(112, 145, 214);
+}
 
-  td > a:hover {
-    color: rgb(112, 145, 214);
-  }
-  
-  .csv {
-    margin-bottom: 20px;
-  }
+.csv {
+  margin-bottom: 20px;
+}
