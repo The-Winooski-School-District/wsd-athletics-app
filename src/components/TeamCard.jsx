@@ -70,14 +70,14 @@ const TeamCard = ({ team, seasonid, archived }) => {
       console.log(`No team found at index ${index}.`);
       return;
     }
-  
+
     const teamRef = db.ref(`seasons/${seasonid}/teams/${teamid}`);
     teamRef.once("value", (snapshot) => {
       const existingTeam = snapshot.val();
-  
+
       const updatedTeamInfo = { ...existingTeam, ...teamInfo };
       delete updatedTeamInfo.id; // Remove the ID property
-  
+
       // Check if the team already has a single team page, picture, or coach
       if (existingTeam.teamPage) {
         updatedTeamInfo.teamPageA = existingTeam.teamPage;
@@ -100,12 +100,12 @@ const TeamCard = ({ team, seasonid, archived }) => {
           updatedTeamInfo.coachesB = "";
         }
       }
-  
+
       // Remove original fields after setting new ones
       delete updatedTeamInfo.teamPage;
       delete updatedTeamInfo.teamPic;
       delete updatedTeamInfo.coaches;
-  
+
       if (teamInfo.delete) {
         // Remove the team from the database
         teamRef.remove((error) => {
@@ -130,7 +130,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
           updatedTeamInfo.identicalSchedules = true;
           updatedTeamInfo.identicalCoaches = true;
         }
-  
+
         // Update the team in the database
         delete updatedTeamInfo.delete; // Remove the delete property
         teamRef.update(updatedTeamInfo, (error) => {
@@ -151,7 +151,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
       }
     });
   }
-  
+
   function getTeamGender(abbr) {
     switch (abbr) {
       case "VFOO":
@@ -327,7 +327,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
               </p>
             </div>
           </Col>
-          {!team.identicalCoaches && (
+          {team.identicalCoaches === false && (
             <Col xs={4}>
               <div className="team-info coaches">
                 <p key={`${team.id}-coaches`}>
