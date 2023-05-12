@@ -1,44 +1,42 @@
 import React /* useRef, useState, useEffect */ from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-
 const MultiModal = ({ team, showMultiModal, handleCloseMultiModal }) => {
-    const handleMultiModalClose = () => {
-      console.log(team);
-      handleCloseMultiModal();
-    };
+  const handleMultiModalClose = () => {
+    console.log(team);
+    handleCloseMultiModal();
+  };
   return (
     <div>
       <Modal show={showMultiModal} onHide={handleMultiModalClose}>
         <Modal.Header closeButton>
-          <Modal.Title>
-            Which Team's {/*roster or schedule*/} is being modified?
-          </Modal.Title>
+          <Modal.Title>Team Split</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form.Group controlId="identicalRosters">
-            <Form.Label>Rosters identical?</Form.Label>
-    {/* THESE BOTH NEED REF= REFRENCES I THINK IDK */}
-            <div className="radio">
+          <Form.Group controlId="splitter">
+            <Form.Label className="multimodal-title">
+              Which Team's {/*roster or schedule*/} is being modified?
+            </Form.Label>
+
+            {/* THESE BOTH NEED REF= REFRENCES I THINK IDK */}
+            <div className="radio2">
               <Form.Check
                 inline
-                label="Varisty or A"
-                name="team1"
+                label={team.multi === "V&JV" ? "Varsity" : "A Team"}
+                name="splitter"
                 type="radio"
                 id="team1"
                 value={true}
-
-                onChange={console.log(team)}
+                onChange={console.log(team.multi)}
               />
               <Form.Check
                 inline
-                label="JV or B"
-                name="team2"
+                label={team.multi === "V&JV" ? "Junior Varsity" : "B Team"}
+                name="splitter"
                 type="radio"
                 id="team2"
                 value={false}
-
-                onChange={console.log(team)}
+                onChange={console.log(team.multi)}
               />
             </div>
           </Form.Group>

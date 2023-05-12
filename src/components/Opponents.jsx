@@ -46,7 +46,6 @@ const Opponents = () => {
   }
 
   function handleSave(opponentInfo, index) {
-    console.log("handleSave");
     const id = opponents[index].id;
     const updatedOpponentInfo = {
       ...opponents[index],

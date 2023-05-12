@@ -136,14 +136,21 @@ a.team-links {
   padding: 5px;
   border-radius: 5px;
   border: 1px solid rgb(209, 209, 209);
-  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
-
-
+.radio2 {
+  display: flex;
+  justify-content: space-around;
+  margin: auto auto 5px auto;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid rgb(209, 209, 209);
+  flex-direction: row;
+  align-items: center;
+}
 
 @media (max-width: 1501px) {
   .team-card {

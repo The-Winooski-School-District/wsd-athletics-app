@@ -513,7 +513,7 @@ const TeamModal = ({
                 checked={deleteChecked}
                 onChange={(event) => setDeleteChecked(event.target.checked)}
                 disabled={archived}
-                ok={console.log(coachesARef || coachesBRef)}
+                ok={console.log(!coachesARef || !coachesBRef)}
               />
             )}
           </Form.Group>

@@ -66,7 +66,6 @@ const TeamCard = ({ team, seasonid, archived }) => {
   }, [seasonid, team.id]);
 
   function handleTeamSave(teamInfo, index) {
-    console.log(teamInfo);
     const teamid = team.id;
     if (!teamid) {
       console.log(`No team found at index ${index}.`);
