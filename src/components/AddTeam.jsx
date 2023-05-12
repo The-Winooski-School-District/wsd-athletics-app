@@ -121,7 +121,7 @@ const AddTeam = ({ seasonid }) => {
           editing={false}
           showTeamModal={showTeamModal}
           handleAddTeam={handleAddTeam}
-          handleCloseModal={() => setshowTeamModal(false)}
+          handleCloseTeamModal={() => setshowTeamModal(false)}
         />
       </div>
     </div>

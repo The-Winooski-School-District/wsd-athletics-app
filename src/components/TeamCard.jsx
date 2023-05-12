@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TeamModal from "./TeamModal";
+import MultiModal from "./MultiModal";
 import { db } from "./Firebase";
 
 const TeamCard = ({ team, seasonid, archived }) => {
   const [showTeamModal, setshowTeamModal] = useState(false);
+  const [showMultiModal, setshowMultiModal] = useState(false);
   const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
   const [hasRoster, setHasRoster] = useState(false);
@@ -387,9 +389,20 @@ const TeamCard = ({ team, seasonid, archived }) => {
             >
               Edit Team
             </Button>
+            <Button
+              variant="outline-warning wsd"
+              onClick={() => setshowMultiModal(true)}
+            >
+              TEST
+            </Button>
           </>
         )}
       </div>
+      <MultiModal 
+        team={team}
+        showMultiModal={showMultiModal}
+        handleCloseMultiModal={() => setshowMultiModal(false)}
+      />
 
       <TeamModal
         team={team}
@@ -397,7 +410,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         archived={archived}
         showTeamModal={showTeamModal}
         handleTeamSave={handleTeamSave}
-        handleCloseModal={() => setshowTeamModal(false)}
+        handleCloseTeamModal={() => setshowTeamModal(false)}
       />
     </div>
   );

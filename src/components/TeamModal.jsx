@@ -6,7 +6,7 @@ const TeamModal = ({
   showTeamModal,
   handleAddTeam,
   handleTeamSave,
-  handleCloseModal,
+  handleCloseTeamModal,
   editing,
   archived,
 }) => {
@@ -80,7 +80,7 @@ const TeamModal = ({
   const coachesARef = useRef(null);
   const coachesBRef = useRef(null);
 
-  function handleModalClose(team, editing) {
+  function handleTeamModalClose(team, editing) {
     if (team && editing) {
       setTeamName(team.name);
       setSport(team.sport);
@@ -95,7 +95,7 @@ const TeamModal = ({
       setTeamPicB(team.teamPicB);
       setCoachesA(team.coachesA);
       setCoachesB(team.coachesB);
-      handleCloseModal();
+      handleCloseTeamModal();
     } else {
       setTeamName("");
       setSport("");
@@ -110,12 +110,12 @@ const TeamModal = ({
       setTeamPicB("");
       setCoachesA("");
       setCoachesB("");
-      handleCloseModal();
+      handleCloseTeamModal();
     }
   }
 
   return (
-    <Modal show={showTeamModal} onHide={handleModalClose}>
+    <Modal show={showTeamModal} onHide={handleTeamModalClose}>
       <Modal.Header closeButton>
         <Modal.Title>{editing ? "Edit Team" : "Add Team"}</Modal.Title>
       </Modal.Header>
@@ -134,7 +134,7 @@ const TeamModal = ({
             } else {
               handleAddTeam(teamName);
             }
-            handleModalClose();
+            handleTeamModalClose();
           }}
         >
           <Form.Group controlid="teamName">
@@ -519,7 +519,7 @@ const TeamModal = ({
           </Form.Group>
         </div>
         {archived ? (
-          <Button variant="secondary" onClick={handleModalClose}>
+          <Button variant="secondary" onClick={handleTeamModalClose}>
             Cancel
           </Button>
         ) : (
@@ -564,12 +564,12 @@ const TeamModal = ({
                     coachesB
                   );
                 }
-                handleModalClose();
+                handleTeamModalClose();
               }}
             >
               {editing ? (deleteChecked ? "Delete" : "Save") : "Add"}
             </Button>
-            <Button variant="secondary" onClick={handleModalClose}>
+            <Button variant="secondary" onClick={handleTeamModalClose}>
               Cancel
             </Button>
           </>
