@@ -340,10 +340,10 @@ const TeamCard = ({ team, seasonid, archived }) => {
                 {hasRoster ? (
                   <>
                     {team.identicalRosters === false ? (
-                      <Button variant="outline-warning wsd">Edit Roster</Button>
+                      <Button variant="outline-warning wsd">Edit Rosters</Button>
                     ) : (
                       <Button variant="outline-warning wsd">
-                        Edit Rosters
+                        Edit Roster
                       </Button>
                     )}
                   </>
@@ -362,11 +362,11 @@ const TeamCard = ({ team, seasonid, archived }) => {
                   <>
                     {team.identicalSchedules === false ? (
                       <Button variant="outline-warning wsd">
-                        Edit Schedule
+                        Edit Schedules
                       </Button>
                     ) : (
                       <Button variant="outline-warning wsd">
-                        Edit Scheduless
+                        Edit Schedule
                       </Button>
                     )}
                   </>
