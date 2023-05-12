@@ -70,14 +70,42 @@ const TeamCard = ({ team, seasonid, archived }) => {
       console.log(`No team found at index ${index}.`);
       return;
     }
-
+  
     const teamRef = db.ref(`seasons/${seasonid}/teams/${teamid}`);
     teamRef.once("value", (snapshot) => {
       const existingTeam = snapshot.val();
-
+  
       const updatedTeamInfo = { ...existingTeam, ...teamInfo };
       delete updatedTeamInfo.id; // Remove the ID property
-
+  
+      // Check if the team already has a single team page, picture, or coach
+      if (existingTeam.teamPage) {
+        updatedTeamInfo.teamPageA = existingTeam.teamPage;
+        teamRef.child("teamPage").remove();
+        if (!existingTeam.teamPageB) {
+          updatedTeamInfo.teamPageB = "";
+        }
+      }
+      if (existingTeam.teamPic) {
+        updatedTeamInfo.teamPicA = existingTeam.teamPic;
+        teamRef.child("teamPic").remove();
+        if (!existingTeam.teamPicB) {
+          updatedTeamInfo.teamPicB = "";
+        }
+      }
+      if (existingTeam.coaches) {
+        updatedTeamInfo.coachesA = existingTeam.coaches;
+        teamRef.child("coaches").remove();
+        if (!existingTeam.coachesB) {
+          updatedTeamInfo.coachesB = "";
+        }
+      }
+  
+      // Remove original fields after setting new ones
+      delete updatedTeamInfo.teamPage;
+      delete updatedTeamInfo.teamPic;
+      delete updatedTeamInfo.coaches;
+  
       if (teamInfo.delete) {
         // Remove the team from the database
         teamRef.remove((error) => {
@@ -95,14 +123,14 @@ const TeamCard = ({ team, seasonid, archived }) => {
       } else {
         // Set identical fields to true if multi is "Single Team" or ""
         if (
-          updatedTeamInfo.multi === "Single Team" ||
+          updatedTeamInfo.multi === "Single" ||
           updatedTeamInfo.multi === ""
         ) {
           updatedTeamInfo.identicalRosters = true;
           updatedTeamInfo.identicalSchedules = true;
           updatedTeamInfo.identicalCoaches = true;
         }
-
+  
         // Update the team in the database
         delete updatedTeamInfo.delete; // Remove the delete property
         teamRef.update(updatedTeamInfo, (error) => {
@@ -123,7 +151,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
       }
     });
   }
-
+  
   function getTeamGender(abbr) {
     switch (abbr) {
       case "VFOO":
