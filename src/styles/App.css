@@ -22,6 +22,7 @@ body::-webkit-scrollbar {
 .navbar {
   margin-bottom: 10px;
   background-color: #1d341d;
+  z-index: 1000;
 }
 
 .nav-link,
