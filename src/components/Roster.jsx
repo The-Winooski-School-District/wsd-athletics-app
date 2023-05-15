@@ -1,12 +1,12 @@
 import "../styles/Opponents.css";
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 import { CSVLink } from "react-csv";
 
 const Roster = () => {
-  const navigate = useNavigate();
+
   const [roster, setRoster] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [isArchived, setIsArchived] = useState(false);
@@ -23,9 +23,6 @@ const Roster = () => {
     position,
   }));
 
-  function handleGoBack() {
-    navigate(-1);
-  }
 
   function handleChange(event, index) {
     const { name, value } = event.target;
@@ -44,6 +41,16 @@ const Roster = () => {
     setValue(newValue);
   }
 
+    const isTrueUrl = window.location.href.endsWith("true");
+
+  // Set teamB based on the URL
+  const teamB = isTrueUrl ? true : false;
+
+  // Set the roster path based on teamB
+  const rosterPath = teamB
+    ? `${seasonid}/teams/${teamid}/roster-b`
+    : `${seasonid}/teams/${teamid}/roster`;
+
   useEffect(() => {
     db.ref(`seasons/${seasonid}`)
       .once("value")
@@ -56,7 +63,7 @@ const Roster = () => {
             setSeasonName(seasonName);
           }
 
-          db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).on(
+          db.ref(`seasons/` + rosterPath).on(
             "value",
             (snapshot) => {
               const rosterData = snapshot.val();
@@ -93,7 +100,7 @@ const Roster = () => {
               }
             });
 
-          db.ref(`archived-seasons/${seasonid}/teams/${teamid}/roster`).on(
+          db.ref(`archived-seasons/` + rosterPath).on(
             "value",
             (snapshot) => {
               const rosterData = snapshot.val();
@@ -120,7 +127,7 @@ const Roster = () => {
             });
         }
       });
-  }, [seasonid, teamid]);
+  }, [seasonid, teamid, rosterPath]);
 
   function handleAddplayer(event) {
     event.preventDefault();
@@ -130,7 +137,7 @@ const Roster = () => {
     const grade = event.target.elements.grade.value;
     const position = event.target.elements.position.value;
     const newplayer = { number, fName, lName, grade, position };
-    db.ref(`seasons/${seasonid}/teams/${teamid}/roster`).push(newplayer);
+    db.ref(`seasons/` + rosterPath).push(newplayer);
     event.target.reset();
     setValue(""); // reset the player.number field to its default value
   }
@@ -142,7 +149,7 @@ const Roster = () => {
   function handleSave(playerInfo, index) {
     const id = playerInfo.id;
     const updatedPlayerInfo = { ...roster[index], ...playerInfo, id: id };
-    db.ref(`seasons/${seasonid}/teams/${teamid}/roster/${id}`).set(
+    db.ref(`seasons/` + rosterPath + `/${id}`).set(
       updatedPlayerInfo,
       (error) => {
         if (error) {
@@ -188,11 +195,6 @@ const Roster = () => {
         </Link>
         <Link to="/opponents" className="yellow">
           <Button variant="outline-warning wsd">Opponents</Button>
-        </Link>
-        <Link className="yellow">
-          <Button variant="outline-danger wsd" onClick={handleGoBack}>
-            Go Back
-          </Button>
         </Link>
       </div>
       <hr className="top-hr" />

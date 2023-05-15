@@ -46,19 +46,30 @@ const TeamCard = ({ team, seasonid, archived }) => {
       }
     });
 
-    const rosterRef = db.ref(`seasons/${seasonid}/teams/${team.id}/roster/`);
-    rosterRef.once("value", (snapshot) => {
+    const rosterRef = db.ref(`seasons/${seasonid}/teams/${team.id}`);
+
+    rosterRef.child("roster").once("value", (snapshot) => {
       const hasRoster = snapshot.exists();
       setHasRoster(hasRoster);
     });
+    
+    rosterRef.child("roster-b").once("value", (snapshot) => {
+      const hasRosterB = snapshot.exists();
+      setHasRoster((prevHasRoster) => prevHasRoster || hasRosterB);
+    });    
 
-    const scheduleRef = db.ref(
-      `seasons/${seasonid}/teams/${team.id}/schedule/`
-    );
-    scheduleRef.once("value", (snapshot) => {
+    const scheduleRef = db.ref(`seasons/${seasonid}/teams/${team.id}`);
+
+    scheduleRef.child("schedule").once("value", (snapshot) => {
       const hasSchedule = snapshot.exists();
       setHasSchedule(hasSchedule);
     });
+    
+    scheduleRef.child("schedule-b").once("value", (snapshot) => {
+      const hasScheduleB = snapshot.exists();
+      setHasSchedule((prevHasSchedule) => prevHasSchedule || hasScheduleB);
+    });
+    
 
     return () => {
       teamsRef.off();
@@ -412,7 +423,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                     </Button>
                   ) : (
                     <Link to={`/schedule/${seasonid}/${team.id}`}>
-                      <Button variant="outline-warning wsd">
+                      <Button variant="success wsd">
                         Add Schedule
                       </Button>
                     </Link>

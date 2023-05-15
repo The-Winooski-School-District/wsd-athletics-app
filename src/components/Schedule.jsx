@@ -1,12 +1,11 @@
 import "../styles/Opponents.css";
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 import { CSVLink } from "react-csv";
 
 const Schedule = () => {
-  const navigate = useNavigate();
   const [schedule, setSchedule] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [isArchived, setIsArchived] = useState(false);
@@ -23,10 +22,6 @@ const Schedule = () => {
     score,
   }));
 
-  function handleGoBack() {
-    navigate(-1);
-  }
-
   function handleChange(event, index) {
     const { name, value } = event.target;
     const updatedSchedule = [...schedule];
@@ -34,6 +29,16 @@ const Schedule = () => {
     updatedSchedule[index] = updatedOpponentInfo;
     setSchedule(updatedSchedule);
   }
+
+  const isTrueUrl = window.location.href.endsWith("true");
+
+  // Set teamB based on the URL
+  const teamB = isTrueUrl ? true : false;
+
+  // Set the roster path based on teamB
+  const schedulePath = teamB
+    ? `/${seasonid}/teams/${teamid}/schedule-b`
+    : `/${seasonid}/teams/${teamid}/schedule`;
 
   useEffect(() => {
     db.ref(`seasons/${seasonid}`)
@@ -47,7 +52,7 @@ const Schedule = () => {
             setSeasonName(seasonName);
           }
 
-          db.ref(`seasons/${seasonid}/teams/${teamid}/schedule`).on(
+          db.ref(`seasons/` + schedulePath).on(
             "value",
             (snapshot) => {
               const scheduleData = snapshot.val();
@@ -84,7 +89,7 @@ const Schedule = () => {
               }
             });
 
-          db.ref(`archived-seasons/${seasonid}/teams/${teamid}/schedule`).on(
+          db.ref(`archived-seasons/` + schedulePath).on(
             "value",
             (snapshot) => {
               const scheduleData = snapshot.val();
@@ -122,7 +127,7 @@ const Schedule = () => {
         setOpponents([]);
       }
     });
-  }, [seasonid, teamid]);
+  }, [seasonid, teamid, schedulePath]);
 
   function handleEdit(index) {
     setEditIndex(index);
@@ -131,7 +136,7 @@ const Schedule = () => {
   function handleSave(gameInfo, index) {
     const id = gameInfo.id;
     const updatedGameInfo = { ...schedule[index], ...gameInfo, id: id };
-    db.ref(`seasons/${seasonid}/teams/${teamid}/schedule/${id}`).set(
+    db.ref(`seasons/` + schedulePath + `/${id}`).set(
       updatedGameInfo,
       (error) => {
         if (error) {
@@ -170,7 +175,7 @@ const Schedule = () => {
     const time = event.target.elements.time.value;
     const score = event.target.elements.score.value;
     const newGame = { date, opponent, location, time, score };
-    db.ref(`seasons/${seasonid}/teams/${teamid}/schedule`).push(newGame);
+    db.ref(`seasons/` + schedulePath).push(newGame);
     event.target.reset();
   }
 
@@ -201,11 +206,6 @@ const Schedule = () => {
         </Link>
         <Link to="/opponents" className="yellow">
           <Button variant="outline-warning wsd">Opponents</Button>
-        </Link>
-        <Link className="yellow">
-          <Button variant="outline-danger wsd" onClick={handleGoBack}>
-            Go Back
-          </Button>
         </Link>
       </div>
       <hr className="top-hr" />

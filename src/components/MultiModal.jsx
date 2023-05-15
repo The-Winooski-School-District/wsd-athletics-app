@@ -1,4 +1,4 @@
-import React /* useRef, useState, useEffect */ from "react";
+import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
@@ -10,10 +10,30 @@ const MultiModal = ({
   teamid,
   handleCloseMultiModal,
 }) => {
+  const [teamB, setTeamB] = useState(false); // Initialize teamB state as false
+  const [radioSelected, setRadioSelected] = useState(false); // Initialize radioSelected state as false
+
+  const handleRadioChange = (e) => {
+    const selectedTeam = e.target.id;
+    setTeamB(selectedTeam === "team2"); // Update teamB state based on the selected radio button
+    setRadioSelected(true); // Set radioSelected to true when a radio button is selected
+  };
+
   const handleMultiModalClose = () => {
-    console.log(team);
     handleCloseMultiModal();
   };
+
+  const goButtonClickHandler = () => {
+    if (radioSelected) {
+      handleMultiModalClose();
+    }
+  };
+
+  const linkTo = radioSelected
+    ? rosterButtonClicked
+      ? `/roster/${seasonid}/${teamid}?teamB=${teamB}`
+      : `/schedule/${seasonid}/${teamid}?teamB=${teamB}`
+    : "#";
 
   return (
     <div>
@@ -24,11 +44,8 @@ const MultiModal = ({
         <Modal.Body>
           <Form.Group controlId="splitter">
             <Form.Label className="multimodal-title">
-              Which Team's {rosterButtonClicked ? "Roster" : "Schedule"} is
-              being modified?
+              Which Team's {rosterButtonClicked ? "Roster" : "Schedule"} is being modified?
             </Form.Label>
-
-            {/* THESE BOTH NEED REF= REFRENCES I THINK IDK */}
             <div className="radio2">
               <Form.Check
                 inline
@@ -36,8 +53,7 @@ const MultiModal = ({
                 name="splitter"
                 type="radio"
                 id="team1"
-                value={true}
-                onChange={console.log(team.multi)}
+                onChange={handleRadioChange}
               />
               <Form.Check
                 inline
@@ -45,26 +61,14 @@ const MultiModal = ({
                 name="splitter"
                 type="radio"
                 id="team2"
-                value={false}
-                onChange={console.log(team.multi)}
+                onChange={handleRadioChange}
               />
             </div>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Link
-            to={
-              rosterButtonClicked
-                ? `/roster/${seasonid}/${teamid}`
-                : `/schedule/${seasonid}/${teamid}`
-            }
-          >
-            <Button
-              variant="success"
-              onClick={() => {
-                handleMultiModalClose();
-              }}
-            >
+          <Link to={linkTo}>
+            <Button variant="success" onClick={goButtonClickHandler} disabled={!radioSelected}>
               Go
             </Button>
           </Link>
