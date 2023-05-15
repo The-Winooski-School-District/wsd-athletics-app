@@ -1,8 +1,15 @@
 import React /* useRef, useState, useEffect */ from "react";
 import { Modal, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-const MultiModal = ({ team, showMultiModal, handleCloseMultiModal }) => {
-
+const MultiModal = ({
+  team,
+  rosterButtonClicked,
+  showMultiModal,
+  seasonid,
+  teamid,
+  handleCloseMultiModal,
+}) => {
   const handleMultiModalClose = () => {
     console.log(team);
     handleCloseMultiModal();
@@ -17,7 +24,8 @@ const MultiModal = ({ team, showMultiModal, handleCloseMultiModal }) => {
         <Modal.Body>
           <Form.Group controlId="splitter">
             <Form.Label className="multimodal-title">
-              Which Team's {/*roster or schedule*/} is being modified?
+              Which Team's {rosterButtonClicked ? "Roster" : "Schedule"} is
+              being modified?
             </Form.Label>
 
             {/* THESE BOTH NEED REF= REFRENCES I THINK IDK */}
@@ -44,7 +52,22 @@ const MultiModal = ({ team, showMultiModal, handleCloseMultiModal }) => {
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success">Go</Button>
+          <Link
+            to={
+              rosterButtonClicked
+                ? `/roster/${seasonid}/${teamid}`
+                : `/schedule/${seasonid}/${teamid}`
+            }
+          >
+            <Button
+              variant="success"
+              onClick={() => {
+                handleMultiModalClose();
+              }}
+            >
+              Go
+            </Button>
+          </Link>
           <Button variant="secondary" onClick={handleCloseMultiModal}>
             Close
           </Button>

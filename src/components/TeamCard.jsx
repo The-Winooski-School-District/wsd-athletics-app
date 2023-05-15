@@ -13,6 +13,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
   const [teams, setTeams] = useState([]);
   const [hasRoster, setHasRoster] = useState(false);
   const [hasSchedule, setHasSchedule] = useState(false);
+  const [rosterButtonClicked, setRosterButtonClicked] = useState(false);
+
+
 
   // I... don't know where this variable is used, but if I remove it above, it breaks everything. :D
   if (!season) {
@@ -337,50 +340,85 @@ const TeamCard = ({ team, seasonid, archived }) => {
         ) : (
           <>
             <>
-              <Link to={`/roster/${seasonid}/${team.id}`}>
-                {hasRoster ? (
-                  <>
-                    {team.identicalRosters === false ? (
-                      <Button variant="outline-warning wsd">
-                        Edit Rosters
-                      </Button>
-                    ) : (
+              {hasRoster ? (
+                <>
+                  {team.identicalRosters === false ? (
+                    <Button
+                      variant="outline-warning wsd"
+                      onClick={() => {
+                        setshowMultiModal(true);
+                        setRosterButtonClicked(true);
+                      }}
+                    >
+                      Edit Rosters
+                    </Button>
+                  ) : (
+                    <Link to={`/roster/${seasonid}/${team.id}`}>
                       <Button variant="outline-warning wsd">Edit Roster</Button>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {team.identicalRosters === false ? (
-                      <Button variant="success wsd">Add Rosters</Button>
-                    ) : (
+                    </Link>
+                  )}
+                </>
+              ) : (
+                <>
+                  {team.identicalRosters === false ? (
+                    <Button
+                      variant="success wsd"
+                      onClick={() => {
+                        setshowMultiModal(true);
+                        setRosterButtonClicked(true);
+                      }}
+                    >
+                      Add Rosters
+                    </Button>
+                  ) : (
+                    <Link to={`/roster/${seasonid}/${team.id}`}>
                       <Button variant="success wsd">Add Roster</Button>
-                    )}
-                  </>
-                )}
-              </Link>
-              <Link to={`/schedule/${seasonid}/${team.id}`}>
-                {hasSchedule ? (
-                  <>
-                    {team.identicalSchedules === false ? (
-                      <Button variant="outline-warning wsd">
-                        Edit Schedules
-                      </Button>
-                    ) : (
+                    </Link>
+                  )}
+                </>
+              )}
+
+              {hasSchedule ? (
+                <>
+                  {team.identicalSchedules === false ? (
+                    <Button
+                      variant="outline-warning wsd"
+                      onClick={() => {
+                        setshowMultiModal(true);
+                        setRosterButtonClicked(false);
+                      }}
+                    >
+                      Edit Schedules
+                    </Button>
+                  ) : (
+                    <Link to={`/schedule/${seasonid}/${team.id}`}>
                       <Button variant="outline-warning wsd">
                         Edit Schedule
                       </Button>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {team.identicalSchedules === false ? (
-                      <Button variant="success wsd">Add Schedules</Button>
-                    ) : (
-                      <Button variant="success wsd">Add Schedule</Button>
-                    )}
-                  </>
-                )}
-              </Link>
+                    </Link>
+                  )}
+                </>
+              ) : (
+                <>
+                  {team.identicalSchedules === false ? (
+                    <Button
+                      variant="success wsd"
+                      onClick={() => {
+                        setshowMultiModal(true);
+                        setRosterButtonClicked(false);
+                      }}
+                    >
+                      Add Schedules
+                    </Button>
+                  ) : (
+                    <Link to={`/schedule/${seasonid}/${team.id}`}>
+                      <Button variant="outline-warning wsd">
+                        Add Schedule
+                      </Button>
+                    </Link>
+                  )}
+                </>
+              )}
             </>
             <Button
               variant="outline-warning wsd"
@@ -388,16 +426,13 @@ const TeamCard = ({ team, seasonid, archived }) => {
             >
               Edit Team
             </Button>
-            <Button
-              variant="danger wsd"
-              onClick={() => setshowMultiModal(true)}
-            >
-              TEST
-            </Button>
           </>
         )}
       </div>
       <MultiModal
+        seasonid={seasonid}
+        teamid={team.id}
+        rosterButtonClicked={rosterButtonClicked}
         team={team}
         showMultiModal={showMultiModal}
         handleCloseMultiModal={() => setshowMultiModal(false)}

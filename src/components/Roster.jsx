@@ -203,7 +203,8 @@ const Roster = () => {
             <Button variant="info title-button wsd">View Schedule</Button>
           </Link>
         </div>
-        <Button variant="primary wsd csv import-export"> Import CSV </Button>
+        {isArchived ? null : <Button variant="primary wsd csv import-export"> Import CSV </Button>}
+        
         <CSVLink
           data={csvData}
           filename={"roster.csv"}
