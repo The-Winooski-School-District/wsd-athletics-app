@@ -13,6 +13,8 @@ const Schedule = () => {
   const [opponents, setOpponents] = useState([]);
   const { teamid, seasonid } = useParams();
   const [teamName, setTeamName] = useState("");
+  const [teamMulti, setTeamMulti] = useState("");
+  const [teamSchedulesIdentical, setTeamSchedulesIdentical] = useState("");
   const [seasonName, setSeasonName] = useState("");
   const [loadedData, setLoadedData] = useState([]);
 
@@ -72,8 +74,12 @@ const Schedule = () => {
               const teamData = snapshot.val();
               if (teamData) {
                 const teamName = teamData.name;
+                const teamMulti = teamData.multi;
+                const schedulesIdentical = teamData.identicalSchedules;
                 // Set the team's name in state
                 setTeamName(teamName);
+                setTeamMulti(teamMulti);
+                setTeamSchedulesIdentical(schedulesIdentical);
               }
             });
         } else {
@@ -106,8 +112,12 @@ const Schedule = () => {
               const teamData = snapshot.val();
               if (teamData) {
                 const teamName = teamData.name;
+                const teamMulti = teamData.multi;
+                const schedulesIdentical = teamData.identicalSchedules;
                 // Set the team's name in state
                 setTeamName(teamName);
+                setTeamMulti(teamMulti);
+                setTeamSchedulesIdentical(schedulesIdentical);
               }
             });
         }
@@ -245,8 +255,26 @@ const Schedule = () => {
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
-          <h2>{seasonName + " - " + teamName} Schedule</h2>
-          <Link to={`/roster/${seasonid}/${teamid}`}>
+          <Link to={`/schedule/${seasonid}/${teamid}?teamB=${!teamB}`}>
+            <Button variant="info title-button wsd">Switch Teams</Button>
+          </Link>
+          <h2>
+            {teamSchedulesIdentical
+              ? `${seasonName} - ${teamName}`
+              : `${seasonName} - ${teamName} ${
+                  teamMulti === "V&JV"
+                    ? teamB
+                      ? " - Junior Varsity"
+                      : " - Varsity"
+                    : teamMulti === "A&B"
+                    ? teamB
+                      ? " - B Team"
+                      : " - A Team"
+                    : ""
+                } Schedule`}
+          </h2>
+
+          <Link to={`/roster/${seasonid}/${teamid}?teamB=${teamB}`}>
             <Button variant="info title-button wsd">View Roster</Button>
           </Link>
         </div>
