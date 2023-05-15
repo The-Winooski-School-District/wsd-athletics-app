@@ -4,9 +4,9 @@ import { Link, useParams } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 import { CSVLink } from "react-csv";
+import CSVReader from "react-csv-reader";
 
 const Roster = () => {
-
   const [roster, setRoster] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [isArchived, setIsArchived] = useState(false);
@@ -14,6 +14,7 @@ const Roster = () => {
   const [value, setValue] = useState("");
   const [teamName, setTeamName] = useState("");
   const [seasonName, setSeasonName] = useState("");
+  const [loadedData, setLoadedData] = useState([]);
 
   const csvData = roster.map(({ number, fName, lName, grade, position }) => ({
     number,
@@ -22,7 +23,6 @@ const Roster = () => {
     grade,
     position,
   }));
-
 
   function handleChange(event, index) {
     const { name, value } = event.target;
@@ -41,7 +41,7 @@ const Roster = () => {
     setValue(newValue);
   }
 
-    const isTrueUrl = window.location.href.endsWith("true");
+  const isTrueUrl = window.location.href.endsWith("true");
 
   // Set teamB based on the URL
   const teamB = isTrueUrl ? true : false;
@@ -63,20 +63,17 @@ const Roster = () => {
             setSeasonName(seasonName);
           }
 
-          db.ref(`seasons/` + rosterPath).on(
-            "value",
-            (snapshot) => {
-              const rosterData = snapshot.val();
-              if (rosterData) {
-                const rosterList = Object.keys(rosterData).map((key) => {
-                  return { id: key, ...rosterData[key] };
-                });
-                setRoster(rosterList);
-              } else {
-                setRoster([]);
-              }
+          db.ref(`seasons/` + rosterPath).on("value", (snapshot) => {
+            const rosterData = snapshot.val();
+            if (rosterData) {
+              const rosterList = Object.keys(rosterData).map((key) => {
+                return { id: key, ...rosterData[key] };
+              });
+              setRoster(rosterList);
+            } else {
+              setRoster([]);
             }
-          );
+          });
 
           db.ref(`seasons/${seasonid}/teams/${teamid}`)
             .once("value")
@@ -100,20 +97,17 @@ const Roster = () => {
               }
             });
 
-          db.ref(`archived-seasons/` + rosterPath).on(
-            "value",
-            (snapshot) => {
-              const rosterData = snapshot.val();
-              if (rosterData) {
-                const rosterList = Object.keys(rosterData).map((key) => {
-                  return { id: key, ...rosterData[key] };
-                });
-                setRoster(rosterList);
-              } else {
-                setRoster([]);
-              }
+          db.ref(`archived-seasons/` + rosterPath).on("value", (snapshot) => {
+            const rosterData = snapshot.val();
+            if (rosterData) {
+              const rosterList = Object.keys(rosterData).map((key) => {
+                return { id: key, ...rosterData[key] };
+              });
+              setRoster(rosterList);
+            } else {
+              setRoster([]);
             }
-          );
+          });
 
           db.ref(`archived-seasons/${seasonid}/teams/${teamid}`)
             .once("value")
@@ -181,6 +175,44 @@ const Roster = () => {
     setEditIndex(null);
   }
 
+  const handleFileLoaded = (data, fileInfo) => {
+    const newRoster = data.map((row) => ({
+      number: row.Number,
+      fName: row.fName,
+      lName: row.lName,
+      grade: row.Grade,
+      position: row.Position,
+    }));
+    const uniqueNewRoster = newRoster.filter((newPlayer) => {
+      let found = false;
+      for (let i = 0; i < loadedData.length; i++) {
+        const loadedPlayer = loadedData[i];
+        if (
+          loadedPlayer &&
+          newPlayer.number === loadedPlayer.number &&
+          newPlayer.fName === loadedPlayer.fName &&
+          newPlayer.lName === loadedPlayer.lName &&
+          newPlayer.grade === loadedPlayer.grade &&
+          newPlayer.position === loadedPlayer.position
+        ) {
+          found = true;
+          break;
+        }
+      }
+      return !found;
+    });
+    if (uniqueNewRoster.length === 0) {
+      alert("The file you uploaded contains only duplicates.");
+    } else {
+      const phonebookRef = db.ref("z_test-phonebook");
+      uniqueNewRoster.forEach((newPlayer) => {
+        phonebookRef.push(newPlayer);
+      });
+      setRoster([...roster, ...uniqueNewRoster]);
+      setLoadedData([...loadedData, ...uniqueNewRoster]);
+    }
+  };
+
   return (
     <div className="Container">
       <Link to="/" className="yellow">
@@ -205,16 +237,40 @@ const Roster = () => {
             <Button variant="info title-button wsd">View Schedule</Button>
           </Link>
         </div>
-        {isArchived ? null : <Button variant="primary wsd csv import-export"> Import CSV </Button>}
-        
-        <CSVLink
-          data={csvData}
-          filename={"roster.csv"}
-          target="_blank"
-          omit={["id"]}
-        >
-          <Button variant="danger wsd csv import-export"> Export CSV </Button>
-        </CSVLink>
+        <div className="import-export-container">
+          {isArchived ? null : (
+            <>
+              <Button
+                variant="primary wsd csv import-export"
+                onClick={() => {
+                  if (document.getElementById("react-csv-reader-input"))
+                    document.getElementById("react-csv-reader-input").click();
+                }}
+              >
+                Import CSV
+              </Button>
+
+              <CSVReader
+                onFileLoaded={handleFileLoaded}
+                inputStyle={{ display: "none" }}
+                parserOptions={{
+                  header: true,
+                  dynamicTyping: true,
+                  skipEmptyLines: true,
+                }}
+              />
+            </>
+          )}
+
+          <CSVLink
+            data={csvData}
+            filename={"roster.csv"}
+            target="_blank"
+            omit={["id"]}
+          >
+            <Button variant="danger wsd csv import-export"> Export CSV </Button>
+          </CSVLink>
+        </div>
         <Form onSubmit={handleAddplayer}>
           <Table striped bordered hover>
             <thead>
