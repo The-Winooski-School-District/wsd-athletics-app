@@ -177,11 +177,11 @@ const Roster = () => {
 
   const handleFileLoaded = (data, fileInfo) => {
     const newRoster = data.map((row) => ({
-      number: row.Number,
+      number: row.number,
       fName: row.fName,
       lName: row.lName,
-      grade: row.Grade,
-      position: row.Position,
+      grade: row.grade,
+      position: row.position,
     }));
     const uniqueNewRoster = newRoster.filter((newPlayer) => {
       let found = false;
@@ -204,9 +204,9 @@ const Roster = () => {
     if (uniqueNewRoster.length === 0) {
       alert("The file you uploaded contains only duplicates.");
     } else {
-      const phonebookRef = db.ref("z_test-phonebook");
+      const rosterRef = db.ref(`seasons/` + rosterPath);
       uniqueNewRoster.forEach((newPlayer) => {
-        phonebookRef.push(newPlayer);
+        rosterRef.push(newPlayer);
       });
       setRoster([...roster, ...uniqueNewRoster]);
       setLoadedData([...loadedData, ...uniqueNewRoster]);

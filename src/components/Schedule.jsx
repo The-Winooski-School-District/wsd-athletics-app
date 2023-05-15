@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 import { CSVLink } from "react-csv";
+import CSVReader from "react-csv-reader";
 
 const Schedule = () => {
   const [schedule, setSchedule] = useState([]);
@@ -13,6 +14,7 @@ const Schedule = () => {
   const { teamid, seasonid } = useParams();
   const [teamName, setTeamName] = useState("");
   const [seasonName, setSeasonName] = useState("");
+  const [loadedData, setLoadedData] = useState([]);
 
   const csvData = schedule.map(({ date, opponent, location, time, score }) => ({
     date,
@@ -52,20 +54,17 @@ const Schedule = () => {
             setSeasonName(seasonName);
           }
 
-          db.ref(`seasons/` + schedulePath).on(
-            "value",
-            (snapshot) => {
-              const scheduleData = snapshot.val();
-              if (scheduleData) {
-                const scheduleList = Object.keys(scheduleData).map((key) => {
-                  return { id: key, ...scheduleData[key] };
-                });
-                setSchedule(scheduleList);
-              } else {
-                setSchedule([]);
-              }
+          db.ref(`seasons/` + schedulePath).on("value", (snapshot) => {
+            const scheduleData = snapshot.val();
+            if (scheduleData) {
+              const scheduleList = Object.keys(scheduleData).map((key) => {
+                return { id: key, ...scheduleData[key] };
+              });
+              setSchedule(scheduleList);
+            } else {
+              setSchedule([]);
             }
-          );
+          });
 
           db.ref(`seasons/${seasonid}/teams/${teamid}`)
             .once("value")
@@ -89,20 +88,17 @@ const Schedule = () => {
               }
             });
 
-          db.ref(`archived-seasons/` + schedulePath).on(
-            "value",
-            (snapshot) => {
-              const scheduleData = snapshot.val();
-              if (scheduleData) {
-                const scheduleList = Object.keys(scheduleData).map((key) => {
-                  return { id: key, ...scheduleData[key] };
-                });
-                setSchedule(scheduleList);
-              } else {
-                setSchedule([]);
-              }
+          db.ref(`archived-seasons/` + schedulePath).on("value", (snapshot) => {
+            const scheduleData = snapshot.val();
+            if (scheduleData) {
+              const scheduleList = Object.keys(scheduleData).map((key) => {
+                return { id: key, ...scheduleData[key] };
+              });
+              setSchedule(scheduleList);
+            } else {
+              setSchedule([]);
             }
-          );
+          });
 
           db.ref(`archived-seasons/${seasonid}/teams/${teamid}`)
             .once("value")
@@ -191,6 +187,44 @@ const Schedule = () => {
     return `${month} - ${day} - ${year}`;
   }
 
+  const handleFileLoaded = (data, fileInfo) => {
+    const newSchedule = data.map((row) => ({
+      date: row.date,
+      opponent: row.opponent,
+      location: row.location,
+      time: row.time,
+      score: row.score,
+    }));
+    const uniqueNewSchedule = newSchedule.filter((newGame) => {
+      let found = false;
+      for (let i = 0; i < loadedData.length; i++) {
+        const loadedGame = loadedData[i];
+        if (
+          loadedGame &&
+          newGame.date === loadedGame.date &&
+          newGame.opponent === loadedGame.opponent &&
+          newGame.location === loadedGame.location &&
+          newGame.time === loadedGame.time &&
+          newGame.score === loadedGame.score
+        ) {
+          found = true;
+          break;
+        }
+      }
+      return !found;
+    });
+    if (uniqueNewSchedule.length === 0) {
+      alert("The file you uploaded contains only duplicates.");
+    } else {
+      const scheduleRef = db.ref(`seasons/` + schedulePath);
+      uniqueNewSchedule.forEach((newGame) => {
+        scheduleRef.push(newGame);
+      });
+      setSchedule([...schedule, ...uniqueNewSchedule]);
+      setLoadedData([...loadedData, ...uniqueNewSchedule]);
+    }
+  };
+
   return (
     <div className="Container">
       <Link to="/" className="yellow">
@@ -216,15 +250,39 @@ const Schedule = () => {
             <Button variant="info title-button wsd">View Roster</Button>
           </Link>
         </div>
-        {isArchived ? null : <Button variant="primary wsd csv import-export"> Import CSV </Button>}
-        <CSVLink
-          data={csvData}
-          filename={"schedule.csv"}
-          target="_blank"
-          omit={["id"]}
-        >
-          <Button variant="danger wsd csv"> Export to CSV </Button>
-        </CSVLink>
+        <div className="import-export-container">
+          {isArchived ? null : (
+            <>
+              <Button
+                variant="primary wsd csv import-export"
+                onClick={() => {
+                  if (document.getElementById("react-csv-reader-input"))
+                    document.getElementById("react-csv-reader-input").click();
+                }}
+              >
+                Import CSV
+              </Button>
+
+              <CSVReader
+                onFileLoaded={handleFileLoaded}
+                inputStyle={{ display: "none" }}
+                parserOptions={{
+                  header: true,
+                  dynamicTyping: true,
+                  skipEmptyLines: true,
+                }}
+              />
+            </>
+          )}
+          <CSVLink
+            data={csvData}
+            filename={"schedule.csv"}
+            target="_blank"
+            omit={["id"]}
+          >
+            <Button variant="danger wsd csv"> Export to CSV </Button>
+          </CSVLink>
+        </div>
         <Form onSubmit={handleAddGame}>
           <Table striped bordered hover>
             <thead>
