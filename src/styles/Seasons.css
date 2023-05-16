@@ -53,6 +53,10 @@ tr > td {
   margin: 23px 0 0 0;
 }
 
+.modal-hr2 {
+  margin: 20px 0 15px 0 !important;
+}
+
 .season-adder {
   margin: 20px 20px 40px 20px;
   padding: auto;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Form, Button, Row, Col } from "react-bootstrap";
+import { Modal, Form, Button, Row } from "react-bootstrap";
 
 const CoachesModal = ({
   seasonid,
@@ -20,14 +20,19 @@ const CoachesModal = ({
     setCoach(event.target.value);
   };
 
-  const handleAddRow = () => {
+  const handleAddRow = (type) => {
     const newRow = {
       position,
       coach,
+      type,
     };
     setAddedRows((prevRows) => [...prevRows, newRow]);
     setPosition("");
     setCoach("");
+  };
+
+  const handleRemoveRow = (index) => {
+    setAddedRows((prevRows) => prevRows.filter((_, i) => i !== index));
   };
 
   const handleCoachesModalClose = () => {
@@ -50,18 +55,6 @@ const CoachesModal = ({
                 ? `${team.name} Varsity Team Coaches`
                 : `${team.name} Junior Varsity Coaches`
               : ""}
-
-            {/*team.identicalCoaches === true
-              ? `${team.name} Coaches`
-              : team.multi === "A&B"
-              ? showCoachesModal.type === "first"
-                ? <><p>{team.name}</p><p>A Team Coaches</p></>
-                : <><p>{team.name}</p><p>B Team Coaches</p></>
-              : team.multi === "V&JV"
-              ? showCoachesModal.type === "first"
-                ? <><p>{team.name}</p><p>Varsity Team Coaches</p></>
-                : <><p>{team.name}</p><p>Junior Varsity Coaches</p></>
-            : ""*/}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -84,9 +77,9 @@ const CoachesModal = ({
                   <option value="" disabled>
                     Coaching Position
                   </option>
-                  <option value="Head">Head Coach</option>
+                  <option value="Head Coach">Head Coach</option>
                   <option value="Assistant Coach">Assistant Coach</option>
-                  <option value="Volunteer">Volunteer Coach</option>
+                  <option value="Volunteer Coach">Volunteer Coach</option>
                   <option value="Other">Other</option>
                 </Form.Select>
               </Form.Group>
@@ -103,32 +96,51 @@ const CoachesModal = ({
                   <option value="" disabled>
                     Coach
                   </option>
-                  <option value="1">Coach1</option>
-                  <option value="2">Coach2</option>
-                  <option value="3">Coach3</option>
-                  <option value="4">Coach4</option>
+                  <option value="Coach 1">Coach1</option>
+                  <option value="Coach 2">Coach2</option>
+                  <option value="Coach 3">Coach3</option>
+                  <option value="Coach 4">Coach4</option>
                 </Form.Select>
               </Form.Group>
 
-              <Button variant="success add-btn" onClick={handleAddRow}>
+              <Button
+                variant="success add-btn"
+                onClick={() =>
+                  handleAddRow(
+                    showCoachesModal.type === "first" ? "first" : "second"
+                  )
+                }
+              >
                 +
               </Button>
             </div>
-
-            {addedRows.map((row, index) => (
-              <Row key={index} className="added-row">
-                <Col>{row.position}</Col>
-                <Col>{row.coach}</Col>
-                <Col>
-                  <Button variant="danger"> - </Button>
-                </Col>
-              </Row>
-            ))}
+            <div className="coach-rows">
+            {addedRows.some((row) => row.type === showCoachesModal.type) && (
+              <hr className="modal-hr2" />
+            )}
+              {addedRows
+                .filter((row) => row.type === showCoachesModal.type)
+                .map((row, index) => (
+                  <Row key={index} className="added-row">
+                    <div className="col">{row.position}</div>
+                    <div className="col">{row.coach}</div>
+                    <div className="col-auto">
+                      <Button
+                        variant="danger"
+                        className="subt-btn"
+                        onClick={() => handleRemoveRow(index)}
+                      >
+                        -
+                      </Button>
+                    </div>
+                  </Row>
+                ))}
+            </div>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="success" onClick={handleCloseCoachesModal}>
-            Go
+          <Button variant="primary" onClick={handleCloseCoachesModal}>
+            Done
           </Button>
           <Button variant="secondary" onClick={handleCloseCoachesModal}>
             Close
