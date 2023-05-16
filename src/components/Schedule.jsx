@@ -15,6 +15,7 @@ const Schedule = () => {
   const [teamName, setTeamName] = useState("");
   const [teamMulti, setTeamMulti] = useState("");
   const [teamSchedulesIdentical, setTeamSchedulesIdentical] = useState("");
+  const [teamRostersIdentical, setTeamRostersIdentical] = useState("");
   const [seasonName, setSeasonName] = useState("");
   const [loadedData, setLoadedData] = useState([]);
 
@@ -76,10 +77,12 @@ const Schedule = () => {
                 const teamName = teamData.name;
                 const teamMulti = teamData.multi;
                 const schedulesIdentical = teamData.identicalSchedules;
+                const rostersIdentical = teamData.identicalRosters;
                 // Set the team's name in state
                 setTeamName(teamName);
                 setTeamMulti(teamMulti);
                 setTeamSchedulesIdentical(schedulesIdentical);
+                setTeamRostersIdentical(rostersIdentical);
               }
             });
         } else {
@@ -114,10 +117,12 @@ const Schedule = () => {
                 const teamName = teamData.name;
                 const teamMulti = teamData.multi;
                 const schedulesIdentical = teamData.identicalSchedules;
+                const rostersIdentical = teamData.identicalRosters;
                 // Set the team's name in state
                 setTeamName(teamName);
                 setTeamMulti(teamMulti);
                 setTeamSchedulesIdentical(schedulesIdentical);
+                setTeamRostersIdentical(rostersIdentical);
               }
             });
         }
@@ -276,10 +281,15 @@ const Schedule = () => {
                     : ""
                 } Schedule`}
           </h2>
-
-          <Link to={`/roster/${seasonid}/${teamid}?teamB=${teamB}`}>
-            <Button variant="info title-button wsd">View Roster</Button>
-          </Link>
+          {teamRostersIdentical ? (
+            <Link to={`/roster/${seasonid}/${teamid}`}>
+              <Button variant="info title-button wsd">View Roster</Button>
+            </Link>
+          ) : (
+            <Link to={`/roster/${seasonid}/${teamid}?teamB=${teamB}`}>
+              <Button variant="info title-button wsd">View Roster</Button>
+            </Link>
+          )}
         </div>
         <div className="import-export-container">
           {isArchived ? null : (
