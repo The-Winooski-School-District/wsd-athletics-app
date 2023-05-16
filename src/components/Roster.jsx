@@ -85,6 +85,7 @@ const Roster = () => {
                 const teamName = teamData.name;
                 const teamMulti = teamData.multi;
                 const rostersIdentical = teamData.identicalRosters;
+
                 // Set the team's name in state
                 setTeamName(teamName);
                 setTeamMulti(teamMulti);
@@ -123,6 +124,7 @@ const Roster = () => {
                 const teamName = teamData.name;
                 const teamMulti = teamData.multi;
                 const rostersIdentical = teamData.identicalRosters;
+
                 // Set the team's name in state
                 setTeamName(teamName);
                 setTeamMulti(teamMulti);
@@ -242,9 +244,12 @@ const Roster = () => {
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
-          <Link to={`/roster/${seasonid}/${teamid}?teamB=${!teamB}`}>
-            <Button variant="info title-button wsd">Switch Teams</Button>
-          </Link>
+          {teamRostersIdentical ? null : (
+            <Link to={`/roster/${seasonid}/${teamid}?teamB=${!teamB}`}>
+              <Button variant="info title-button wsd">Switch Teams</Button>
+            </Link>
+          )}
+
           <h2>
             {teamRostersIdentical
               ? `${seasonName} - ${teamName}`

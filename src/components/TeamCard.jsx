@@ -4,18 +4,18 @@ import { Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TeamModal from "./TeamModal";
 import MultiModal from "./MultiModal";
+import CoachesModal from "./CoachesModal";
 import { db } from "./Firebase";
 
 const TeamCard = ({ team, seasonid, archived }) => {
   const [showTeamModal, setshowTeamModal] = useState(false);
   const [showMultiModal, setshowMultiModal] = useState(false);
+  const [showCoachesModal, setshowCoachesModal] = useState(false);
   const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
   const [hasRoster, setHasRoster] = useState(false);
   const [hasSchedule, setHasSchedule] = useState(false);
   const [rosterButtonClicked, setRosterButtonClicked] = useState(false);
-
-
 
   // I... don't know where this variable is used, but if I remove it above, it breaks everything. :D
   if (!season) {
@@ -52,11 +52,11 @@ const TeamCard = ({ team, seasonid, archived }) => {
       const hasRoster = snapshot.exists();
       setHasRoster(hasRoster);
     });
-    
+
     rosterRef.child("roster-b").once("value", (snapshot) => {
       const hasRosterB = snapshot.exists();
       setHasRoster((prevHasRoster) => prevHasRoster || hasRosterB);
-    });    
+    });
 
     const scheduleRef = db.ref(`seasons/${seasonid}/teams/${team.id}`);
 
@@ -64,12 +64,11 @@ const TeamCard = ({ team, seasonid, archived }) => {
       const hasSchedule = snapshot.exists();
       setHasSchedule(hasSchedule);
     });
-    
+
     scheduleRef.child("schedule-b").once("value", (snapshot) => {
       const hasScheduleB = snapshot.exists();
       setHasSchedule((prevHasSchedule) => prevHasSchedule || hasScheduleB);
     });
-    
 
     return () => {
       teamsRef.off();
@@ -314,7 +313,12 @@ const TeamCard = ({ team, seasonid, archived }) => {
             <div className="team-info coaches">
               <p key={`${team.id}-coaches`}>
                 {/*team.coaches*/}
-                <Button className="btn-info wsd">Coaches</Button>
+                <Button
+                  className="btn-info wsd"
+                  onClick={() => setshowCoachesModal(true)}
+                >
+                  Coaches
+                </Button>
               </p>
             </div>
           </Col>
@@ -323,7 +327,12 @@ const TeamCard = ({ team, seasonid, archived }) => {
               <div className="team-info coaches">
                 <p key={`${team.id}-coaches`}>
                   {/*team.coaches*/}
-                  <Button className="btn-info wsd">Coaches</Button>
+                  <Button
+                    className="btn-info wsd"
+                    onClick={() => setshowCoachesModal(true)}
+                  >
+                    Coaches
+                  </Button>
                 </p>
               </div>
             </Col>
@@ -423,9 +432,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                     </Button>
                   ) : (
                     <Link to={`/schedule/${seasonid}/${team.id}`}>
-                      <Button variant="success wsd">
-                        Add Schedule
-                      </Button>
+                      <Button variant="success wsd">Add Schedule</Button>
                     </Link>
                   )}
                 </>
@@ -447,6 +454,14 @@ const TeamCard = ({ team, seasonid, archived }) => {
         team={team}
         showMultiModal={showMultiModal}
         handleCloseMultiModal={() => setshowMultiModal(false)}
+      />
+
+      <CoachesModal
+        seasonid={seasonid}
+        teamid={team.id}
+        team={team}
+        showCoachesModal={showCoachesModal}
+        handleCloseCoachesModal={() => setshowCoachesModal(false)}
       />
 
       <TeamModal

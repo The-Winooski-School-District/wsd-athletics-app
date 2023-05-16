@@ -255,9 +255,12 @@ const Schedule = () => {
       <hr className="top-hr" />
       <div>
         <div className="opponents-title">
-          <Link to={`/schedule/${seasonid}/${teamid}?teamB=${!teamB}`}>
-            <Button variant="info title-button wsd">Switch Teams</Button>
-          </Link>
+          {teamSchedulesIdentical ? null : (
+            <Link to={`/schedule/${seasonid}/${teamid}?teamB=${!teamB}`}>
+              <Button variant="info title-button wsd">Switch Teams</Button>
+            </Link>
+          )}
+
           <h2>
             {teamSchedulesIdentical
               ? `${seasonName} - ${teamName}`
