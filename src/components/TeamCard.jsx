@@ -19,7 +19,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
 
   // I... don't know where this variable is used, but if I remove it above, it breaks everything. :D
   if (!season) {
-    /* do nothing */
+    /* nope */
   }
 
   useEffect(() => {
@@ -312,24 +312,27 @@ const TeamCard = ({ team, seasonid, archived }) => {
           <Col xs={4}>
             <div className="team-info coaches">
               <p key={`${team.id}-coaches`}>
-                {/*team.coaches*/}
                 <Button
                   className="btn-info wsd"
-                  onClick={() => setshowCoachesModal(true)}
+                  onClick={() =>
+                    setshowCoachesModal({ type: "first", show: true })
+                  }
                 >
                   Coaches
                 </Button>
               </p>
             </div>
           </Col>
+
           {team.identicalCoaches === false && (
             <Col xs={4}>
               <div className="team-info coaches">
                 <p key={`${team.id}-coaches`}>
-                  {/*team.coaches*/}
                   <Button
                     className="btn-info wsd"
-                    onClick={() => setshowCoachesModal(true)}
+                    onClick={() =>
+                      setshowCoachesModal({ type: "second", show: true })
+                    }
                   >
                     Coaches
                   </Button>
@@ -469,6 +472,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         editing={!archived}
         archived={archived}
         showTeamModal={showTeamModal}
+        showCoachesModal={showCoachesModal}
         handleTeamSave={handleTeamSave}
         handleCloseTeamModal={() => setshowTeamModal(false)}
       />

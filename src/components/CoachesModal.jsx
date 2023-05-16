@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Modal, Form, Button } from "react-bootstrap";
+import { Modal, Form, Button, Row, Col } from "react-bootstrap";
 
 const CoachesModal = ({
   seasonid,
@@ -10,6 +10,7 @@ const CoachesModal = ({
 }) => {
   const [position, setPosition] = useState("");
   const [coach, setCoach] = useState("");
+  const [addedRows, setAddedRows] = useState([]);
 
   const handlePositionChange = (event) => {
     setPosition(event.target.value);
@@ -17,6 +18,16 @@ const CoachesModal = ({
 
   const handleCoachChange = (event) => {
     setCoach(event.target.value);
+  };
+
+  const handleAddRow = () => {
+    const newRow = {
+      position,
+      coach,
+    };
+    setAddedRows((prevRows) => [...prevRows, newRow]);
+    setPosition("");
+    setCoach("");
   };
 
   const handleCoachesModalClose = () => {
@@ -27,7 +38,31 @@ const CoachesModal = ({
     <div>
       <Modal show={showCoachesModal} onHide={handleCoachesModalClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Set Coaches</Modal.Title>
+          <Modal.Title>
+            {team.identicalCoaches === true
+              ? `${team.name} Coaches`
+              : team.multi === "A&B"
+              ? showCoachesModal.type === "first"
+                ? `${team.name} A Team Coaches`
+                : `${team.name} B Team Coaches`
+              : team.multi === "V&JV"
+              ? showCoachesModal.type === "first"
+                ? `${team.name} Varsity Team Coaches`
+                : `${team.name} Junior Varsity Coaches`
+              : ""}
+
+            {/*team.identicalCoaches === true
+              ? `${team.name} Coaches`
+              : team.multi === "A&B"
+              ? showCoachesModal.type === "first"
+                ? <><p>{team.name}</p><p>A Team Coaches</p></>
+                : <><p>{team.name}</p><p>B Team Coaches</p></>
+              : team.multi === "V&JV"
+              ? showCoachesModal.type === "first"
+                ? <><p>{team.name}</p><p>Varsity Team Coaches</p></>
+                : <><p>{team.name}</p><p>Junior Varsity Coaches</p></>
+            : ""*/}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form
@@ -47,7 +82,7 @@ const CoachesModal = ({
                   onChange={handlePositionChange}
                 >
                   <option value="" disabled>
-                    Coaching Positions
+                    Coaching Position
                   </option>
                   <option value="Head">Head Coach</option>
                   <option value="Assistant Coach">Assistant Coach</option>
@@ -66,7 +101,7 @@ const CoachesModal = ({
                   onChange={handleCoachChange}
                 >
                   <option value="" disabled>
-                    Coaches
+                    Coach
                   </option>
                   <option value="1">Coach1</option>
                   <option value="2">Coach2</option>
@@ -75,8 +110,20 @@ const CoachesModal = ({
                 </Form.Select>
               </Form.Group>
 
-              <Button variant="success add-btn">+</Button>
+              <Button variant="success add-btn" onClick={handleAddRow}>
+                +
+              </Button>
             </div>
+
+            {addedRows.map((row, index) => (
+              <Row key={index} className="added-row">
+                <Col>{row.position}</Col>
+                <Col>{row.coach}</Col>
+                <Col>
+                  <Button variant="danger"> - </Button>
+                </Col>
+              </Row>
+            ))}
           </Form>
         </Modal.Body>
         <Modal.Footer>

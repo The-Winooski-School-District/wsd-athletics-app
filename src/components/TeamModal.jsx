@@ -460,10 +460,11 @@ const TeamModal = ({
             </>
           )}
 
-          {identicalCoaches ? (
+{identicalCoaches ? (
             <Form.Group controlId="teamCoaches">
               <Form.Label></Form.Label>
-              <Button variant="info wsd set-coaches"> Set Coaches </Button>
+              <Button variant="info wsd set-coaches"
+              > Set Coaches </Button>
             </Form.Group>
           ) : multi === "A&B" ? (
             <div className="coach-split">
