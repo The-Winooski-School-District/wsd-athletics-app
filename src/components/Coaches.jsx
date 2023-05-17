@@ -1,13 +1,17 @@
 import "../styles/Seasons.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Container, Button, } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 import { db } from "./Firebase";
+import AddCoachModal from "./AddCoachModal";
 
 const Coaches = () => {
+  const [showAddCoachModal, setShowAddCoachModal] = useState(false);
   const [coaches, setCoaches] = useState([]);
 
- 
+  if (!coaches) {
+    /* Do Nothing */
+  }
 
   useEffect(() => {
     const coachesRef = db.ref("coaches");
@@ -17,7 +21,7 @@ const Coaches = () => {
         const coachesList = Object.keys(coachesData).map((key) => {
           return { id: key, ...coachesData[key] };
         });
-        coachesData(coachesList);
+        setCoaches(coachesList);
       }
     });
 
@@ -26,6 +30,9 @@ const Coaches = () => {
     };
   }, []);
 
+  const handleShowAddCoachModal = () => {
+    setShowAddCoachModal(true);
+  };
 
   return (
     <div className="Container">
@@ -37,9 +44,7 @@ const Coaches = () => {
           <Button variant="outline-warning wsd">Seasons</Button>
         </Link>
         <Link to="/archive" className="yellow">
-          <Button variant="outline-warning wsd">
-            Archive
-          </Button>
+          <Button variant="outline-warning wsd">Archive</Button>
         </Link>
         <Link to="/opponents" className="yellow">
           <Button variant="outline-warning wsd">Opponents</Button>
@@ -52,24 +57,24 @@ const Coaches = () => {
         </div>
       </div>
       <Container>
-
-
-      <div className="add-coach-btn">
-        <Button variant="primary wsd" onClick={() => console.log(true)}>
-          Add Coach
-        </Button>
-      </div>
-      <div className="teams-area">
-        {/*coaches.map((team, index) => (
+        <div className="add-coach-btn">
+          <Button variant="primary wsd" onClick={handleShowAddCoachModal}>
+            Add Coach
+          </Button>
+        </div>
+        <div className="teams-area">
+          {/*coaches.map((team, index) => (
           <CoachCard
             key={coach.id}
             index={index}
           />
         ))*/}
-      </div>
-
-
+        </div>
       </Container>
+      <AddCoachModal
+        showAddCoachModal={showAddCoachModal}
+        handleCloseAddCoachModal={() => setShowAddCoachModal(false)}
+      />
     </div>
   );
 };
