@@ -31,9 +31,17 @@ const Schedule = () => {
     const { name, value } = event.target;
     const updatedSchedule = [...schedule];
     const updatedOpponentInfo = { ...updatedSchedule[index], [name]: value };
+  
+    if (name === 'date') {
+      // Perform additional formatting for the date field
+      const formattedDate = formatDate(value); // Call your formatDate function here or use any other formatting logic
+      updatedOpponentInfo[name] = formattedDate;
+    }
+  
     updatedSchedule[index] = updatedOpponentInfo;
     setSchedule(updatedSchedule);
   }
+  
 
   const isTrueUrl = window.location.href.endsWith("true");
 
@@ -198,9 +206,17 @@ const Schedule = () => {
   }
 
   function formatDate(date) {
-    const [year, month, day] = date.split("-");
+    let year, month, day;
+    
+    if (date.includes("-")) {
+      [year, month, day] = date.split("-");
+    } else if (date.includes("/")) {
+      [month, day, year] = date.split("/");
+    }
+    
     return `${month} - ${day} - ${year}`;
   }
+  
 
   const handleFileLoaded = (data, fileInfo) => {
     const newSchedule = data.map((row) => ({
