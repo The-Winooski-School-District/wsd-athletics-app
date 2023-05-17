@@ -54,7 +54,7 @@ const CoachesModal = ({
               ? showCoachesModal.type === "first"
                 ? `${team.name} Varsity Team Coaches`
                 : `${team.name} Junior Varsity Coaches`
-              : ""}
+              : "Coaches"}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

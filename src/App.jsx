@@ -10,6 +10,7 @@ import Navigation from "./components/Navigation";
 import Roster from "./components/Roster";
 import Schedule from "./components/Schedule";
 import Coaches from "./components/Coaches";
+import TempDB from "./components/TempDB";
 import Forms from "./components/Forms";
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
           <Route path='/archive' element={<Archive />} />
           <Route path='/coaches' element={<Coaches />} />
           <Route path='/forms' element={<Forms />} />
+          <Route path='/dbfix' element={<TempDB />} />
           <Route path='/roster/:seasonid/:teamid' element={<Roster />} />
           <Route path='/schedule/:seasonid/:teamid' element={<Schedule />} />
         </Routes>
