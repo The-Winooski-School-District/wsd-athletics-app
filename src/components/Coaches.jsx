@@ -4,14 +4,11 @@ import { Link } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
 import { db } from "./Firebase";
 import AddCoachModal from "./AddCoachModal";
+import CoachCard from "./CoachCard";
 
 const Coaches = () => {
   const [showAddCoachModal, setShowAddCoachModal] = useState(false);
   const [coaches, setCoaches] = useState([]);
-
-  if (!coaches) {
-    /* Do Nothing */
-  }
 
   useEffect(() => {
     const coachesRef = db.ref("coaches");
@@ -22,16 +19,19 @@ const Coaches = () => {
           return { id: key, ...coachesData[key] };
         });
         setCoaches(coachesList);
+      } else {
+        setCoaches([]);
       }
     });
-
-    return () => {
-      coachesRef.off();
-    };
   }, []);
 
   const handleShowAddCoachModal = () => {
     setShowAddCoachModal(true);
+  };
+
+  const handleAddCoach = (coachName, coachPhoto, coachSports, coachInfo) => {
+    const newCoach = { coachName, coachPhoto, coachSports, coachInfo };
+    db.ref("coaches").push(newCoach);
   };
 
   return (
@@ -63,17 +63,15 @@ const Coaches = () => {
           </Button>
         </div>
         <div className="teams-area">
-          {/*coaches.map((team, index) => (
-          <CoachCard
-            key={coach.id}
-            index={index}
-          />
-        ))*/}
+          {coaches.map((coach, index) => (
+            <CoachCard key={coach.id} index={index} />
+          ))}
         </div>
       </Container>
       <AddCoachModal
         showAddCoachModal={showAddCoachModal}
         handleCloseAddCoachModal={() => setShowAddCoachModal(false)}
+        onAddCoach={handleAddCoach}
       />
     </div>
   );
