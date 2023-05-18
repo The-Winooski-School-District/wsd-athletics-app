@@ -52,7 +52,7 @@ const CoachesModal = ({
     };
     coachesRef.child(newCoachKey).set(newCoachData);
 
-    setAddedRows((prevRows) => [...prevRows, newRow]);
+    setAddedRows((prevRows) => [...prevRows, { ...newRow, id: newCoachKey }]);
     setPosition("");
     setCoach("");
   };
@@ -99,7 +99,7 @@ const CoachesModal = ({
             }}
           >
             <div className="coach-split">
-              <Form.Group controlId="Position">
+            <Form.Group controlId="Position">
                 <Form.Select
                   className="coach-select"
                   type="text"
@@ -117,6 +117,7 @@ const CoachesModal = ({
                   <option value="Other">Other</option>
                 </Form.Select>
               </Form.Group>
+
 
               <Form.Group controlId="Coach">
                 <Form.Select
@@ -149,10 +150,12 @@ const CoachesModal = ({
                 +
               </Button>
             </div>
-            <div className="coach-rows">
-              {addedRows.some((row) => row.type === showCoachesModal.type) && (
-                <hr className="modal-hr2" />
-              )}
+          </Form>
+
+          <div className="coach-rows">
+            {addedRows.some((row) => row.type === showCoachesModal.type) && (
+              <hr className="modal-hr2" />
+            )}
               {addedRows
                 .filter((row) => row.type === showCoachesModal.type)
                 .map((row, index) => (
@@ -163,7 +166,7 @@ const CoachesModal = ({
                       <Button
                         variant="danger"
                         className="subt-btn"
-                        onClick={() => handleRemoveRow(index, showCoachesModal.type)}
+                        onClick={() => handleRemoveRow(index)}
                       >
                         -
                       </Button>
@@ -171,16 +174,7 @@ const CoachesModal = ({
                   </Row>
                 ))}
             </div>
-          </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="primary" onClick={handleCloseCoachesModal}>
-            Done
-          </Button>
-          <Button variant="secondary" onClick={handleCloseCoachesModal}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );
