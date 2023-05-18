@@ -56,7 +56,6 @@ const AddCoachModal = ({
                 ref={coachNameRef}
                 onChange={(event) => setCoachName(event.target.value)}
                 autoFocus
-                required
               />
             </Form.Group>
 
@@ -81,7 +80,7 @@ const AddCoachModal = ({
                   id="baseball"
                   label="Baseball"
                   value="Baseball"
-                  checked={coachSports.includes("baseball")}
+                  checked={coachSports.includes("Baseball")}
                   onChange={handleCheckboxChange}
                 />
                 <Form.Check
@@ -91,7 +90,7 @@ const AddCoachModal = ({
                   id="basketball"
                   label="Basketball"
                   value="Basketball"
-                  checked={coachSports.includes("basketball")}
+                  checked={coachSports.includes("Basketball")}
                   onChange={handleCheckboxChange}
                 />
                 <Form.Check
@@ -101,7 +100,7 @@ const AddCoachModal = ({
                   id="softball"
                   label="Softball"
                   value="Softball"
-                  checked={coachSports.includes("softball")}
+                  checked={coachSports.includes("Softball")}
                   onChange={handleCheckboxChange}
                 />
                 <Form.Check
@@ -111,7 +110,7 @@ const AddCoachModal = ({
                   id="soccer"
                   label="Soccer"
                   value="Soccer"
-                  checked={coachSports.includes("soccer")}
+                  checked={coachSports.includes("Soccer")}
                   onChange={handleCheckboxChange}
                 />
                 <Form.Check
@@ -121,7 +120,7 @@ const AddCoachModal = ({
                   id="football"
                   label="Football"
                   value="Football"
-                  checked={coachSports.includes("football")}
+                  checked={coachSports.includes("Football")}
                   onChange={handleCheckboxChange}
                 />
                 <Form.Check
@@ -131,7 +130,7 @@ const AddCoachModal = ({
                   id="track-and-field"
                   label="Track & Field"
                   value="Track & Field"
-                  checked={coachSports.includes("track-and-field")}
+                  checked={coachSports.includes("Track & Field")}
                   onChange={handleCheckboxChange}
                 />
                 <Form.Check
@@ -141,7 +140,7 @@ const AddCoachModal = ({
                   id="cheerleading"
                   label="Cheerleading"
                   value="Cheerleading"
-                  checked={coachSports.includes("cheerleading")}
+                  checked={coachSports.includes("Cheerleading")}
                   onChange={handleCheckboxChange}
                 />
               </div>

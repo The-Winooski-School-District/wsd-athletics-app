@@ -10,7 +10,7 @@ import { db } from "./Firebase";
 const TeamCard = ({ team, seasonid, archived }) => {
   const [showTeamModal, setshowTeamModal] = useState(false);
   const [showMultiModal, setshowMultiModal] = useState(false);
-  const [showCoachesModal, setshowCoachesModal] = useState(false);
+  const [showCoachesModal, setShowSetCoachesModal] = useState(false);
   const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
   const [hasRoster, setHasRoster] = useState(false);
@@ -315,7 +315,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                 <Button
                   className="btn-info wsd"
                   onClick={() =>
-                    setshowCoachesModal({ type: "first", show: true })
+                    setShowSetCoachesModal({ type: "first", show: true })
                   }
                 >
                   Coaches
@@ -331,7 +331,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                   <Button
                     className="btn-info wsd"
                     onClick={() =>
-                      setshowCoachesModal({ type: "second", show: true })
+                      setShowSetCoachesModal({ type: "second", show: true })
                     }
                   >
                     Coaches
@@ -464,7 +464,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         teamid={team.id}
         team={team}
         showCoachesModal={showCoachesModal}
-        handleCloseCoachesModal={() => setshowCoachesModal(false)}
+        handleCloseCoachesModal={() => setShowSetCoachesModal(false)}
       />
 
       <TeamModal

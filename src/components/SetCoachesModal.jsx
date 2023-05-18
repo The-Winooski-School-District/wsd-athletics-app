@@ -14,23 +14,19 @@ const CoachesModal = ({
   const [coaches, setCoaches] = useState([]);
   const [addedRows, setAddedRows] = useState([]);
 
-  if (!coaches) {
-    /* Do Nothing */
-  }
-
   useEffect(() => {
     db.ref("coaches").on("value", (snapshot) => {
       const coachesData = snapshot.val();
       if (coachesData) {
         const coachesList = Object.keys(coachesData).map((key) => {
-          return { id: key, ...coachesData[key] }
+          return { id: key, ...coachesData[key] };
         });
         setCoaches(coachesList);
       } else {
         setCoaches([]);
       }
-    })
-  },[])
+    });
+  }, []);
 
   const handlePositionChange = (event) => {
     setPosition(event.target.value);
@@ -46,12 +42,30 @@ const CoachesModal = ({
       coach,
       type,
     };
+
+    // Update Firebase database
+    const coachesRef = db.ref(`seasons/${seasonid}/teams/${teamid}/coaches${type}`);
+    const newCoachKey = coachesRef.push().key;
+    const newCoachData = {
+      position,
+      coach,
+    };
+    coachesRef.child(newCoachKey).set(newCoachData);
+
     setAddedRows((prevRows) => [...prevRows, newRow]);
     setPosition("");
     setCoach("");
   };
 
-  const handleRemoveRow = (index) => {
+  const handleRemoveRow = (index, type) => {
+    const removedRow = addedRows.find((_, i) => i === index);
+    if (removedRow) {
+      // Remove entry from Firebase database
+      const coachesRef = db.ref(`seasons/${seasonid}/teams/${teamid}/coaches${type}`);
+      const coachToRemove = coachesRef.child(removedRow.id);
+      coachToRemove.remove();
+    }
+
     setAddedRows((prevRows) => prevRows.filter((_, i) => i !== index));
   };
 
@@ -128,7 +142,7 @@ const CoachesModal = ({
                 variant="success add-btn"
                 onClick={() =>
                   handleAddRow(
-                    showCoachesModal.type === "first" ? "first" : "second"
+                    showCoachesModal.type === "first" ? "A" : "B"
                   )
                 }
               >
@@ -136,9 +150,9 @@ const CoachesModal = ({
               </Button>
             </div>
             <div className="coach-rows">
-            {addedRows.some((row) => row.type === showCoachesModal.type) && (
-              <hr className="modal-hr2" />
-            )}
+              {addedRows.some((row) => row.type === showCoachesModal.type) && (
+                <hr className="modal-hr2" />
+              )}
               {addedRows
                 .filter((row) => row.type === showCoachesModal.type)
                 .map((row, index) => (
@@ -149,7 +163,7 @@ const CoachesModal = ({
                       <Button
                         variant="danger"
                         className="subt-btn"
-                        onClick={() => handleRemoveRow(index)}
+                        onClick={() => handleRemoveRow(index, showCoachesModal.type)}
                       >
                         -
                       </Button>
