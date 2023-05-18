@@ -49,8 +49,19 @@
   border-radius: 10px;
 }
 
+.coach-card-info {
+  padding: 5px 30px 5px 30px !important;
+  word-break: break-all;
+}
+
 .coach-card-main {
   min-height: 600px !important;
+}
+
+.character-count {
+  font-size: 1.2vh;
+  text-align: right;
+
 }
 
 .team-card {

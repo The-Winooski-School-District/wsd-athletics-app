@@ -34,15 +34,11 @@ const Coaches = () => {
 
   const handleAddCoach = (coachName, coachPhoto, coachSports, coachInfo) => {
     const newCoach = { coachName, coachPhoto, coachSports, coachInfo };
-    if (coachSports.length === 0) {
-      alert("Please select at least one sport being coached.");
-    } else {
-      db.ref("coaches")
-        .push(newCoach)
-        .catch((error) => {
-          console.log("Error adding coach:", error);
-        });
-    }
+    db.ref("coaches")
+      .push(newCoach)
+      .catch((error) => {
+        console.log("Error adding coach:", error);
+      });
   };
 
   return (

@@ -1,12 +1,13 @@
 import "../styles/Teams.css";
-import placeholderImage from "../account-icon-user-icon-vector.png"; /* Default to this if db ref is empty. */
+import placeholderImage from "../account-icon-user-icon-vector.png";
 import React, { useState } from "react";
-import { Row } from "react-bootstrap";
+import { Row, Modal, Button } from "react-bootstrap";
 import { db } from "./Firebase";
 import AddCoachModal from "./AddCoachModal";
 
 const CoachCard = ({ coach }) => {
   const [showAddCoachModal, setShowAddCoachModal] = useState(false);
+  const [showFullText, setShowFullText] = useState(false);
 
   function handleCoachSave(coachInfo, index) {
     const coachId = coach.id;
@@ -44,6 +45,20 @@ const CoachCard = ({ coach }) => {
     }
   }
 
+  const handlePicError = (event) => {
+    event.target.src = placeholderImage;
+  };
+
+  const handleCardInfoClick = () => {
+    setShowFullText(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowFullText(false);
+  };
+
+  const truncatedText = coach.coachInfo.length > 100 ? coach.coachInfo.slice(0, 100) + "..." : coach.coachInfo;
+
   return (
     <div className="coach-card">
       <div className="coach-name-area">
@@ -56,21 +71,33 @@ const CoachCard = ({ coach }) => {
         <Row className="coach-pic-container">
           <img
             className="coach-pic"
-            src={coach.coachPhoto || placeholderImage}
+            src={coach.coachPhoto}
+            onError={handlePicError}
             alt="Coach"
-          />{" "}
-          {/* replace 'false' with db ref soon */}
+          />
         </Row>
 
         <Row>
-          <div className="coach-card-sports">
+          <div
+            className="coach-card-sports"
+            onClick={handleCardInfoClick}
+            style={{ cursor: "pointer" }}
+          >
             {coach.coachSports.map((sport, index) => (
               <p key={index}>{sport}</p>
             ))}
           </div>
         </Row>
 
-        <Row>{coach.coachInfo}</Row>
+        <Row>
+          <div
+            className="coach-card-info"
+            onClick={handleCardInfoClick}
+            style={{ cursor: "pointer" }}
+          >
+            {truncatedText}
+          </div>
+        </Row>
       </div>
 
       <hr className="yellow"></hr>
@@ -81,6 +108,18 @@ const CoachCard = ({ coach }) => {
         handleCloseAddCoachModal={() => setShowAddCoachModal(false)}
         handleCoachSave={handleCoachSave}
       />
+
+      <Modal show={showFullText} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>{coach.coachName} Full Info</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><div className="coach-card-info">{coach.coachInfo}</div></Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

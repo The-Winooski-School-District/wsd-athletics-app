@@ -11,6 +11,12 @@ const AddCoachModal = ({
   const [coachPic, setCoachPic] = useState("");
   const [coachInfo, setCoachInfo] = useState("");
 
+  const handleCoachInfoChange = (event) => {
+    const inputValue = event.target.value;
+    if (inputValue.length <= 1000) {
+      setCoachInfo(inputValue);
+    }
+  };
   const coachNameRef = useRef();
   const coachPicRef = useRef();
   const coachSportsRef = useRef();
@@ -50,6 +56,7 @@ const AddCoachModal = ({
                 ref={coachNameRef}
                 onChange={(event) => setCoachName(event.target.value)}
                 autoFocus
+                required
               />
             </Form.Group>
 
@@ -73,7 +80,7 @@ const AddCoachModal = ({
                   ref={coachSportsRef}
                   id="baseball"
                   label="Baseball"
-                  value="baseball"
+                  value="Baseball"
                   checked={coachSports.includes("baseball")}
                   onChange={handleCheckboxChange}
                 />
@@ -83,7 +90,7 @@ const AddCoachModal = ({
                   ref={coachSportsRef}
                   id="basketball"
                   label="Basketball"
-                  value="basketball"
+                  value="Basketball"
                   checked={coachSports.includes("basketball")}
                   onChange={handleCheckboxChange}
                 />
@@ -93,7 +100,7 @@ const AddCoachModal = ({
                   ref={coachSportsRef}
                   id="softball"
                   label="Softball"
-                  value="softball"
+                  value="Softball"
                   checked={coachSports.includes("softball")}
                   onChange={handleCheckboxChange}
                 />
@@ -103,7 +110,7 @@ const AddCoachModal = ({
                   ref={coachSportsRef}
                   id="soccer"
                   label="Soccer"
-                  value="soccer"
+                  value="Soccer"
                   checked={coachSports.includes("soccer")}
                   onChange={handleCheckboxChange}
                 />
@@ -113,7 +120,7 @@ const AddCoachModal = ({
                   ref={coachSportsRef}
                   id="football"
                   label="Football"
-                  value="football"
+                  value="Football"
                   checked={coachSports.includes("football")}
                   onChange={handleCheckboxChange}
                 />
@@ -123,7 +130,7 @@ const AddCoachModal = ({
                   ref={coachSportsRef}
                   id="track-and-field"
                   label="Track & Field"
-                  value="track-and-field"
+                  value="Track & Field"
                   checked={coachSports.includes("track-and-field")}
                   onChange={handleCheckboxChange}
                 />
@@ -133,7 +140,7 @@ const AddCoachModal = ({
                   ref={coachSportsRef}
                   id="cheerleading"
                   label="Cheerleading"
-                  value="cheerleading"
+                  value="Cheerleading"
                   checked={coachSports.includes("cheerleading")}
                   onChange={handleCheckboxChange}
                 />
@@ -143,13 +150,17 @@ const AddCoachModal = ({
             <Form.Group className="mb-3" controlId="coachInfo">
               <Form.Control
                 as="textarea"
-                ref={coachInfoRef}
                 rows={3}
+                maxLength={1000}
                 name="coachInfo"
                 value={coachInfo}
-                onChange={(event) => setCoachInfo(event.target.value)}
+                ref={coachInfoRef}
+                onChange={handleCoachInfoChange}
                 placeholder="A little info about yourself..."
               />
+              <div className="character-count">
+                Characters Used: {coachInfo.length}/1000
+              </div>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -157,8 +168,12 @@ const AddCoachModal = ({
           <Button
             variant="primary"
             onClick={() => {
-              onAddCoach(coachName, coachPic, coachSports, coachInfo);
-              handleCloseAddCoachModal();
+              if (coachSports.length === 0) {
+                alert("Please select at least one sport");
+              } else {
+                onAddCoach(coachName, coachPic, coachSports, coachInfo);
+                handleCloseAddCoachModal();
+              }
             }}
           >
             Add Coach
