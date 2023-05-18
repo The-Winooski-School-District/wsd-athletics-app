@@ -34,11 +34,15 @@ const Coaches = () => {
 
   const handleAddCoach = (coachName, coachPhoto, coachSports, coachInfo) => {
     const newCoach = { coachName, coachPhoto, coachSports, coachInfo };
-    db.ref("coaches")
-      .push(newCoach)
-      .catch((error) => {
-        console.log("Error adding coach:", error);
-      });
+    if (coachSports.length === 0) {
+      alert("Please select at least one sport being coached.");
+    } else {
+      db.ref("coaches")
+        .push(newCoach)
+        .catch((error) => {
+          console.log("Error adding coach:", error);
+        });
+    }
   };
 
   return (
@@ -71,11 +75,7 @@ const Coaches = () => {
         </div>
         <div className="teams-area">
           {coaches.map((coach, index) => (
-            <CoachCard 
-              key={coach.id} 
-              index={index}
-              coach={coach} 
-            />
+            <CoachCard key={coach.id} index={index} coach={coach} />
           ))}
         </div>
       </Container>

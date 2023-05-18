@@ -25,7 +25,9 @@ const CoachCard = ({ coach }) => {
         if (error) {
           console.log("Error deleting coach information:", error);
         } else {
-          console.log("Coach information deleted successfully from Firebase db");
+          console.log(
+            "Coach information deleted successfully from Firebase db"
+          );
         }
       });
     } else {
@@ -34,13 +36,13 @@ const CoachCard = ({ coach }) => {
         if (error) {
           console.log("Error updating coach information:", error);
         } else {
-          console.log("Coach information updated successfully from Firebase db");
+          console.log(
+            "Coach information updated successfully from Firebase db"
+          );
         }
       });
     }
   }
-  
-  
 
   return (
     <div className="coach-card">
@@ -52,18 +54,27 @@ const CoachCard = ({ coach }) => {
 
       <div className="coach-card-main">
         <Row className="coach-pic-container">
-          <img className="coach-pic" src={coach.coachPhoto || placeholderImage} alt="Coach" /> {/* replace 'false' with db ref soon */}
+          <img
+            className="coach-pic"
+            src={coach.coachPhoto || placeholderImage}
+            alt="Coach"
+          />{" "}
+          {/* replace 'false' with db ref soon */}
         </Row>
 
-        <Row>{coach.coachSports}</Row>
+        <Row>
+          <div className="coach-card-sports">
+            {coach.coachSports.map((sport, index) => (
+              <p key={index}>{sport}</p>
+            ))}
+          </div>
+        </Row>
 
         <Row>{coach.coachInfo}</Row>
       </div>
 
       <hr className="yellow"></hr>
-      <div className="coach-buttons">
-
-      </div>
+      <div className="coach-buttons"></div>
 
       <AddCoachModal
         showAddCoachModal={showAddCoachModal}

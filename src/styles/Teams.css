@@ -12,9 +12,8 @@
 .coach-pic {
   max-height: calc(33.33vw - 10px); /* 1/3 of the width - 10px */
   width: auto !important;
-
-
 }
+
 .coach-pic-container {
   display: flex;
   justify-content: center;
@@ -35,6 +34,23 @@
   flex: 1 0 calc(100% / 3 - 20px);
   max-width: calc(100% / 3 - 20px);
   transition: background-color 0.3s ease-in-out;
+}
+
+.coach-card-sports {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.coach-card-sports p {
+  border: 1px solid #9c6900;
+  padding: 3px 5px 3px 5px;
+  border-radius: 10px;
+}
+
+.coach-card-main {
+  min-height: 600px !important;
 }
 
 .team-card {
@@ -70,6 +86,7 @@
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   margin-bottom: -16px;
+  height: 50px !important;
 }
 
 .team-buttons {

@@ -19,9 +19,9 @@ const AddCoachModal = ({
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
     if (checked) {
-     setCoachSports([...coachSports, value]);
+      setCoachSports([...coachSports, value]);
     } else {
-     setCoachSports(coachSports.filter((sport) => sport !== value));
+      setCoachSports(coachSports.filter((sport) => sport !== value));
     }
   };
 
@@ -146,6 +146,8 @@ const AddCoachModal = ({
                 ref={coachInfoRef}
                 rows={3}
                 name="coachInfo"
+                value={coachInfo}
+                onChange={(event) => setCoachInfo(event.target.value)}
                 placeholder="A little info about yourself..."
               />
             </Form.Group>
