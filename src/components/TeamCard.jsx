@@ -4,7 +4,7 @@ import { Button, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import TeamModal from "./TeamModal";
 import MultiModal from "./MultiModal";
-import CoachesModal from "./CoachesModal";
+import SetCoachesModal from "./SetCoachesModal";
 import { db } from "./Firebase";
 
 const TeamCard = ({ team, seasonid, archived }) => {
@@ -459,7 +459,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         handleCloseMultiModal={() => setshowMultiModal(false)}
       />
 
-      <CoachesModal
+      <SetCoachesModal
         seasonid={seasonid}
         teamid={team.id}
         team={team}

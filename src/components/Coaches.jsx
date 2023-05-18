@@ -1,4 +1,3 @@
-import "../styles/Seasons.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
@@ -12,7 +11,7 @@ const Coaches = () => {
 
   useEffect(() => {
     const coachesRef = db.ref("coaches");
-    coachesRef.on("value", (snapshot) => {
+    const coachesListener = coachesRef.on("value", (snapshot) => {
       const coachesData = snapshot.val();
       if (coachesData) {
         const coachesList = Object.keys(coachesData).map((key) => {
@@ -23,6 +22,10 @@ const Coaches = () => {
         setCoaches([]);
       }
     });
+
+    return () => {
+      coachesRef.off("value", coachesListener);
+    };
   }, []);
 
   const handleShowAddCoachModal = () => {
@@ -31,7 +34,11 @@ const Coaches = () => {
 
   const handleAddCoach = (coachName, coachPhoto, coachSports, coachInfo) => {
     const newCoach = { coachName, coachPhoto, coachSports, coachInfo };
-    db.ref("coaches").push(newCoach);
+    db.ref("coaches")
+      .push(newCoach)
+      .catch((error) => {
+        console.log("Error adding coach:", error);
+      });
   };
 
   return (
@@ -64,7 +71,11 @@ const Coaches = () => {
         </div>
         <div className="teams-area">
           {coaches.map((coach, index) => (
-            <CoachCard key={coach.id} index={index} />
+            <CoachCard 
+              key={coach.id} 
+              index={index}
+              coach={coach} 
+            />
           ))}
         </div>
       </Container>

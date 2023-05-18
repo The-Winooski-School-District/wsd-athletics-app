@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { db } from "./Firebase";
 import { Modal, Form, Button, Row } from "react-bootstrap";
 
 const CoachesModal = ({
@@ -10,7 +11,26 @@ const CoachesModal = ({
 }) => {
   const [position, setPosition] = useState("");
   const [coach, setCoach] = useState("");
+  const [coaches, setCoaches] = useState([]);
   const [addedRows, setAddedRows] = useState([]);
+
+  if (!coaches) {
+    /* Do Nothing */
+  }
+
+  useEffect(() => {
+    db.ref("coaches").on("value", (snapshot) => {
+      const coachesData = snapshot.val();
+      if (coachesData) {
+        const coachesList = Object.keys(coachesData).map((key) => {
+          return { id: key, ...coachesData[key] }
+        });
+        setCoaches(coachesList);
+      } else {
+        setCoaches([]);
+      }
+    })
+  },[])
 
   const handlePositionChange = (event) => {
     setPosition(event.target.value);
@@ -96,10 +116,11 @@ const CoachesModal = ({
                   <option value="" disabled>
                     Coach
                   </option>
-                  <option value="Coach 1">Coach1</option>
-                  <option value="Coach 2">Coach2</option>
-                  <option value="Coach 3">Coach3</option>
-                  <option value="Coach 4">Coach4</option>
+                  {coaches.map((coach) => (
+                    <option key={coach.id} value={coach.coachName}>
+                      {coach.coachName}
+                    </option>
+                  ))}
                 </Form.Select>
               </Form.Group>
 
