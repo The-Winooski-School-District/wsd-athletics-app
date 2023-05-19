@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "./Firebase";
 import { Modal, Form, Button, Row } from "react-bootstrap";
 
-const CoachesModal = ({
+const SetCoachesModal = ({
   seasonid,
   teamid,
   team,
@@ -36,15 +36,17 @@ const CoachesModal = ({
     setCoach(event.target.value);
   };
 
-  const handleAddRow = (type) => {
+  const handleAddRow = (twoTeams) => {
     const newRow = {
       position,
       coach,
-      type,
+      twoTeams: twoTeams === "A" ? "A" : "B",
     };
 
     // Update Firebase database
-    const coachesRef = db.ref(`seasons/${seasonid}/teams/${teamid}/coaches${type}`);
+    const coachesRef = db.ref(
+      `seasons/${seasonid}/teams/${teamid}/coaches${twoTeams}`
+    );
     const newCoachKey = coachesRef.push().key;
     const newCoachData = {
       position,
@@ -57,17 +59,26 @@ const CoachesModal = ({
     setCoach("");
   };
 
-  const handleRemoveRow = (index, type) => {
-    const removedRow = addedRows.find((_, i) => i === index);
-    if (removedRow) {
-      // Remove entry from Firebase database
-      const coachesRef = db.ref(`seasons/${seasonid}/teams/${teamid}/coaches${type}`);
-      const coachToRemove = coachesRef.child(removedRow.id);
-      coachToRemove.remove();
+  const handleRemoveRow = (index, twoTeams) => {
+    if (index >= 0 && index < addedRows.length) {
+      const removedRow = addedRows[index];
+      // Check if the removed row belongs to the correct team
+      if (removedRow.twoTeams === twoTeams) {
+        // Remove entry from Firebase database
+        const coachesRef = db.ref(`seasons/${seasonid}/teams/${teamid}/coaches${twoTeams}`);
+        const coachToRemove = coachesRef.child(removedRow.id);
+        coachToRemove.remove();
+  
+        setAddedRows((prevRows) => {
+          const updatedRows = [...prevRows];
+          updatedRows.splice(index, 1);
+          return updatedRows;
+        });
+      }
     }
-
-    setAddedRows((prevRows) => prevRows.filter((_, i) => i !== index));
   };
+  
+  
 
   const handleCoachesModalClose = () => {
     handleCloseCoachesModal();
@@ -81,11 +92,11 @@ const CoachesModal = ({
             {team.identicalCoaches === true
               ? `${team.name} Coaches`
               : team.multi === "A&B"
-              ? showCoachesModal.type === "first"
+              ? showCoachesModal.twoTeams === "A"
                 ? `${team.name} A Team Coaches`
                 : `${team.name} B Team Coaches`
               : team.multi === "V&JV"
-              ? showCoachesModal.type === "first"
+              ? showCoachesModal.twoTeams === "A"
                 ? `${team.name} Varsity Team Coaches`
                 : `${team.name} Junior Varsity Coaches`
               : "Coaches"}
@@ -99,7 +110,7 @@ const CoachesModal = ({
             }}
           >
             <div className="coach-split">
-            <Form.Group controlId="Position">
+              <Form.Group controlId="Position">
                 <Form.Select
                   className="coach-select"
                   type="text"
@@ -117,7 +128,6 @@ const CoachesModal = ({
                   <option value="Other">Other</option>
                 </Form.Select>
               </Form.Group>
-
 
               <Form.Group controlId="Coach">
                 <Form.Select
@@ -142,9 +152,7 @@ const CoachesModal = ({
               <Button
                 variant="success add-btn"
                 onClick={() =>
-                  handleAddRow(
-                    showCoachesModal.type === "first" ? "A" : "B"
-                  )
+                  handleAddRow(showCoachesModal.twoTeams === "A" ? "A" : "B")
                 }
               >
                 +
@@ -153,31 +161,44 @@ const CoachesModal = ({
           </Form>
 
           <div className="coach-rows">
-            {addedRows.some((row) => row.type === showCoachesModal.type) && (
-              <hr className="modal-hr2" />
-            )}
-              {addedRows
-                .filter((row) => row.type === showCoachesModal.type)
-                .map((row, index) => (
-                  <Row key={index} className="added-row">
-                    <div className="col">{row.position}</div>
-                    <div className="col">{row.coach}</div>
-                    <div className="col-auto">
-                      <Button
-                        variant="danger"
-                        className="subt-btn"
-                        onClick={() => handleRemoveRow(index)}
-                      >
-                        -
-                      </Button>
-                    </div>
-                  </Row>
-                ))}
-            </div>
+            {addedRows.some(
+              (row) => row.twoTeams === showCoachesModal.twoTeams
+            ) && <hr className="modal-hr2" />}
+            {addedRows
+              .filter((row) => row.twoTeams === showCoachesModal.twoTeams)
+              .map((row, index) => (
+                <Row key={index} className="added-row">
+                  <div className="col">{row.position}</div>
+                  <div className="col">{row.coach}</div>
+                  <div className="col-auto">
+                    <Button
+                      variant="danger"
+                      className="subt-btn"
+                      onClick={() =>
+                        handleRemoveRow(
+                          index,
+                          showCoachesModal.twoTeams === "A" ? "A" : "B"
+                        )
+                      }
+                    >
+                      -
+                    </Button>
+                  </div>
+                </Row>
+              ))}
+          </div>
         </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleCloseCoachesModal}>
+            Done
+          </Button>
+          <Button variant="secondary" onClick={handleCloseCoachesModal}>
+            Close
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
 };
 
-export default CoachesModal;
+export default SetCoachesModal;

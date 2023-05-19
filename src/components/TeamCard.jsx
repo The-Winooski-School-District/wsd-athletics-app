@@ -315,7 +315,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                 <Button
                   className="btn-info wsd"
                   onClick={() =>
-                    setShowSetCoachesModal({ type: "first", show: true })
+                    setShowSetCoachesModal({ twoTeams: "A", show: true })
                   }
                 >
                   Coaches
@@ -331,7 +331,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                   <Button
                     className="btn-info wsd"
                     onClick={() =>
-                      setShowSetCoachesModal({ type: "second", show: true })
+                      setShowSetCoachesModal({ twoTeams: "B", show: true })
                     }
                   >
                     Coaches
