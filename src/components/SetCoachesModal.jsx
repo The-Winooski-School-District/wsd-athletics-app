@@ -13,6 +13,7 @@ const SetCoachesModal = ({
   const [coach, setCoach] = useState("");
   const [coaches, setCoaches] = useState([]);
   const [addedRows, setAddedRows] = useState([]);
+  const { twoTeams, show } = showCoachesModal;
 
   useEffect(() => {
     db.ref("coaches").on("value", (snapshot) => {
@@ -40,7 +41,7 @@ const SetCoachesModal = ({
     const newRow = {
       position,
       coach,
-      twoTeams: twoTeams === "A" ? "A" : "B",
+      twoTeams,
     };
 
     // Update Firebase database
@@ -59,26 +60,27 @@ const SetCoachesModal = ({
     setCoach("");
   };
 
-  const handleRemoveRow = (index, twoTeams) => {
-    if (index >= 0 && index < addedRows.length) {
-      const removedRow = addedRows[index];
-      // Check if the removed row belongs to the correct team
-      if (removedRow.twoTeams === twoTeams) {
-        // Remove entry from Firebase database
-        const coachesRef = db.ref(`seasons/${seasonid}/teams/${teamid}/coaches${twoTeams}`);
-        const coachToRemove = coachesRef.child(removedRow.id);
-        coachToRemove.remove();
-  
+const handleRemoveRow = (originalIndex, twoTeams) => {
+  const removedRow = addedRows.find((_, i) => i === originalIndex);
+  if (removedRow) {
+    // Remove entry from Firebase database
+    const coachesRef = db.ref(`seasons/${seasonid}/teams/${teamid}/coaches${removedRow.twoTeams}`);
+    const coachToRemove = coachesRef.child(removedRow.id);
+    coachToRemove.remove()
+      .then(() => {
+        // Update the addedRows state by filtering out the removed coach
         setAddedRows((prevRows) => {
-          const updatedRows = [...prevRows];
-          updatedRows.splice(index, 1);
-          return updatedRows;
+          return prevRows.filter(
+            (row) => row.id !== removedRow.id || row.twoTeams !== twoTeams
+          );
         });
-      }
-    }
-  };
-  
-  
+      })
+      .catch((error) => {
+        console.log('Error removing coach:', error);
+      });
+  }
+};
+
 
   const handleCoachesModalClose = () => {
     handleCloseCoachesModal();
@@ -86,17 +88,17 @@ const SetCoachesModal = ({
 
   return (
     <div>
-      <Modal show={showCoachesModal} onHide={handleCoachesModalClose}>
+      <Modal show={show} onHide={handleCoachesModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             {team.identicalCoaches === true
               ? `${team.name} Coaches`
               : team.multi === "A&B"
-              ? showCoachesModal.twoTeams === "A"
+              ? twoTeams === "A"
                 ? `${team.name} A Team Coaches`
                 : `${team.name} B Team Coaches`
               : team.multi === "V&JV"
-              ? showCoachesModal.twoTeams === "A"
+              ? twoTeams === "A"
                 ? `${team.name} Varsity Team Coaches`
                 : `${team.name} Junior Varsity Coaches`
               : "Coaches"}
@@ -151,9 +153,7 @@ const SetCoachesModal = ({
 
               <Button
                 variant="success add-btn"
-                onClick={() =>
-                  handleAddRow(showCoachesModal.twoTeams === "A" ? "A" : "B")
-                }
+                onClick={() => handleAddRow(twoTeams)}
               >
                 +
               </Button>
@@ -161,11 +161,11 @@ const SetCoachesModal = ({
           </Form>
 
           <div className="coach-rows">
-            {addedRows.some(
-              (row) => row.twoTeams === showCoachesModal.twoTeams
-            ) && <hr className="modal-hr2" />}
+            {addedRows.some((row) => row.twoTeams === twoTeams) && (
+              <hr className="modal-hr2" />
+            )}
             {addedRows
-              .filter((row) => row.twoTeams === showCoachesModal.twoTeams)
+              .filter((row) => row.twoTeams === twoTeams)
               .map((row, index) => (
                 <Row key={index} className="added-row">
                   <div className="col">{row.position}</div>
@@ -174,12 +174,7 @@ const SetCoachesModal = ({
                     <Button
                       variant="danger"
                       className="subt-btn"
-                      onClick={() =>
-                        handleRemoveRow(
-                          index,
-                          showCoachesModal.twoTeams === "A" ? "A" : "B"
-                        )
-                      }
+                      onClick={() => handleRemoveRow(index, twoTeams)}
                     >
                       -
                     </Button>
