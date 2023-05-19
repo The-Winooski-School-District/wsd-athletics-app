@@ -57,7 +57,10 @@ const CoachCard = ({ coach }) => {
     setShowFullText(false);
   };
 
-  const truncatedText = coach.coachInfo.length > 100 ? coach.coachInfo.slice(0, 100) + "..." : coach.coachInfo;
+  const truncatedText =
+    coach.coachInfo.length > 100
+      ? coach.coachInfo.slice(0, 100) + "..."
+      : coach.coachInfo;
 
   return (
     <div className="coach-card">
@@ -68,27 +71,30 @@ const CoachCard = ({ coach }) => {
       <hr className="yellow"></hr>
 
       <div className="coach-card-main">
-        <Row className="coach-pic-container">
-          <img
-            className="coach-pic"
-            src={coach.coachPhoto}
-            onError={handlePicError}
-            alt="Coach"
-          />
-        </Row>
-
         <Row>
-          <div
-            className="coach-card-sports"
-            onClick={handleCardInfoClick}
-            style={{ cursor: "pointer" }}
-          >
+          <div className="coach-pic-container">
+            <img
+              className="coach-pic"
+              src={coach.coachPhoto}
+              onError={handlePicError}
+              alt="Coach"
+            />
+          </div>
+        </Row>
+        <div className="separator"></div>
+        <h5>Sports</h5>
+
+        <Row className="sports-row">
+          <div className="coach-card-sports">
             {coach.coachSports.map((sport, index) => (
-              <p key={index}>{sport}</p>
+              <p key={index}>
+                <Button variant="outline-warning wsd nohover">{sport}</Button>
+              </p>
             ))}
           </div>
         </Row>
-
+        <div className="separator"></div>
+        <h5>Bio</h5>
         <Row>
           <div
             className="coach-card-info"
@@ -101,7 +107,10 @@ const CoachCard = ({ coach }) => {
       </div>
 
       <hr className="yellow"></hr>
-      <div className="coach-buttons"></div>
+      <div className="coach-buttons">
+        <Button className="btn-info wsd">Edit</Button>
+        <Button className="btn-danger wsd">Delete</Button>
+      </div>
 
       <AddCoachModal
         showAddCoachModal={showAddCoachModal}
@@ -113,7 +122,9 @@ const CoachCard = ({ coach }) => {
         <Modal.Header closeButton>
           <Modal.Title>{coach.coachName} Full Info</Modal.Title>
         </Modal.Header>
-        <Modal.Body><div className="coach-card-info">{coach.coachInfo}</div></Modal.Body>
+        <Modal.Body>
+          <div className="coach-card-info">{coach.coachInfo}</div>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
             Close

@@ -109,6 +109,12 @@
   border-color: #9c6900 !important;
 }
 
+.nohover.btn-outline-warning:hover {
+  background-color: #17391f !important;
+  border-color: #e9a60b !important;
+  color: #e9a60b !important;
+}
+
 /* Info Button */
 
 .action-buttons .wsd.btn.btn-info,
