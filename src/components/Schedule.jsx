@@ -196,7 +196,7 @@ const Schedule = () => {
     const location = event.target.elements.location.value;
     const time = event.target.elements.time.value;
     const notes = event.target.elements.notes.value;
-    const score_w = event.target.elements.score_w.value;
+    const score_w = "pending...";
     const score_o = "pending...";
     const newGame = { date, opponent, location, time, notes, score_w, score_o };
     db.ref(`seasons/` + schedulePath).push(newGame);
@@ -350,18 +350,20 @@ const Schedule = () => {
         </div>
         <Form onSubmit={handleAddGame}>
           <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Opponent</th>
-                <th>Home/Away</th>
-                <th>Time</th>
-                <th>Notes</th>
-                {isArchived ? null : <th>Actions</th>}
-              </tr>
-            </thead>
-            <tbody>
-              {isArchived ? null : (
+            {isArchived ? null : (
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Opponent</th>
+                  <th>Home/Away</th>
+                  <th>Time</th>
+                  <th>Notes</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+            )}
+            {isArchived ? null : (
+              <tbody>
                 <tr>
                   <td>
                     <Form.Control
@@ -423,10 +425,12 @@ const Schedule = () => {
                     </Button>
                   </td>
                 </tr>
-              )}
-            </tbody>
-            <br></br>
-            <br></br>
+              </tbody>
+            )}
+            {isArchived ? null : (
+            <br></br>)}
+            {isArchived ? null : (
+            <br></br>)}
             <thead>
               <tr>
                 <th>Date</th>
