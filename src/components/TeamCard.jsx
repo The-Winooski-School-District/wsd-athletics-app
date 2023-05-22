@@ -79,6 +79,38 @@ const TeamCard = ({ team, seasonid, archived }) => {
   }, [seasonid, team.id]);
 
   function handleTeamSave(teamInfo, index) {
+    if (
+      typeof teamInfo.name === "undefined" ||
+      typeof teamInfo.sport === "undefined" ||
+      typeof teamInfo.abbr === "undefined" ||
+      typeof teamInfo.multi === "undefined" ||
+      typeof teamInfo.identicalRosters === "undefined" ||
+      typeof teamInfo.identicalSchedules === "undefined" ||
+      typeof teamInfo.identicalCoaches === "undefined" ||
+      typeof teamInfo.teamPageA === "undefined" ||
+      typeof teamInfo.teamPicA === "undefined" ||
+      typeof teamInfo.teamPageB === "undefined" ||
+      typeof teamInfo.teamPicB === "undefined" ||
+      typeof teamInfo.coachesA === "undefined" ||
+      typeof teamInfo.coachesB === "undefined"
+    ) {
+      // Set default values for the missing keys
+      teamInfo.name = teamInfo.name || "";
+      teamInfo.sport = teamInfo.sport || "";
+      teamInfo.abbr = teamInfo.abbr || "";
+      teamInfo.multi = teamInfo.multi || "";
+      teamInfo.identicalRosters = teamInfo.identicalRosters ?? true;
+      teamInfo.identicalSchedules = teamInfo.identicalSchedules ?? true;
+      teamInfo.identicalCoaches = teamInfo.identicalCoaches ?? true;
+      teamInfo.teamPageA = teamInfo.teamPageA || "";
+      teamInfo.teamPicA = teamInfo.teamPicA || "";
+      teamInfo.teamPageB = teamInfo.teamPageB || "";
+      teamInfo.teamPicB = teamInfo.teamPicB || "";
+      teamInfo.coachesA = teamInfo.coachesA || "";
+      teamInfo.coachesB = teamInfo.coachesB || "";
+    }
+
+
     const teamid = team.id;
     if (!teamid) {
       console.log(`No team found at index ${index}.`);

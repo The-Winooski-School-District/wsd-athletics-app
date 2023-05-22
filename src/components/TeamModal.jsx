@@ -482,7 +482,7 @@ const TeamModal = ({
                 <Button
                   variant="info wsd set-coaches w-100"
                   onClick={
-                    () => setShowSetCoachesModal({ twoTeams: "", show: true }) // "A" for twoTeams
+                    () => setShowSetCoachesModal({ twoTeams: "A", show: true }) // "A" for twoTeams
                   }
                 >
                   Set A Coaches
@@ -531,7 +531,7 @@ const TeamModal = ({
               <Button
                 variant="info wsd set-coaches"
                 onClick={
-                  () => setShowSetCoachesModal({ twoTeams: "", show: true }) // Empty string for twoTeams
+                  () => setShowSetCoachesModal({ twoTeams: "A", show: true }) // Empty string for twoTeams
                 }
               >
                 Set Coaches
