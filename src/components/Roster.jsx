@@ -180,7 +180,7 @@ const Roster = () => {
     if (window.confirm("Are you sure you want to delete this player?")) {
       const updatedRoster = [...roster];
       updatedRoster.splice(index, 1);
-      db.ref(`seasons/${seasonid}/teams/${teamid}/roster/${id}`).remove();
+      db.ref(`seasons/` + rosterPath+ `/${id}`).remove();
       setRoster(updatedRoster);
       setEditIndex(null);
     }

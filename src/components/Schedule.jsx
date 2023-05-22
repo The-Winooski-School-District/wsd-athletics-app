@@ -19,29 +19,32 @@ const Schedule = () => {
   const [seasonName, setSeasonName] = useState("");
   const [loadedData, setLoadedData] = useState([]);
 
-  const csvData = schedule.map(({ date, opponent, location, time, score }) => ({
-    date,
-    opponent,
-    location,
-    time,
-    score,
-  }));
+  const csvData = schedule.map(
+    ({ date, opponent, location, time, notes, score_w, score_o }) => ({
+      date,
+      opponent,
+      location,
+      time,
+      notes,
+      score_w,
+      score_o,
+    })
+  );
 
   function handleChange(event, index) {
     const { name, value } = event.target;
     const updatedSchedule = [...schedule];
     const updatedOpponentInfo = { ...updatedSchedule[index], [name]: value };
-  
-    if (name === 'date') {
+
+    if (name === "date") {
       // Perform additional formatting for the date field
       const formattedDate = formatDate(value); // Call your formatDate function here or use any other formatting logic
       updatedOpponentInfo[name] = formattedDate;
     }
-  
+
     updatedSchedule[index] = updatedOpponentInfo;
     setSchedule(updatedSchedule);
   }
-  
 
   const isTrueUrl = window.location.href.endsWith("true");
 
@@ -177,7 +180,7 @@ const Schedule = () => {
     if (window.confirm("Are you sure you want to delete this game?")) {
       const updatedSchedule = [...schedule];
       updatedSchedule.splice(index, 1);
-      db.ref(`seasons/${seasonid}/teams/${teamid}/schedule/${id}`).remove();
+      db.ref(`seasons/` + schedulePath + `/${id}`).remove();
       setSchedule(updatedSchedule);
       setEditIndex(null);
     }
@@ -192,8 +195,10 @@ const Schedule = () => {
     const opponent = event.target.elements.opponent.value;
     const location = event.target.elements.location.value;
     const time = event.target.elements.time.value;
-    const score = event.target.elements.score.value;
-    const newGame = { date, opponent, location, time, score };
+    const notes = event.target.elements.notes.value;
+    const score_w = event.target.elements.score_w.value;
+    const score_o = "pending...";
+    const newGame = { date, opponent, location, time, notes, score_w, score_o };
     db.ref(`seasons/` + schedulePath).push(newGame);
     event.target.reset();
   }
@@ -207,16 +212,15 @@ const Schedule = () => {
 
   function formatDate(date) {
     let year, month, day;
-    
+
     if (date.includes("-")) {
       [year, month, day] = date.split("-");
     } else if (date.includes("/")) {
       [month, day, year] = date.split("/");
     }
-    
+
     return `${month} - ${day} - ${year}`;
   }
-  
 
   const handleFileLoaded = (data, fileInfo) => {
     const newSchedule = data.map((row) => ({
@@ -224,7 +228,9 @@ const Schedule = () => {
       opponent: row.opponent,
       location: row.location,
       time: row.time,
-      score: row.score,
+      notes: row.notes,
+      score_w: row.score_w,
+      score_o: row.score_o,
     }));
     const uniqueNewSchedule = newSchedule.filter((newGame) => {
       let found = false;
@@ -236,7 +242,9 @@ const Schedule = () => {
           newGame.opponent === loadedGame.opponent &&
           newGame.location === loadedGame.location &&
           newGame.time === loadedGame.time &&
-          newGame.score === loadedGame.score
+          newGame.notes === loadedGame.notes &&
+          newGame.score_w === loadedGame.score_w &&
+          newGame.score_o === loadedGame.score_o
         ) {
           found = true;
           break;
@@ -348,7 +356,7 @@ const Schedule = () => {
                 <th>Opponent</th>
                 <th>Home/Away</th>
                 <th>Time</th>
-                <th>Score</th>
+                <th>Notes</th>
                 {isArchived ? null : <th>Actions</th>}
               </tr>
             </thead>
@@ -405,8 +413,8 @@ const Schedule = () => {
                   <td>
                     <Form.Control
                       type="text"
-                      name="score"
-                      placeholder="Score"
+                      name="notes"
+                      placeholder="Notes"
                     />
                   </td>
                   <td>
@@ -416,6 +424,19 @@ const Schedule = () => {
                   </td>
                 </tr>
               )}
+            </tbody>
+            <br></br>
+            <br></br>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Opponent</th>
+                <th>Home/Away</th>
+                <th>Time</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
               {schedule.map((game, index) => (
                 <tr key={game.id}>
                   <td>
@@ -433,31 +454,43 @@ const Schedule = () => {
                   </td>
                   <td>
                     {editIndex === index ? (
-                      <Form.Select
-                        name="opponent"
-                        onChange={(event) => handleChange(event, index)}
-                        required
-                      >
-                        <option value="" disabled>
-                          Select an opponent
-                        </option>
-                        {opponents.map((opponent) => (
-                          <option key={opponent.id} value={opponent.name}>
-                            {opponent.name}
+                      <>
+                        <Form.Select
+                          name="opponent"
+                          onChange={(event) => handleChange(event, index)}
+                          required
+                        >
+                          <option value="" disabled>
+                            Select an opponent
                           </option>
-                        ))}
-                      </Form.Select>
+                          {opponents.map((opponent) => (
+                            <option key={opponent.id} value={opponent.name}>
+                              {opponent.name}
+                            </option>
+                          ))}
+                        </Form.Select>
+                        <Form.Control
+                          type="text"
+                          placeholder="Notes"
+                          name="notes"
+                          value={game.notes}
+                          onChange={(event) => handleChange(event, index)}
+                        />
+                      </>
                     ) : (
-                      <a
-                        href={`https://www.google.com/maps/place/${
-                          opponents.find((o) => o.name === game.opponent)
-                            ?.address
-                        }`}
-                        rel="noreferrer"
-                        target="_blank"
-                      >
-                        {game.opponent}
-                      </a>
+                      <>
+                        <a
+                          href={`https://www.google.com/maps/place/${
+                            opponents.find((o) => o.name === game.opponent)
+                              ?.address
+                          }`}
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          {game.opponent}
+                        </a>
+                        <figcaption>{game.notes}</figcaption>
+                      </>
                     )}
                   </td>
                   <td>
@@ -494,14 +527,33 @@ const Schedule = () => {
                   </td>
                   <td>
                     {editIndex === index ? (
-                      <Form.Control
-                        type="text"
-                        name="score"
-                        value={game.score}
-                        onChange={(event) => handleChange(event, index)}
-                      />
+                      <>
+                        <Form.Control
+                          type="text"
+                          placeholder="Winooski"
+                          name="score_w"
+                          value={game.score_w}
+                          onChange={(event) => handleChange(event, index)}
+                        />
+                        <Form.Control
+                          type="text"
+                          placeholder="Opponent"
+                          name="score_o"
+                          value={game.score_o}
+                          onChange={(event) => handleChange(event, index)}
+                        />
+                      </>
                     ) : (
-                      game.score
+                      <>
+                        <div className="score-header">
+                          <figcaption>Winooski</figcaption>
+                          <figcaption>{game.opponent}</figcaption>
+                        </div>
+                        <div className="scores">
+                          <figcaption>{game.score_w}</figcaption>
+                          <figcaption>{game.score_o}</figcaption>
+                        </div>
+                      </>
                     )}
                   </td>
                   {isArchived ? null : (
