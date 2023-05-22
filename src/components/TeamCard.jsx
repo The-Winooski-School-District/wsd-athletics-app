@@ -10,7 +10,7 @@ import { db } from "./Firebase";
 const TeamCard = ({ team, seasonid, archived }) => {
   const [showTeamModal, setshowTeamModal] = useState(false);
   const [showMultiModal, setshowMultiModal] = useState(false);
-  const [showCoachesModal, setShowSetCoachesModal] = useState(false);
+  const [showSetCoachesModal, setShowSetCoachesModal] = useState(false);
   const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
   const [hasRoster, setHasRoster] = useState(false);
@@ -463,7 +463,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         seasonid={seasonid}
         teamid={team.id}
         team={team}
-        showCoachesModal={showCoachesModal}
+        showSetCoachesModal={showSetCoachesModal}
         handleCloseCoachesModal={() => setShowSetCoachesModal(false)}
       />
 
@@ -472,8 +472,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
         editing={!archived}
         archived={archived}
         showTeamModal={showTeamModal}
-        showCoachesModal={showCoachesModal}
+        showSetCoachesModal={showSetCoachesModal}
         handleTeamSave={handleTeamSave}
+        handleCloseCoachesModal={() => setShowSetCoachesModal(false)}
         handleCloseTeamModal={() => setshowTeamModal(false)}
       />
     </div>

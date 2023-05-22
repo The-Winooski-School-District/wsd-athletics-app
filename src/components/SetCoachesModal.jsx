@@ -6,14 +6,16 @@ const SetCoachesModal = ({
   seasonid,
   teamid,
   team,
-  showCoachesModal,
+  showSetCoachesModal,
   handleCloseCoachesModal,
 }) => {
   const [position, setPosition] = useState("");
   const [coach, setCoach] = useState("");
   const [coaches, setCoaches] = useState([]);
-  const [addedRows, setAddedRows] = useState([]);
-  const { twoTeams, show } = showCoachesModal;
+
+  const [addedRowsA, setAddedRowsA] = useState([]);
+  const [addedRowsB, setAddedRowsB] = useState([]);
+  const { twoTeams, show } = showSetCoachesModal;
 
   useEffect(() => {
     db.ref("coaches").on("value", (snapshot) => {
@@ -37,50 +39,79 @@ const SetCoachesModal = ({
     setCoach(event.target.value);
   };
 
-  const handleAddRow = (twoTeams) => {
+  const handleAddRow = (team) => {
     const newRow = {
       position,
       coach,
-      twoTeams,
     };
 
     // Update Firebase database
     const coachesRef = db.ref(
-      `seasons/${seasonid}/teams/${teamid}/coaches${twoTeams}`
+      `seasons/${seasonid}/teams/${teamid}/coaches${team}`
     );
-    const newCoachKey = coachesRef.push().key;
+    const newCoachRef = coachesRef.push();
+    const newCoachKey = newCoachRef.key;
     const newCoachData = {
       position,
       coach,
     };
-    coachesRef.child(newCoachKey).set(newCoachData);
 
-    setAddedRows((prevRows) => [...prevRows, { ...newRow, id: newCoachKey }]);
-    setPosition("");
-    setCoach("");
-  };
-
-const handleRemoveRow = (originalIndex, twoTeams) => {
-  const removedRow = addedRows.find((_, i) => i === originalIndex);
-  if (removedRow) {
-    // Remove entry from Firebase database
-    const coachesRef = db.ref(`seasons/${seasonid}/teams/${teamid}/coaches${removedRow.twoTeams}`);
-    const coachToRemove = coachesRef.child(removedRow.id);
-    coachToRemove.remove()
+    newCoachRef
+      .set(newCoachData)
       .then(() => {
-        // Update the addedRows state by filtering out the removed coach
-        setAddedRows((prevRows) => {
-          return prevRows.filter(
-            (row) => row.id !== removedRow.id || row.twoTeams !== twoTeams
-          );
-        });
+        if (team === "A") {
+          setAddedRowsA((prevRows) => [
+            ...prevRows,
+            { ...newRow, id: newCoachKey },
+          ]);
+        } else if (team === "B") {
+          setAddedRowsB((prevRows) => [
+            ...prevRows,
+            { ...newRow, id: newCoachKey },
+          ]);
+        }
+        setPosition("");
+        setCoach("");
       })
       .catch((error) => {
-        console.log('Error removing coach:', error);
+        console.log("Error adding coach:", error);
       });
-  }
-};
+  };
 
+  const handleRemoveRow = (team, originalIndex) => {
+    let removedRow;
+
+    if (team === "A") {
+      removedRow = addedRowsA.find((_, i) => i === originalIndex);
+    } else if (team === "B") {
+      removedRow = addedRowsB.find((_, i) => i === originalIndex);
+    }
+
+    if (removedRow) {
+      // Remove entry from Firebase database
+      const coachesRef = db.ref(
+        `seasons/${seasonid}/teams/${teamid}/coaches${team}`
+      );
+      const coachToRemove = coachesRef.child(removedRow.id);
+
+      coachToRemove
+        .remove()
+        .then(() => {
+          if (team === "A") {
+            setAddedRowsA((prevRows) => {
+              return prevRows.filter((row) => row.id !== removedRow.id);
+            });
+          } else if (team === "B") {
+            setAddedRowsB((prevRows) => {
+              return prevRows.filter((row) => row.id !== removedRow.id);
+            });
+          }
+        })
+        .catch((error) => {
+          console.log("Error removing coach:", error);
+        });
+    }
+  };
 
   const handleCoachesModalClose = () => {
     handleCloseCoachesModal();
@@ -161,12 +192,11 @@ const handleRemoveRow = (originalIndex, twoTeams) => {
           </Form>
 
           <div className="coach-rows">
-            {addedRows.some((row) => row.twoTeams === twoTeams) && (
+            {twoTeams === "A" && addedRowsA.length > 0 && (
               <hr className="modal-hr2" />
             )}
-            {addedRows
-              .filter((row) => row.twoTeams === twoTeams)
-              .map((row, index) => (
+            {twoTeams === "A" &&
+              addedRowsA.map((row, index) => (
                 <Row key={index} className="added-row">
                   <div className="col">{row.position}</div>
                   <div className="col">{row.coach}</div>
@@ -174,7 +204,27 @@ const handleRemoveRow = (originalIndex, twoTeams) => {
                     <Button
                       variant="danger"
                       className="subt-btn"
-                      onClick={() => handleRemoveRow(index, twoTeams)}
+                      onClick={() => handleRemoveRow("A", index)}
+                    >
+                      -
+                    </Button>
+                  </div>
+                </Row>
+              ))}
+
+            {twoTeams === "B" && addedRowsB.length > 0 && (
+              <hr className="modal-hr2" />
+            )}
+            {twoTeams === "B" &&
+              addedRowsB.map((row, index) => (
+                <Row key={index} className="added-row">
+                  <div className="col">{row.position}</div>
+                  <div className="col">{row.coach}</div>
+                  <div className="col-auto">
+                    <Button
+                      variant="danger"
+                      className="subt-btn"
+                      onClick={() => handleRemoveRow("B", index)}
                     >
                       -
                     </Button>
