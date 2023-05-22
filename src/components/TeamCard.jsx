@@ -240,98 +240,120 @@ const TeamCard = ({ team, seasonid, archived }) => {
         </Row>
       ) : null}
 
-      <Row>
-        {/* Display team pages */}
-        {(team.teamPage &&
-          team.teamPage.trim() !== "" &&
-          team.teamPage.trim() !== "NULL") ||
-        (team.teamPageA &&
-          team.teamPageA.trim() !== "" &&
-          team.teamPageA.trim() !== "NULL") ||
-        (team.teamPageB &&
-          team.teamPageB.trim() !== "" &&
-          team.teamPageB.trim() !== "NULL") ? (
-          <React.Fragment>
-            <Col xs={3}>
-              <p>Page(s):</p>
-            </Col>
-            {[team.teamPage, team.teamPageA, team.teamPageB]
-              .filter(
-                (page) => page && page.trim() !== "" && page.trim() !== "NULL"
-              )
-              .flatMap((page) => page.split("|"))
-              .map((page, index) => (
-                <Col key={`${team.id}-teamPage-${index}`} xs={4}>
-                  <div className="team-info team-page">
-                    <p>
-                      <a
-                        className="team-links"
-                        rel="noreferrer"
-                        target="_blank"
-                        href={
-                          "https://www.wsdvt.org/" +
-                          (page.charAt(0) === "/" ? page.substring(1) : page)
-                        }
-                      >
-                        Team Page
-                      </a>
-                    </p>
-                  </div>
-                </Col>
-              ))}
-          </React.Fragment>
-        ) : null}
-      </Row>
+<Row>
+  {/* Display team pages */}
+  {(team.teamPageA !== undefined && team.teamPageA.trim() !== "") ||
+  (team.teamPageB !== undefined && team.teamPageB.trim() !== "") ? (
+    <React.Fragment>
+      <Col xs={3}>
+        <p>Page(s):</p>
+      </Col>
+      <Col xs={4}>
+        {team.teamPageA !== undefined && team.teamPageA.trim() !== "" && (
+          <div className="team-info team-page">
+            <p>
+              <a
+                className="team-links"
+                rel="noreferrer"
+                target="_blank"
+                href={
+                  "https://www.wsdvt.org/" +
+                  (team.teamPageA.charAt(0) === "/" ? team.teamPageA.substring(1) : team.teamPageA)
+                }
+              >
+                Team Page A
+              </a>
+            </p>
+          </div>
+        )}
+      </Col>
+      <Col xs={4}>
+        {team.teamPageB !== undefined && team.teamPageB.trim() !== "" && (
+          <div className="team-info team-page">
+            <p>
+              <a
+                className="team-links"
+                rel="noreferrer"
+                target="_blank"
+                href={
+                  "https://www.wsdvt.org/" +
+                  (team.teamPageB.charAt(0) === "/" ? team.teamPageB.substring(1) : team.teamPageB)
+                }
+              >
+                Team Page B
+              </a>
+            </p>
+          </div>
+        )}
+      </Col>
+    </React.Fragment>
+  ) : null}
+</Row>
 
-      <Row>
-        {/* Display team pictures */}
-        {(team.teamPic &&
-          team.teamPic.trim() !== "" &&
-          team.teamPic.trim() !== "NULL") ||
-        (team.teamPicA &&
-          team.teamPicA.trim() !== "" &&
-          team.teamPicA.trim() !== "NULL") ||
-        (team.teamPicB &&
-          team.teamPicB.trim() !== "" &&
-          team.teamPicB.trim() !== "NULL") ? (
-          <React.Fragment>
-            <Col xs={3}>
-              <p>Picture(s):</p>
-            </Col>
-            {[team.teamPic, team.teamPicA, team.teamPicB]
-              .filter(
-                (pic) => pic && pic.trim() !== "" && pic.trim() !== "NULL"
-              )
-              .flatMap((pic) => pic.split("|"))
-              .map((pic, index) => (
-                <Col key={`${team.id}-teamPic-${index}`} xs={4}>
-                  <div className="team-info team-pic">
-                    <p>
-                      <a
-                        className="team-links"
-                        rel="noreferrer"
-                        target="_blank"
-                        href={
-                          "https://www.wsdvt.org/" +
-                          (pic.charAt(0) === "/" ? pic.substring(1) : pic)
-                        }
-                      >
-                        <img
-                          className="teamPic"
-                          alt="bad URL"
-                          src={
-                            "https://www.wsdvt.org/" +
-                            (pic.charAt(0) === "/" ? pic.substring(1) : pic)
-                          }
-                        />
-                      </a>
-                    </p>
-                  </div>
-                </Col>
-              ))}
-          </React.Fragment>
-        ) : null}
-      </Row>
+
+<Row>
+  {/* Display team pictures */}
+  {(team.teamPicA !== undefined && team.teamPicA.trim() !== "") ||
+  (team.teamPicB !== undefined && team.teamPicB.trim() !== "") ? (
+    <React.Fragment>
+      <Col xs={3}>
+        <p>Picture(s):</p>
+      </Col>
+      <Col xs={4}>
+        {team.teamPicA !== undefined && team.teamPicA.trim() !== "" && (
+          <div className="team-info team-pic">
+            <p>
+              <a
+                className="team-links"
+                rel="noreferrer"
+                target="_blank"
+                href={
+                  "https://www.wsdvt.org/" +
+                  (team.teamPicA.charAt(0) === "/" ? team.teamPicA.substring(1) : team.teamPicA)
+                }
+              >
+                <img
+                  className="teamPic"
+                  alt="bad URL"
+                  src={
+                    "https://www.wsdvt.org/" +
+                    (team.teamPicA.charAt(0) === "/" ? team.teamPicA.substring(1) : team.teamPicA)
+                  }
+                />
+              </a>
+            </p>
+          </div>
+        )}
+      </Col>
+      <Col xs={4}>
+        {team.teamPicB !== undefined && team.teamPicB.trim() !== "" && (
+          <div className="team-info team-pic">
+            <p>
+              <a
+                className="team-links"
+                rel="noreferrer"
+                target="_blank"
+                href={
+                  "https://www.wsdvt.org/" +
+                  (team.teamPicB.charAt(0) === "/" ? team.teamPicB.substring(1) : team.teamPicB)
+                }
+              >
+                <img
+                  className="teamPic"
+                  alt="bad URL"
+                  src={
+                    "https://www.wsdvt.org/" +
+                    (team.teamPicB.charAt(0) === "/" ? team.teamPicB.substring(1) : team.teamPicB)
+                  }
+                />
+              </a>
+            </p>
+          </div>
+        )}
+      </Col>
+    </React.Fragment>
+  ) : null}
+</Row>
 
       {/* Gonna have to do to coaches what we did to pages and pics to show more than 1 if there's more than 1*/}
       <Row>
