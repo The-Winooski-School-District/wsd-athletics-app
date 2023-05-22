@@ -9,6 +9,7 @@ const TeamModal = ({
   handleCloseTeamModal,
   editing,
   archived,
+  setShowSetCoachesModal,
 }) => {
   const [teamName, setTeamName] = useState(editing ? team.name : "");
   const [sport, setSport] = useState(editing ? team.sport : "");
@@ -465,19 +466,36 @@ const TeamModal = ({
           {identicalCoaches ? (
             <Form.Group controlId="teamCoaches">
               <Form.Label></Form.Label>
-              <Button variant="info wsd set-coaches"> Set Coaches </Button>
+              <Button
+                variant="info wsd set-coaches"
+                onClick={
+                  () => setShowSetCoachesModal({ twoTeams: "A", show: true }) // Empty string for twoTeams
+                }
+              >
+                Set Coaches
+              </Button>
             </Form.Group>
           ) : multi === "A&B" ? (
             <div className="coach-split">
               <Form.Group controlId="teamCoachesA">
                 <Form.Label></Form.Label>
-                <Button variant="info wsd set-coaches w-100">
+                <Button
+                  variant="info wsd set-coaches w-100"
+                  onClick={
+                    () => setShowSetCoachesModal({ twoTeams: "", show: true }) // "A" for twoTeams
+                  }
+                >
                   Set A Coaches
                 </Button>
               </Form.Group>
               <Form.Group controlId="teamCoachesB">
                 <Form.Label></Form.Label>
-                <Button variant="info wsd set-coaches w-100">
+                <Button
+                  variant="info wsd set-coaches w-100"
+                  onClick={
+                    () => setShowSetCoachesModal({ twoTeams: "B", show: true }) // "B" for twoTeams
+                  }
+                >
                   Set B Coaches
                 </Button>
               </Form.Group>
@@ -486,13 +504,23 @@ const TeamModal = ({
             <div className="coach-split">
               <Form.Group controlId="teamCoachesA">
                 <Form.Label></Form.Label>
-                <Button variant="info wsd set-coaches w-100">
+                <Button
+                  variant="info wsd set-coaches w-100"
+                  onClick={
+                    () => setShowSetCoachesModal({ twoTeams: "A", show: true }) // "A" for twoTeams
+                  }
+                >
                   Set Varsity Coaches
                 </Button>
               </Form.Group>
               <Form.Group controlId="teamCoachesB">
                 <Form.Label></Form.Label>
-                <Button variant="info wsd set-coaches w-100">
+                <Button
+                  variant="info wsd set-coaches w-100"
+                  onClick={
+                    () => setShowSetCoachesModal({ twoTeams: "B", show: true }) // "B" for twoTeams
+                  }
+                >
                   Set JV Coaches
                 </Button>
               </Form.Group>
@@ -500,7 +528,14 @@ const TeamModal = ({
           ) : (
             <Form.Group controlId="teamCoaches">
               <Form.Label></Form.Label>
-              <Button variant="info wsd set-coaches"> Set Coaches </Button>
+              <Button
+                variant="info wsd set-coaches"
+                onClick={
+                  () => setShowSetCoachesModal({ twoTeams: "", show: true }) // Empty string for twoTeams
+                }
+              >
+                Set Coaches
+              </Button>
             </Form.Group>
           )}
         </Form>

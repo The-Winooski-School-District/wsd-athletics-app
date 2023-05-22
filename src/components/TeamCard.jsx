@@ -474,8 +474,8 @@ const TeamCard = ({ team, seasonid, archived }) => {
         showTeamModal={showTeamModal}
         showSetCoachesModal={showSetCoachesModal}
         handleTeamSave={handleTeamSave}
-        handleCloseCoachesModal={() => setShowSetCoachesModal(false)}
         handleCloseTeamModal={() => setshowTeamModal(false)}
+        setShowSetCoachesModal={setShowSetCoachesModal}
       />
     </div>
   );
