@@ -8,8 +8,8 @@ import SetCoachesModal from "./SetCoachesModal";
 import { db } from "./Firebase";
 
 const TeamCard = ({ team, seasonid, archived }) => {
-  const [showTeamModal, setshowTeamModal] = useState(false);
-  const [showMultiModal, setshowMultiModal] = useState(false);
+  const [showTeamModal, setShowTeamModal] = useState(false);
+  const [showMultiModal, setShowMultiModal] = useState(false);
   const [showSetCoachesModal, setShowSetCoachesModal] = useState(false);
   const [season, setSeason] = useState(seasonid.season);
   const [teams, setTeams] = useState([]);
@@ -387,7 +387,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
             </Link>
             <Button
               variant="outline-warning wsd"
-              onClick={() => setshowTeamModal(true)}
+              onClick={() => setShowTeamModal(true)}
             >
               View Team
             </Button>
@@ -401,7 +401,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                     <Button
                       variant="outline-warning wsd"
                       onClick={() => {
-                        setshowMultiModal(true);
+                        setShowMultiModal(true);
                         setRosterButtonClicked(true);
                       }}
                     >
@@ -419,7 +419,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                     <Button
                       variant="success wsd"
                       onClick={() => {
-                        setshowMultiModal(true);
+                        setShowMultiModal(true);
                         setRosterButtonClicked(true);
                       }}
                     >
@@ -439,7 +439,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                     <Button
                       variant="outline-warning wsd"
                       onClick={() => {
-                        setshowMultiModal(true);
+                        setShowMultiModal(true);
                         setRosterButtonClicked(false);
                       }}
                     >
@@ -459,7 +459,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                     <Button
                       variant="success wsd"
                       onClick={() => {
-                        setshowMultiModal(true);
+                        setShowMultiModal(true);
                         setRosterButtonClicked(false);
                       }}
                     >
@@ -475,7 +475,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
             </>
             <Button
               variant="outline-warning wsd"
-              onClick={() => setshowTeamModal(true)}
+              onClick={() => setShowTeamModal(true)}
             >
               Edit Team
             </Button>
@@ -488,7 +488,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         rosterButtonClicked={rosterButtonClicked}
         team={team}
         showMultiModal={showMultiModal}
-        handleCloseMultiModal={() => setshowMultiModal(false)}
+        handleCloseMultiModal={() => setShowMultiModal(false)}
       />
 
       <SetCoachesModal
@@ -506,7 +506,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         showTeamModal={showTeamModal}
         showSetCoachesModal={showSetCoachesModal}
         handleTeamSave={handleTeamSave}
-        handleCloseTeamModal={() => setshowTeamModal(false)}
+        handleCloseTeamModal={() => setShowTeamModal(false)}
         setShowSetCoachesModal={setShowSetCoachesModal}
       />
     </div>

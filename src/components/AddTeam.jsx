@@ -6,7 +6,8 @@ import TeamCard from "./TeamCard";
 import TeamModal from "./TeamModal";
 
 const AddTeam = ({ seasonid }) => {
-  const [showTeamModal, setshowTeamModal] = useState(false);
+  const [showSetCoachesModal, setShowSetCoachesModal] = useState(false);
+  const [showTeamModal, setShowTeamModal] = useState(false);
   const [teams, setTeams] = useState([]);
   const [season, setSeason] = useState(null);
 
@@ -84,7 +85,7 @@ const AddTeam = ({ seasonid }) => {
         console.log(
           "Season information updated successfully in Firebase database."
         );
-        setshowTeamModal(false);
+        setShowTeamModal(false);
         const newTeam = {
           id: teamid,
           name: teamName,
@@ -109,7 +110,7 @@ const AddTeam = ({ seasonid }) => {
   return (
     <div>
       <div className="add-team-btn">
-        <Button variant="primary wsd" onClick={() => setshowTeamModal(true)}>
+        <Button variant="primary wsd" onClick={() => setShowTeamModal(true)}>
           Add Team
         </Button>
       </div>
@@ -124,10 +125,12 @@ const AddTeam = ({ seasonid }) => {
           />
         ))}
         <TeamModal
-          editing={false}
           showTeamModal={showTeamModal}
+          showSetCoachesModal={showSetCoachesModal}
+          handleCloseTeamModal={() => setShowTeamModal(false)}
+          setShowSetCoachesModal={setShowSetCoachesModal}
+          editing={false}
           handleAddTeam={handleAddTeam}
-          handleCloseTeamModal={() => setshowTeamModal(false)}
         />
       </div>
     </div>
