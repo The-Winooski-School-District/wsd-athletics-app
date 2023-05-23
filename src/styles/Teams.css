@@ -87,13 +87,22 @@
 }
 
 .Col-xs-3 {
-  text-align: left !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 1px 10px 0px;
 }
 
 .team-info {
-  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
   margin: 1px 10px;
+}
+
+.team-links {
+  white-space: nowrap;
 }
 
 .team-title-area, .coach-name-area {
@@ -274,7 +283,7 @@ a.team-links {
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 515px) {
   .team-card, .coach-card {
     flex-direction: column;
   }

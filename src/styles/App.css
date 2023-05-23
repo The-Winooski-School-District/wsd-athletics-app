@@ -61,7 +61,7 @@ body::-webkit-scrollbar {
   background-color: #0e512de5;
 }
 
-@media (max-width: 434px) {
+@media (max-width: 450px) {
   .Container {
     width: 98%;
   }
@@ -159,7 +159,7 @@ body::-webkit-scrollbar {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 515px) {
   .Archive h2 {
     font-size: 16px;
   }

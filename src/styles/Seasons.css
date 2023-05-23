@@ -98,3 +98,17 @@ Table > * > tr > td.last-col {
     margin-bottom: 10px !important;
   }
 }
+
+@media (max-width: 340px) {
+  .column-title {
+    font-weight: 600;
+    font-size: calc(1rem + .3vw) !important;
+  }
+  .team-info.coaches > * > .wsd {
+    font-size: .75rem;
+    padding: 6px;
+  }
+  .team-card-main {
+    font-size: .85rem;
+  }
+}
