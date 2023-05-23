@@ -459,7 +459,7 @@ const Schedule = () => {
                   </td>
                   <td>
                     {editIndex === index ? (
-                      <>
+                      <>  
                         <Form.Select
                           name="opponent"
                           onChange={(event) => handleChange(event, index)}
