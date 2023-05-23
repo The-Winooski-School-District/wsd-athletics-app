@@ -438,6 +438,7 @@ const Schedule = () => {
                 <th>Home/Away</th>
                 <th>Time</th>
                 <th>Score</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

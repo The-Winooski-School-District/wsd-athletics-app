@@ -154,18 +154,19 @@ const TeamCard = ({ team, seasonid, archived }) => {
 
       if (teamInfo.delete) {
         // Remove the team from the database
-        teamRef.remove((error) => {
-          if (error) {
-            console.log("Error deleting team information:", error);
-          } else {
+        teamRef
+          .remove()
+          .then(() => {
             console.log(
               "Team information deleted successfully from Firebase database."
             );
-            const updatedTeams = [...teams];
-            updatedTeams.splice(index, 1); // Remove the team from the array
+            // Update the teams state by filtering out the deleted team
+            const updatedTeams = teams.filter((team, i) => i !== index);
             setTeams(updatedTeams);
-          }
-        });
+          })
+          .catch((error) => {
+            console.log("Error deleting team information:", error);
+          });
       } else {
         // Set identical fields to true if multi is "Single Team" or ""
         if (
@@ -179,21 +180,23 @@ const TeamCard = ({ team, seasonid, archived }) => {
 
         // Update the team in the database
         delete updatedTeamInfo.delete; // Remove the delete property
-        teamRef.update(updatedTeamInfo, (error) => {
-          if (error) {
-            console.log("Error updating team information:", error);
-          } else {
+        teamRef
+          .update(updatedTeamInfo)
+          .then(() => {
             console.log(
               "Team information updated successfully in Firebase database."
             );
+            // Update the teams state with the updated team information
             const updatedTeams = [...teams];
             updatedTeams[index] = {
               ...teams[index],
               ...updatedTeamInfo,
             };
             setTeams(updatedTeams);
-          }
-        });
+          })
+          .catch((error) => {
+            console.log("Error updating team information:", error);
+          });
       }
     });
   }
@@ -252,67 +255,67 @@ const TeamCard = ({ team, seasonid, archived }) => {
             <p>Page(s):</p>
           </Col>
           {(team.teamPageA !== undefined && team.teamPageA.trim() !== "") ||
-  (team.teamPageB !== undefined && team.teamPageB.trim() !== "") ? (
-    <React.Fragment>
-      <Col xs={team.multi === "Single" || team.multi === "" ? 7 : 4}>
-        {team.teamPageA !== undefined &&
-          team.teamPageA.trim() !== "" && (
-            <div className="team-info team-page">
-              <p>
-                <a
-                  className="team-links"
-                  rel="noreferrer"
-                  target="_blank"
-                  href={
-                    "https://www.wsdvt.org/" +
-                    (team.teamPageA && team.teamPageA.charAt(0) === "/"
-                      ? team.teamPageA.substring(1)
-                      : team.teamPageA || "")
-                  }
-                >
-                  Team Page
-                </a>
-              </p>
-            </div>
-          )}
-        {team.teamPageA === "" && (
-          <div className="team-info team-page">
-            <p>none</p>
-          </div>
-        )}
-      </Col>
-      {team.multi !== "Single" && team.multi !== "" && (
-        <Col xs={4}>
-          {team.teamPageB !== undefined &&
-            team.teamPageB.trim() !== "" && (
-              <div className="team-info team-page">
-                <p>
-                  <a
-                    className="team-links"
-                    rel="noreferrer"
-                    target="_blank"
-                    href={
-                      "https://www.wsdvt.org/" +
-                      (team.teamPageB && team.teamPageB.charAt(0) === "/"
-                        ? team.teamPageB.substring(1)
-                        : team.teamPageB || "")
-                    }
-                  >
-                    Team Page
-                  </a>
-                </p>
-              </div>
-            )}
-          {team.teamPageB === "" && (
-            <div className="team-info team-page">
-              <p>none</p>
-            </div>
-          )}
-        </Col>
-      )}
-    </React.Fragment>
-  ) : null}
-
+          (team.teamPageB !== undefined && team.teamPageB.trim() !== "") ? (
+            <React.Fragment>
+              <Col xs={team.multi === "Single" || team.multi === "" ? 7 : 4}>
+                {team.teamPageA !== undefined &&
+                  team.teamPageA.trim() !== "" && (
+                    <div className="team-info team-page">
+                      <p>
+                        <a
+                          className="team-links"
+                          rel="noreferrer"
+                          target="_blank"
+                          href={
+                            "https://www.wsdvt.org/" +
+                            (team.teamPageA && team.teamPageA.charAt(0) === "/"
+                              ? team.teamPageA.substring(1)
+                              : team.teamPageA || "")
+                          }
+                        >
+                          Team Page
+                        </a>
+                      </p>
+                    </div>
+                  )}
+                {team.teamPageA === "" && (
+                  <div className="team-info team-page">
+                    <p>none</p>
+                  </div>
+                )}
+              </Col>
+              {team.multi !== "Single" && team.multi !== "" && (
+                <Col xs={4}>
+                  {team.teamPageB !== undefined &&
+                    team.teamPageB.trim() !== "" && (
+                      <div className="team-info team-page">
+                        <p>
+                          <a
+                            className="team-links"
+                            rel="noreferrer"
+                            target="_blank"
+                            href={
+                              "https://www.wsdvt.org/" +
+                              (team.teamPageB &&
+                              team.teamPageB.charAt(0) === "/"
+                                ? team.teamPageB.substring(1)
+                                : team.teamPageB || "")
+                            }
+                          >
+                            Team Page
+                          </a>
+                        </p>
+                      </div>
+                    )}
+                  {team.teamPageB === "" && (
+                    <div className="team-info team-page">
+                      <p>none</p>
+                    </div>
+                  )}
+                </Col>
+              )}
+            </React.Fragment>
+          ) : null}
         </Row>
 
         <Row>
@@ -321,83 +324,83 @@ const TeamCard = ({ team, seasonid, archived }) => {
             <p>Picture(s):</p>
           </Col>
           {(team.teamPicA !== undefined && team.teamPicA.trim() !== "") ||
-  (team.teamPicB !== undefined && team.teamPicB.trim() !== "") ? (
-    <React.Fragment>
-      <Col xs={team.multi === "Single" || team.multi === "" ? 7 : 4}>
-        {team.teamPicA !== undefined && team.teamPicA.trim() !== "" && (
-          <div className="team-info team-pic">
-            <p>
-              <a
-                className="team-links"
-                rel="noreferrer"
-                target="_blank"
-                href={
-                  "https://www.wsdvt.org/" +
-                  (team.teamPicA.charAt(0) === "/"
-                    ? team.teamPicA.substring(1)
-                    : team.teamPicA)
-                }
-              >
-                <img
-                  className="teamPic"
-                  src={
-                    "https://www.wsdvt.org/" +
-                    (team.teamPicA.charAt(0) === "/"
-                      ? team.teamPicA.substring(1)
-                      : team.teamPicA)
-                  }
-                  alt="Team Photo"
-                />
-              </a>
-            </p>
-          </div>
-        )}
-        {team.teamPicA === "" && (
-          <div className="team-info team-pic">
-            <p>none</p>
-          </div>
-        )}
-      </Col>
-      {team.multi !== "Single" && team.multi !== "" && (
-        <Col xs={4}>
-          {team.teamPicB !== undefined && team.teamPicB.trim() !== "" && (
-            <div className="team-info team-pic">
-              <p>
-                <a
-                  className="team-links"
-                  rel="noreferrer"
-                  target="_blank"
-                  href={
-                    "https://www.wsdvt.org/" +
-                    (team.teamPicB.charAt(0) === "/"
-                      ? team.teamPicB.substring(1)
-                      : team.teamPicB)
-                  }
-                >
-                  <img
-                    className="teamPic"
-                    alt="Team Photo"
-                    src={
-                      "https://www.wsdvt.org/" +
-                      (team.teamPicB.charAt(0) === "/"
-                        ? team.teamPicB.substring(1)
-                        : team.teamPicB)
-                    }
-                  />
-                </a>
-              </p>
-            </div>
-          )}
-          {team.teamPicB === "" && (
-            <div className="team-info team-pic">
-              <p>none</p>
-            </div>
-          )}
-        </Col>
-      )}
-    </React.Fragment>
-  ) : null}
-
+          (team.teamPicB !== undefined && team.teamPicB.trim() !== "") ? (
+            <React.Fragment>
+              <Col xs={team.multi === "Single" || team.multi === "" ? 7 : 4}>
+                {team.teamPicA !== undefined && team.teamPicA.trim() !== "" && (
+                  <div className="team-info team-pic">
+                    <p>
+                      <a
+                        className="team-links"
+                        rel="noreferrer"
+                        target="_blank"
+                        href={
+                          "https://www.wsdvt.org/" +
+                          (team.teamPicA.charAt(0) === "/"
+                            ? team.teamPicA.substring(1)
+                            : team.teamPicA)
+                        }
+                      >
+                        <img
+                          className="teamPic"
+                          src={
+                            "https://www.wsdvt.org/" +
+                            (team.teamPicA.charAt(0) === "/"
+                              ? team.teamPicA.substring(1)
+                              : team.teamPicA)
+                          }
+                          alt="Team Photo"
+                        />
+                      </a>
+                    </p>
+                  </div>
+                )}
+                {team.teamPicA === "" && (
+                  <div className="team-info team-pic">
+                    <p>none</p>
+                  </div>
+                )}
+              </Col>
+              {team.multi !== "Single" && team.multi !== "" && (
+                <Col xs={4}>
+                  {team.teamPicB !== undefined &&
+                    team.teamPicB.trim() !== "" && (
+                      <div className="team-info team-pic">
+                        <p>
+                          <a
+                            className="team-links"
+                            rel="noreferrer"
+                            target="_blank"
+                            href={
+                              "https://www.wsdvt.org/" +
+                              (team.teamPicB.charAt(0) === "/"
+                                ? team.teamPicB.substring(1)
+                                : team.teamPicB)
+                            }
+                          >
+                            <img
+                              className="teamPic"
+                              alt="Team Photo"
+                              src={
+                                "https://www.wsdvt.org/" +
+                                (team.teamPicB.charAt(0) === "/"
+                                  ? team.teamPicB.substring(1)
+                                  : team.teamPicB)
+                              }
+                            />
+                          </a>
+                        </p>
+                      </div>
+                    )}
+                  {team.teamPicB === "" && (
+                    <div className="team-info team-pic">
+                      <p>none</p>
+                    </div>
+                  )}
+                </Col>
+              )}
+            </React.Fragment>
+          ) : null}
         </Row>
 
         <Row>
