@@ -99,7 +99,7 @@ Table > * > tr > td.last-col {
   }
 }
 
-@media (max-width: 340px) {
+@media (max-width: 370px) {
   .column-title {
     font-weight: 600;
     font-size: calc(1rem + .3vw) !important;

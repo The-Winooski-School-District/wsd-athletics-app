@@ -61,7 +61,7 @@ body::-webkit-scrollbar {
   background-color: #0e512de5;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 500px) {
   .Container {
     width: 98%;
   }

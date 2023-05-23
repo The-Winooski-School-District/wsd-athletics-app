@@ -29,7 +29,46 @@ const SetCoachesModal = ({
         setCoaches([]);
       }
     });
-  }, []);
+  
+    // Fetch the team-specific coaches
+    const teamCoachesRefA = db.ref(
+      `seasons/${seasonid}/teams/${teamid}/coachesA`
+    );
+    const teamCoachesRefB = db.ref(
+      `seasons/${seasonid}/teams/${teamid}/coachesB`
+    );
+  
+    teamCoachesRefA.once("value", (snapshot) => {
+      const teamACoachesData = snapshot.val();
+      if (teamACoachesData) {
+        const teamACoaches = Object.keys(teamACoachesData).map((key) => {
+          return { id: key, ...teamACoachesData[key] };
+        });
+        setAddedRowsA(teamACoaches);
+      } else {
+        setAddedRowsA([]);
+      }
+    });
+  
+    teamCoachesRefB.once("value", (snapshot) => {
+      const teamBCoachesData = snapshot.val();
+      if (teamBCoachesData) {
+        const teamBCoaches = Object.keys(teamBCoachesData).map((key) => {
+          return { id: key, ...teamBCoachesData[key] };
+        });
+        setAddedRowsB(teamBCoaches);
+      } else {
+        setAddedRowsB([]);
+      }
+    });
+  
+    // Clean up the listeners when the component is unmounted
+    return () => {
+      db.ref("coaches").off();
+      teamCoachesRefA.off();
+      teamCoachesRefB.off();
+    };
+  }, [seasonid, teamid]);
 
   const handlePositionChange = (event) => {
     setPosition(event.target.value);
@@ -40,6 +79,7 @@ const SetCoachesModal = ({
   };
 
   const handleAddRow = (team) => {
+    console.log("row added");
     const newRow = {
       position,
       coach,
@@ -79,6 +119,7 @@ const SetCoachesModal = ({
   };
 
   const handleRemoveRow = (team, originalIndex) => {
+    console.log("row removed");
     let removedRow;
 
     if (team === "A") {

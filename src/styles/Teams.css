@@ -45,6 +45,16 @@
   padding: 3px 5px 3px 5px !important;
 }
 
+
+.big {
+  min-width: 120%;
+  padding-left: 15% !important;
+}
+
+.big button {
+  width: 100%;
+}
+
 .sports-row {
   min-height: 160px;
 }

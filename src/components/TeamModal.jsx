@@ -115,6 +115,10 @@ const TeamModal = ({
     }
   }
 
+  if (coachesARef || coachesBRef) {
+    /* Do nothing */
+  }
+
   return (
     <Modal show={showTeamModal} onHide={handleTeamModalClose}>
       <Modal.Header closeButton>
@@ -554,7 +558,6 @@ const TeamModal = ({
                 checked={deleteChecked}
                 onChange={(event) => setDeleteChecked(event.target.checked)}
                 disabled={archived}
-                ok={console.log(!coachesARef || !coachesBRef)}
               />
             )}
           </Form.Group>
