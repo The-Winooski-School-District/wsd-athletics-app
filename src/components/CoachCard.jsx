@@ -56,6 +56,10 @@ const CoachCard = ({ coach }) => {
   const handleCloseModal = () => {
     setShowFullText(false);
   };
+  
+  const handleEditButtonClick = () => {
+    setShowAddCoachModal(true);
+  };
 
   const truncatedText =
     coach.coachInfo.length > 100
@@ -108,12 +112,18 @@ const CoachCard = ({ coach }) => {
 
       <hr className="yellow"></hr>
       <div className="coach-buttons">
-        <Button className="btn-info wsd">Edit</Button>
+        <Button 
+          className="btn-info wsd"
+          onClick={handleEditButtonClick}
+        >
+          Edit
+        </Button>
         <Button className="btn-danger wsd">Delete</Button>
       </div>
 
       <AddCoachModal
         showAddCoachModal={showAddCoachModal}
+        editing={true}
         handleCloseAddCoachModal={() => setShowAddCoachModal(false)}
         handleCoachSave={handleCoachSave}
       />

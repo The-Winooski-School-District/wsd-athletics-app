@@ -4,7 +4,9 @@ import { Modal, Form, Button } from "react-bootstrap";
 const AddCoachModal = ({
   showAddCoachModal,
   handleCloseAddCoachModal,
+  handleCoachSave,
   onAddCoach,
+  editing
 }) => {
   const [coachSports, setCoachSports] = useState([]);
   const [coachName, setCoachName] = useState("");
