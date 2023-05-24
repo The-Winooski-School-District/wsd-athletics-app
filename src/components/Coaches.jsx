@@ -32,8 +32,8 @@ const Coaches = () => {
     setShowAddCoachModal(true);
   };
 
-  const handleAddCoach = (coachName, coachPhoto, coachSports, coachInfo) => {
-    const newCoach = { coachName, coachPhoto, coachSports, coachInfo };
+  const handleAddCoach = (coachName, coachPhoto, coachBio, coachSports) => {
+    const newCoach = { coachName, coachPhoto, coachBio, coachSports };
     db.ref("coaches")
       .push(newCoach)
       .catch((error) => {

@@ -59,8 +59,11 @@
   min-height: 160px;
 }
 
+.add-coach-modal-fit {
+  padding-bottom: 0px !important;
+}
+
 .coach-card-sports p {
-  
   border-radius: 10px;
 }
 
@@ -276,6 +279,11 @@ a.team-links {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#coachPhoto {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 

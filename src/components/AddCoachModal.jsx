@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
 const AddCoachModal = ({
@@ -6,23 +6,39 @@ const AddCoachModal = ({
   handleCloseAddCoachModal,
   handleCoachSave,
   onAddCoach,
-  editing
+  editing,
+  coach,
 }) => {
   const [coachSports, setCoachSports] = useState([]);
   const [coachName, setCoachName] = useState("");
   const [coachPic, setCoachPic] = useState("");
-  const [coachInfo, setCoachInfo] = useState("");
+  const [coachBio, setCoachBio] = useState("");
 
-  const handleCoachInfoChange = (event) => {
+  useEffect(() => {
+    if (coach) {
+      setCoachName(coach.coachName);
+      setCoachPic(coach.coachPic);
+      setCoachBio(coach.coachBio);
+      setCoachSports(coach.coachSports);
+    }
+    if (!showAddCoachModal) {
+      setCoachName(editing ? coach.coachName : "");
+      setCoachPic(editing ? coach.coachPic : "");
+      setCoachBio(editing ? coach.coachBio : "");
+      setCoachSports(editing ? coach.coachSports : "");
+    }
+  }, [coach, editing, showAddCoachModal]);
+
+  const handleCoachBioChange = (event) => {
     const inputValue = event.target.value;
     if (inputValue.length <= 1000) {
-      setCoachInfo(inputValue);
+      setCoachBio(inputValue);
     }
   };
   const coachNameRef = useRef();
   const coachPicRef = useRef();
   const coachSportsRef = useRef();
-  const coachInfoRef = useRef();
+  const coachBioRef = useRef();
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
@@ -37,7 +53,7 @@ const AddCoachModal = ({
     setCoachName(""); // Clear coach name input
     setCoachPic(""); // Clear coach photo input
     setCoachSports([]); // Clear coach sports input
-    setCoachInfo(""); // Clear coach info input
+    setCoachBio(""); // Clear coach info input
     handleCloseAddCoachModal();
   };
 
@@ -45,9 +61,9 @@ const AddCoachModal = ({
     <div>
       <Modal show={showAddCoachModal} onHide={handleAddCoachModalClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add A Coach</Modal.Title>
+          <Modal.Title>{editing ? `Edit Coach` : "Add A Coach"}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="add-coach-modal-fit">
           <Form>
             <Form.Group controlId="coachName">
               <Form.Control
@@ -148,19 +164,19 @@ const AddCoachModal = ({
               </div>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="coachInfo">
+            <Form.Group className="mb-1 mt-3" controlId="coachBio">
               <Form.Control
                 as="textarea"
                 rows={3}
                 maxLength={1000}
-                name="coachInfo"
-                value={coachInfo}
-                ref={coachInfoRef}
-                onChange={handleCoachInfoChange}
+                name="coachBio"
+                value={coachBio}
+                ref={coachBioRef}
+                onChange={handleCoachBioChange}
                 placeholder="A little info about yourself..."
               />
               <div className="character-count">
-                Characters Used: {coachInfo.length}/1000
+                Characters Used: {coachBio.length}/1000
               </div>
             </Form.Group>
           </Form>
@@ -172,12 +188,22 @@ const AddCoachModal = ({
               if (coachSports.length === 0) {
                 alert("Please select at least one sport");
               } else {
-                onAddCoach(coachName, coachPic, coachSports, coachInfo);
+                if (editing) {
+                  handleCoachSave({
+                    id: coach.id,
+                    coachName: coachName,
+                    coachPic: coachPic,
+                    coachSports: coachSports,
+                    coachBio: coachBio,
+                  });
+                } else {
+                  onAddCoach(coachName, coachPic, coachSports, coachBio);
+                }
                 handleCloseAddCoachModal();
               }
             }}
           >
-            Add Coach
+            {editing ? "Save Changes" : "Add Coach"}
           </Button>
           <Button variant="secondary" onClick={handleCloseAddCoachModal}>
             Close

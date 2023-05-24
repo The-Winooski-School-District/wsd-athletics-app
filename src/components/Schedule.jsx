@@ -427,10 +427,10 @@ const Schedule = () => {
                 </tr>
               </tbody>
             )}
-            {isArchived ? null : (
-            <br></br>)}
-            {isArchived ? null : (
-            <br></br>)}
+          </Table>
+          {isArchived ? null : <br></br>}
+          {isArchived ? null : <br></br>}
+          <Table striped bordered hover>
             <thead>
               <tr>
                 <th>Date</th>
@@ -459,7 +459,7 @@ const Schedule = () => {
                   </td>
                   <td>
                     {editIndex === index ? (
-                      <>  
+                      <>
                         <Form.Select
                           name="opponent"
                           onChange={(event) => handleChange(event, index)}
