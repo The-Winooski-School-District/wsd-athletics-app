@@ -116,3 +116,11 @@ td > a:hover {
   width: 100%;
   text-align: center;
 }
+
+.schedule-calendar {
+  margin-bottom: 20px;
+}
+
+.action-buttons-cell {
+  max-width: 150px;
+}

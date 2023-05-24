@@ -349,86 +349,94 @@ const Schedule = () => {
           </CSVLink>
         </div>
         <Form onSubmit={handleAddGame}>
-          <Table striped bordered hover>
-            {isArchived ? null : (
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Opponent</th>
-                  <th>Home/Away</th>
-                  <th>Time</th>
-                  <th>Notes</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-            )}
-            {isArchived ? null : (
-              <tbody>
-                <tr>
-                  <td>
-                    <Form.Control
-                      type="date"
-                      name="date"
-                      placeholder="Date"
-                      required
-                    />
-                  </td>
-                  <td>
-                    <Form.Select
-                      name="opponent"
-                      onChange={(event) => handleChange(event)}
-                      required
-                    >
-                      <option value="" disabled>
-                        Select an opponent
-                      </option>
-                      {opponents.map((opponent) => (
-                        <option key={opponent.id} value={opponent.name}>
-                          {opponent.name}
+          {isArchived ? null : (
+            <>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Opponent</th>
+                    <th>Home/Away</th>
+                    <th>Time</th>
+                    <th>Notes</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <td>
+                      <Form.Control
+                        type="date"
+                        name="date"
+                        placeholder="Date"
+                        required
+                      />
+                    </td>
+                    <td>
+                      <Form.Select
+                        name="opponent"
+                        onChange={(event) => handleChange(event)}
+                        required
+                      >
+                        <option value="" disabled>
+                          Select an opponent
                         </option>
-                      ))}
-                    </Form.Select>
-                  </td>
-                  <td>
-                    <Form.Select
-                      type="text"
-                      as="select"
-                      name="location"
-                      placeholder="Home/Away"
-                      required
-                    >
-                      <option value="" disabled>
-                        Home/Away
-                      </option>
-                      <option value="Home">Home</option>
-                      <option value="Away">Away</option>
-                    </Form.Select>
-                  </td>
-                  <td>
-                    <Form.Control
-                      type="time"
-                      name="time"
-                      placeholder="Time"
-                      required
-                    />
-                  </td>
-                  <td>
-                    <Form.Control
-                      type="text"
-                      name="notes"
-                      placeholder="Notes"
-                    />
-                  </td>
-                  <td>
-                    <Button variant="success oneline" type="submit">
-                      Add Game
-                    </Button>
-                  </td>
-                </tr>
-              </tbody>
-            )}
-          </Table>
-          {isArchived ? null : <br></br>}
+                        {opponents.map((opponent) => (
+                          <option key={opponent.id} value={opponent.name}>
+                            {opponent.name}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </td>
+                    <td>
+                      <Form.Select
+                        type="text"
+                        as="select"
+                        name="location"
+                        placeholder="Home/Away"
+                        required
+                      >
+                        <option value="" disabled>
+                          Home/Away
+                        </option>
+                        <option value="Home">Home</option>
+                        <option value="Away">Away</option>
+                      </Form.Select>
+                    </td>
+                    <td>
+                      <Form.Control
+                        type="time"
+                        name="time"
+                        placeholder="Time"
+                        required
+                      />
+                    </td>
+                    <td>
+                      <Form.Control
+                        type="text"
+                        name="notes"
+                        placeholder="Notes"
+                      />
+                    </td>
+                    <td>
+                      <Button variant="success oneline" type="submit">
+                        Add Game
+                      </Button>
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+
+              <Button
+                className="schedule-calendar"
+                variant="success"
+                onClick={() => console.log("added to calendar! jk")}
+              >
+                Add Schedule To Calendar
+              </Button>
+            </>
+          )}
           {isArchived ? null : <br></br>}
           <Table striped bordered hover>
             <thead>
@@ -438,7 +446,7 @@ const Schedule = () => {
                 <th>Home/Away</th>
                 <th>Time</th>
                 <th>Score</th>
-                <th></th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -562,7 +570,7 @@ const Schedule = () => {
                     )}
                   </td>
                   {isArchived ? null : (
-                    <td>
+                    <td className="action-buttons-cell">
                       {editIndex === index ? (
                         <div className="action-buttons">
                           <Button
@@ -580,6 +588,12 @@ const Schedule = () => {
                         </div>
                       ) : (
                         <div className="action-buttons">
+                          <Button
+                            variant="success"
+                            onClick={() => console.log("added to calendar! jk")}
+                          >
+                            Calendar
+                          </Button>
                           <Button
                             variant="info wsd"
                             onClick={() => handleEdit(index)}
