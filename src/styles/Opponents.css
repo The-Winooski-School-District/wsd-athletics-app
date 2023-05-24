@@ -15,10 +15,12 @@ figcaption {
   display: flex;
   flex-direction: row;
   justify-content: center;
+
 }
 
 .action-buttons > Button {
-  margin: 3px;
+  margin: 6px !important;
+
 }
 
 .title-button {
@@ -122,5 +124,12 @@ td > a:hover {
 }
 
 .action-buttons-cell {
-  max-width: 150px;
+  max-width: 250px !important;
+  min-width: 250px !important;
+  width: 250px !important;
+}
+
+.calendar-scheduler {
+  display: flex;
+  justify-content: center !important;
 }

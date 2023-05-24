@@ -5,6 +5,7 @@ import { Button, Form, Table } from "react-bootstrap";
 import { db } from "./Firebase";
 import { CSVLink } from "react-csv";
 import CSVReader from "react-csv-reader";
+import { AddToCalendarButton } from "add-to-calendar-button-react";
 
 const Schedule = () => {
   const [schedule, setSchedule] = useState([]);
@@ -264,6 +265,20 @@ const Schedule = () => {
     }
   };
 
+  const dates = schedule.map((game) => {
+    const location = game.location === "Home" ? "@Home" : `@${game.opponent}`;
+  
+    return {
+      name: `${game.location} Game vs ${game.opponent}`,
+      description: `${game.location} Game vs ${game.opponent}`,
+      startDate: game.date,
+      startTime: game.time,
+      endTime: game.time,
+      location: location,
+    };
+  });
+  
+
   return (
     <div className="Container">
       <Link to="/*" className="yellow">
@@ -427,14 +442,26 @@ const Schedule = () => {
                   </tr>
                 </tbody>
               </Table>
-
-              <Button
-                className="schedule-calendar"
-                variant="success"
-                onClick={() => console.log("added to calendar! jk")}
-              >
-                Add Schedule To Calendar
-              </Button>
+              <div className="calendar-scheduler">
+                <AddToCalendarButton
+                  name="Schedule"
+                  label="Add Schedule To Calendar"
+                  dates={JSON.stringify(dates)}
+                  timeZone="America/New_York"
+                  options={[
+                    "Google",
+                    "Apple",
+                    "Microsoft365",
+                    "Outlook.com",
+                    "iCal",
+                  ]}
+                  trigger="click"
+                  size="3"
+                  styleLight="--btn-background: #198754; --btn-text: #fff; --font:inherit;"
+                  styleDark="--btn-background: #198754; --btn-text: #fff; --font:inherit;"
+                  hideCheckmark
+                ></AddToCalendarButton>
+              </div>
             </>
           )}
           {isArchived ? null : <br></br>}
@@ -513,6 +540,7 @@ const Schedule = () => {
                         as="select"
                         name="location"
                         placeholder="Home/Away"
+                        onChange={(event) => handleChange(event, index)}
                         required
                       >
                         <option value="" disabled>
@@ -588,12 +616,33 @@ const Schedule = () => {
                         </div>
                       ) : (
                         <div className="action-buttons">
-                          <Button
-                            variant="success"
-                            onClick={() => console.log("added to calendar! jk")}
-                          >
-                            Calendar
-                          </Button>
+                          <AddToCalendarButton
+                            name={`${game.location} Game vs ${game.opponent}`}
+                            options={[
+                              "Google",
+                              "Apple",
+                              "Microsoft365",
+                              "Outlook.com",
+                              "iCal",
+                            ]}
+                            location={
+                              game.location === "Home"
+                                ? "@Home"
+                                : `@${game.opponent}`
+                            }
+                            startDate={game.date}
+                            endDate={game.date}
+                            startTime={game.time}
+                            endTime={game.time}
+                            timeZone="America/New_York"
+                            trigger="click"
+                            hideTextLabelButton
+                            size="3"
+                            styleLight="--btn-background: #198754; --btn-text: #fff; --font:inherit;"
+                            styleDark="--btn-background: #198754; --btn-text: #fff; --font:inherit;"
+                            hideCheckmark
+                            hideTextLabelList
+                          ></AddToCalendarButton>
                           <Button
                             variant="info wsd"
                             onClick={() => handleEdit(index)}
