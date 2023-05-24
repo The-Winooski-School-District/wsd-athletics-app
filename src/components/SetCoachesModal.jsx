@@ -8,6 +8,7 @@ const SetCoachesModal = ({
   team,
   showSetCoachesModal,
   handleCloseCoachesModal,
+  archived,
 }) => {
   const [position, setPosition] = useState("");
   const [coach, setCoach] = useState("");
@@ -29,7 +30,7 @@ const SetCoachesModal = ({
         setCoaches([]);
       }
     });
-  
+
     // Fetch the team-specific coaches
     const teamCoachesRefA = db.ref(
       `seasons/${seasonid}/teams/${teamid}/coachesA`
@@ -37,7 +38,7 @@ const SetCoachesModal = ({
     const teamCoachesRefB = db.ref(
       `seasons/${seasonid}/teams/${teamid}/coachesB`
     );
-  
+
     teamCoachesRefA.once("value", (snapshot) => {
       const teamACoachesData = snapshot.val();
       if (teamACoachesData) {
@@ -49,7 +50,7 @@ const SetCoachesModal = ({
         setAddedRowsA([]);
       }
     });
-  
+
     teamCoachesRefB.once("value", (snapshot) => {
       const teamBCoachesData = snapshot.val();
       if (teamBCoachesData) {
@@ -61,7 +62,7 @@ const SetCoachesModal = ({
         setAddedRowsB([]);
       }
     });
-  
+
     // Clean up the listeners when the component is unmounted
     return () => {
       db.ref("coaches").off();
@@ -175,61 +176,62 @@ const SetCoachesModal = ({
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form
-            onSubmit={(event) => {
-              event.preventDefault();
-              handleCoachesModalClose();
-            }}
-          >
-            <div className="coach-split">
-              <Form.Group controlId="Position">
-                <Form.Select
-                  className="coach-select"
-                  type="text"
-                  placeholder="Add Position"
-                  as="select"
-                  value={position}
-                  onChange={handlePositionChange}
-                >
-                  <option value="" disabled>
-                    Coaching Position
-                  </option>
-                  <option value="Head Coach">Head Coach</option>
-                  <option value="Assistant Coach">Assistant Coach</option>
-                  <option value="Volunteer Coach">Volunteer Coach</option>
-                  <option value="Other">Other</option>
-                </Form.Select>
-              </Form.Group>
-
-              <Form.Group controlId="Coach">
-                <Form.Select
-                  className="coach-select"
-                  type="text"
-                  placeholder="Add Position"
-                  as="select"
-                  value={coach}
-                  onChange={handleCoachChange}
-                >
-                  <option value="" disabled>
-                    Coach
-                  </option>
-                  {coaches.map((coach) => (
-                    <option key={coach.id} value={coach.coachName}>
-                      {coach.coachName}
+          {archived ? null : (
+            <Form
+              onSubmit={(event) => {
+                event.preventDefault();
+                handleCoachesModalClose();
+              }}
+            >
+              <div className="coach-split">
+                <Form.Group controlId="Position">
+                  <Form.Select
+                    className="coach-select"
+                    type="text"
+                    placeholder="Add Position"
+                    as="select"
+                    value={position}
+                    onChange={handlePositionChange}
+                  >
+                    <option value="" disabled>
+                      Coaching Position
                     </option>
-                  ))}
-                </Form.Select>
-              </Form.Group>
+                    <option value="Head Coach">Head Coach</option>
+                    <option value="Assistant Coach">Assistant Coach</option>
+                    <option value="Volunteer Coach">Volunteer Coach</option>
+                    <option value="Other">Other</option>
+                  </Form.Select>
+                </Form.Group>
 
-              <Button
-                variant="success add-btn"
-                onClick={() => handleAddRow(twoTeams)}
-              >
-                +
-              </Button>
-            </div>
-          </Form>
+                <Form.Group controlId="Coach">
+                  <Form.Select
+                    className="coach-select"
+                    type="text"
+                    placeholder="Add Position"
+                    as="select"
+                    value={coach}
+                    onChange={handleCoachChange}
+                  >
+                    <option value="" disabled>
+                      Coach
+                    </option>
+                    {coaches.map((coach) => (
+                      <option key={coach.id} value={coach.coachName}>
+                        {coach.coachName}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
 
+                <Button
+                  variant="success add-btn"
+                  onClick={() => handleAddRow(twoTeams)}
+                >
+                  +
+                </Button>
+              </div>
+            </Form>
+          )}
           <div className="coach-rows">
             {twoTeams === "A" && addedRowsA.length > 0 && (
               <hr className="modal-hr2" />

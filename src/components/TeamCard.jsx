@@ -586,6 +586,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         seasonid={seasonid}
         teamid={team.id}
         team={team}
+        archived={archived}
         showSetCoachesModal={showSetCoachesModal}
         handleCloseCoachesModal={() => setShowSetCoachesModal(false)}
       />

@@ -126,7 +126,7 @@ const CoachCard = ({ coach }) => {
         <Button className="btn-info wsd" onClick={handleEditButtonClick}>
           Edit
         </Button>
-        <Button className="btn-danger wsd" onClick={handleDeleteButtonClick}>
+        <Button className="btn-danger wsd" onClick={handleDeleteButtonClick} disabled>
           Delete
         </Button>
       </div>
