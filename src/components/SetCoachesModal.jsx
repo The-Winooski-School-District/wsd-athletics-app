@@ -79,7 +79,6 @@ const SetCoachesModal = ({
   };
 
   const handleAddRow = (team) => {
-    console.log("row added");
     const newRow = {
       position,
       coach,
@@ -119,7 +118,6 @@ const SetCoachesModal = ({
   };
 
   const handleRemoveRow = (team, originalIndex) => {
-    console.log("row removed");
     let removedRow;
 
     if (team === "A") {

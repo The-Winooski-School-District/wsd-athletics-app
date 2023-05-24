@@ -89,7 +89,7 @@ const CoachCard = ({ coach }) => {
           <div className="coach-pic-container">
             <img
               className="coach-pic"
-              src={coach.coachPhoto}
+              src={coach.coachPic}
               onError={handlePicError}
               alt="Coach"
             />

@@ -9,10 +9,10 @@ const AddCoachModal = ({
   editing,
   coach,
 }) => {
-  const [coachSports, setCoachSports] = useState([]);
   const [coachName, setCoachName] = useState("");
   const [coachPic, setCoachPic] = useState("");
   const [coachBio, setCoachBio] = useState("");
+  const [coachSports, setCoachSports] = useState([]);
 
   useEffect(() => {
     if (coach) {
@@ -52,8 +52,8 @@ const AddCoachModal = ({
   const handleAddCoachModalClose = () => {
     setCoachName(""); // Clear coach name input
     setCoachPic(""); // Clear coach photo input
-    setCoachSports([]); // Clear coach sports input
     setCoachBio(""); // Clear coach info input
+    setCoachSports([]); // Clear coach sports input
     handleCloseAddCoachModal();
   };
 
@@ -77,11 +77,11 @@ const AddCoachModal = ({
               />
             </Form.Group>
 
-            <Form.Group controlId="coachPhoto">
+            <Form.Group controlId="coachPic">
               <Form.Control
                 type="text"
                 placeholder="URL for Photo"
-                name="coachPhoto"
+                name="coachPic"
                 value={coachPic}
                 ref={coachPicRef}
                 onChange={(event) => setCoachPic(event.target.value)}
