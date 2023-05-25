@@ -138,7 +138,7 @@ const CoachCard = ({ coach }) => {
           <hr className="yellow"></hr>
 
           <div className="coach-buttons">
-            <Button className="btn-info wsd" onClick={handleEditButtonClick}>
+            <Button className="btn-info wsd" onClick={handleEditButtonClick} disabled>
               Edit
             </Button>
             <Button

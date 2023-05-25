@@ -146,6 +146,7 @@ const AddTeam = ({ seasonid }) => {
           setShowSetCoachesModal={setShowSetCoachesModal}
           editing={false}
           handleAddTeam={handleAddTeam}
+          user={user}
         />
       </div>
     </div>

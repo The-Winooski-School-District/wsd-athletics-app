@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { auth } from "./Firebase";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      // If the login is successful, the user will be redirected to the authorized area of the app.
-      // You can handle the redirection logic here or use a router for that purpose.
+      navigate("/*"); // Replace "/*" with the desired path for the authorized area
     } catch (error) {
       setError(error.message);
     }
