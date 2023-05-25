@@ -396,6 +396,7 @@ const Roster = () => {
             </tbody>
             </Table>
             )}
+            {isArchived ? null : <br></br>}
             <Table striped bordered hover>
             <thead>
               <tr>

@@ -343,7 +343,7 @@ const TeamModal = ({
             <>
               <div className="multi-split">
                 <Form.Group controlid="teamPageA">
-                  <Form.Label className="cieling">Pages</Form.Label>
+                  <Form.Label className="cieling">Team A</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Team A Page URL"
@@ -355,13 +355,13 @@ const TeamModal = ({
                 </Form.Group>
 
                 <Form.Group controlid="teamPicA">
-                  <Form.Label className="cieling">Pictures</Form.Label>
+                  <Form.Label className="cieling">Team B</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Team A Picture URL"
-                    value={teamPicA}
-                    ref={teamPicARef}
-                    onChange={(event) => setTeamPicA(event.target.value)}
+                    placeholder="Team B Page URL"
+                    value={teamPageB}
+                    ref={teamPageBRef}
+                    onChange={(event) => setTeamPageB(event.target.value)}
                     disabled={archived || !user}
                   />
                 </Form.Group>
@@ -371,10 +371,10 @@ const TeamModal = ({
                   <Form.Label></Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Team B Page URL"
-                    value={teamPageB}
-                    ref={teamPageBRef}
-                    onChange={(event) => setTeamPageB(event.target.value)}
+                    placeholder="Team A Picture URL"
+                    value={teamPicA}
+                    ref={teamPicARef}
+                    onChange={(event) => setTeamPicA(event.target.value)}
                     disabled={archived || !user}
                   />
                 </Form.Group>
@@ -396,7 +396,7 @@ const TeamModal = ({
             <>
               <div className="multi-split">
                 <Form.Group controlid="teamPageA">
-                  <Form.Label className="cieling">Pages</Form.Label>
+                  <Form.Label className="cieling">Varsity</Form.Label>
                   <Form.Control
                     type="text"
                     placeholder="Varsity Team Page URL"
@@ -408,13 +408,13 @@ const TeamModal = ({
                 </Form.Group>
 
                 <Form.Group controlid="teamPicA">
-                  <Form.Label className="cieling">Pictures</Form.Label>
+                  <Form.Label className="cieling">JV</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Varsity Team Picture URL"
-                    value={teamPicA}
-                    ref={teamPicARef}
-                    onChange={(event) => setTeamPicA(event.target.value)}
+                    placeholder="JV Team Page URL"
+                    value={teamPageB}
+                    ref={teamPageBRef}
+                    onChange={(event) => setTeamPageB(event.target.value)}
                     disabled={archived || !user}
                   />
                 </Form.Group>
@@ -425,10 +425,10 @@ const TeamModal = ({
                   <Form.Label></Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="JV Team Page URL"
-                    value={teamPageB}
-                    ref={teamPageBRef}
-                    onChange={(event) => setTeamPageB(event.target.value)}
+                    placeholder="Varsity Team Picture URL"
+                    value={teamPicA}
+                    ref={teamPicARef}
+                    onChange={(event) => setTeamPicA(event.target.value)}
                     disabled={archived || !user}
                   />
                 </Form.Group>
