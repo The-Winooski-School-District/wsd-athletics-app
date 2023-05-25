@@ -24,13 +24,16 @@ const TeamCard = ({ team, seasonid, archived }) => {
   }
 
   useEffect(() => {
+    console.log("we out here");
     const teamsRef = db.ref(`seasons/${seasonid}/teams`);
-    teamsRef.on("value", (snapshot) => {
+
+    const teamsListener = teamsRef.on("value", (snapshot) => {
       const teamsData = snapshot.val();
       if (teamsData) {
-        const teamsList = Object.keys(teamsData).map((key) => {
-          return { id: key, ...teamsData[key] };
-        });
+        const teamsList = Object.keys(teamsData).map((key) => ({
+          id: key,
+          ...teamsData[key],
+        }));
         setTeams(teamsList);
       } else {
         setTeams([]);
@@ -49,30 +52,30 @@ const TeamCard = ({ team, seasonid, archived }) => {
 
     const rosterRef = db.ref(`seasons/${seasonid}/teams/${team.id}`);
 
-    rosterRef.child("roster").once("value", (snapshot) => {
+    rosterRef.child("roster").on("value", (snapshot) => {
       const hasRoster = snapshot.exists();
       setHasRoster(hasRoster);
     });
 
-    rosterRef.child("roster-b").once("value", (snapshot) => {
+    rosterRef.child("roster-b").on("value", (snapshot) => {
       const hasRosterB = snapshot.exists();
       setHasRoster((prevHasRoster) => prevHasRoster || hasRosterB);
     });
 
     const scheduleRef = db.ref(`seasons/${seasonid}/teams/${team.id}`);
 
-    scheduleRef.child("schedule").once("value", (snapshot) => {
+    scheduleRef.child("schedule").on("value", (snapshot) => {
       const hasSchedule = snapshot.exists();
       setHasSchedule(hasSchedule);
     });
 
-    scheduleRef.child("schedule-b").once("value", (snapshot) => {
+    scheduleRef.child("schedule-b").on("value", (snapshot) => {
       const hasScheduleB = snapshot.exists();
       setHasSchedule((prevHasSchedule) => prevHasSchedule || hasScheduleB);
     });
 
     return () => {
-      teamsRef.off();
+      teamsRef.off("value", teamsListener);
       seasonRef.off();
       rosterRef.off();
       scheduleRef.off();
