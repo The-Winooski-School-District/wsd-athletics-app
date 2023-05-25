@@ -2,7 +2,7 @@ import "../styles/Opponents.css";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import { CSVLink } from "react-csv";
 import CSVReader from "react-csv-reader";
 
@@ -18,6 +18,7 @@ const Roster = () => {
   const [teamSchedulesIdentical, setTeamSchedulesIdentical] = useState("");
   const [seasonName, setSeasonName] = useState("");
   const [loadedData, setLoadedData] = useState([]);
+  const [user, setUser] = useState(null);
 
   const csvData = roster.map(({ number, fName, lName, grade, position }) => ({
     number,
@@ -43,6 +44,18 @@ const Roster = () => {
 
     setValue(newValue);
   }
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const isTrueUrl = window.location.href.endsWith("true");
 
@@ -180,7 +193,7 @@ const Roster = () => {
     if (window.confirm("Are you sure you want to delete this player?")) {
       const updatedRoster = [...roster];
       updatedRoster.splice(index, 1);
-      db.ref(`seasons/` + rosterPath+ `/${id}`).remove();
+      db.ref(`seasons/` + rosterPath + `/${id}`).remove();
       setRoster(updatedRoster);
       setEditIndex(null);
     }
@@ -269,29 +282,29 @@ const Roster = () => {
                 } Roster`}
           </h2>
           {teamSchedulesIdentical ? (
-          <Link to={`/schedule/${seasonid}/${teamid}`}>
-          <Button variant="info title-button wsd">View Schedule</Button>
-        </Link>
+            <Link to={`/schedule/${seasonid}/${teamid}`}>
+              <Button variant="info title-button wsd">View Schedule</Button>
+            </Link>
           ) : (
             <Link to={`/schedule/${seasonid}/${teamid}?teamB=${teamB}`}>
-            <Button variant="info title-button wsd">View Schedule</Button>
-          </Link>
+              <Button variant="info title-button wsd">View Schedule</Button>
+            </Link>
           )}
-
         </div>
         <div className="import-export-container">
           {isArchived ? null : (
             <>
-              <Button
-                variant="primary wsd csv import-export"
-                onClick={() => {
-                  if (document.getElementById("react-csv-reader-input"))
-                    document.getElementById("react-csv-reader-input").click();
-                }}
-              >
-                Import CSV
-              </Button>
-
+              {user ? (
+                <Button
+                  variant="primary wsd csv import-export"
+                  onClick={() => {
+                    if (document.getElementById("react-csv-reader-input"))
+                      document.getElementById("react-csv-reader-input").click();
+                  }}
+                >
+                  Import CSV
+                </Button>
+              ) : null}
               <CSVReader
                 onFileLoaded={handleFileLoaded}
                 inputStyle={{ display: "none" }}
@@ -314,6 +327,8 @@ const Roster = () => {
           </CSVLink>
         </div>
         <Form onSubmit={handleAddplayer}>
+        {isArchived || !user ? null : (
+          
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -326,7 +341,7 @@ const Roster = () => {
               </tr>
             </thead>
             <tbody>
-              {isArchived ? null : (
+              
                 <tr>
                   <td>
                     <Form.Control
@@ -377,7 +392,22 @@ const Roster = () => {
                     </Button>
                   </td>
                 </tr>
-              )}
+              
+            </tbody>
+            </Table>
+            )}
+            <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Number</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Grade</th>
+                <th>Position</th>
+                {isArchived || !user ? null : <th>Actions</th>}
+              </tr>
+            </thead>
+            <tbody>
               {roster.map((player, index) => (
                 <tr key={player.id}>
                   <td>
@@ -449,7 +479,7 @@ const Roster = () => {
                       player.position
                     )}
                   </td>
-                  {isArchived ? null : (
+                  {isArchived || !user ? null : (
                     <td>
                       {editIndex === index ? (
                         <div className="action-buttons">

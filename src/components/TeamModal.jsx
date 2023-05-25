@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
 const TeamModal = ({
+  user,
   team,
   showTeamModal,
   handleAddTeam,
@@ -123,7 +124,7 @@ const TeamModal = ({
     <Modal show={showTeamModal} onHide={handleTeamModalClose}>
       <Modal.Header closeButton>
         <Modal.Title>
-          {archived ? "Team Info" : editing ? "Edit Team" : "Add Team"}
+          {archived || !user ? "Team Info" : editing ? "Edit Team" : "Add Team"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -151,7 +152,7 @@ const TeamModal = ({
               value={teamName}
               ref={teamNameRef}
               onChange={(event) => setTeamName(event.target.value)}
-              disabled={archived}
+              disabled={archived || !user}
               autoFocus
             />
           </Form.Group>
@@ -165,7 +166,7 @@ const TeamModal = ({
               value={sport}
               ref={sportRef}
               onChange={(event) => setSport(event.target.value)}
-              disabled={archived}
+              disabled={archived || !user}
             >
               <option value="" disabled>
                 Select Sport
@@ -188,7 +189,7 @@ const TeamModal = ({
               value={abbr}
               ref={abbrRef}
               onChange={(event) => setAbbr(event.target.value)}
-              disabled={archived}
+              disabled={archived || !user}
             >
               <option value="" disabled>
                 ABBR
@@ -229,7 +230,7 @@ const TeamModal = ({
               value={multi}
               ref={multiRef}
               onChange={(event) => setMulti(event.target.value)}
-              disabled={archived}
+              disabled={archived || !user}
             >
               <option value="" disabled>
                 Multiple Teams?
@@ -257,6 +258,7 @@ const TeamModal = ({
                     ref={identicalRostersRef}
                     onChange={(event) => setIdenticalRosters(true)}
                     defaultChecked={identicalRosters === true}
+                    disabled={archived || !user}
                   />
                   <Form.Check
                     inline
@@ -268,6 +270,7 @@ const TeamModal = ({
                     ref={identicalRostersRef}
                     onChange={(event) => setIdenticalRosters(false)}
                     defaultChecked={identicalRosters === false}
+                    disabled={archived || !user}
                   />
                 </div>
               </Form.Group>
@@ -286,6 +289,7 @@ const TeamModal = ({
                     ref={identicalSchedulesRef}
                     onChange={(event) => setIdenticalSchedules(true)}
                     defaultChecked={identicalSchedules === true}
+                    disabled={archived || !user}
                   />
                   <Form.Check
                     inline
@@ -297,6 +301,7 @@ const TeamModal = ({
                     ref={identicalSchedulesRef}
                     onChange={(event) => setIdenticalSchedules(false)}
                     defaultChecked={identicalSchedules === false}
+                    disabled={archived || !user}
                   />
                 </div>
               </Form.Group>
@@ -315,6 +320,7 @@ const TeamModal = ({
                     ref={identicalCoachesRef}
                     onChange={(event) => setIdenticalCoaches(true)}
                     defaultChecked={identicalCoaches === true}
+                    disabled={archived || !user}
                   />
                   <Form.Check
                     inline
@@ -326,6 +332,7 @@ const TeamModal = ({
                     ref={identicalCoachesRef}
                     onChange={(event) => setIdenticalCoaches(false)}
                     defaultChecked={identicalCoaches === false}
+                    disabled={archived || !user}
                   />
                 </div>
               </Form.Group>
@@ -343,7 +350,7 @@ const TeamModal = ({
                     value={teamPageA}
                     ref={teamPageARef}
                     onChange={(event) => setTeamPageA(event.target.value)}
-                    disabled={archived}
+                    disabled={archived || !user}
                   />
                 </Form.Group>
 
@@ -355,7 +362,7 @@ const TeamModal = ({
                     value={teamPicA}
                     ref={teamPicARef}
                     onChange={(event) => setTeamPicA(event.target.value)}
-                    disabled={archived}
+                    disabled={archived || !user}
                   />
                 </Form.Group>
               </div>
@@ -368,7 +375,7 @@ const TeamModal = ({
                     value={teamPageB}
                     ref={teamPageBRef}
                     onChange={(event) => setTeamPageB(event.target.value)}
-                    disabled={archived}
+                    disabled={archived || !user}
                   />
                 </Form.Group>
 
@@ -380,7 +387,7 @@ const TeamModal = ({
                     value={teamPicB}
                     ref={teamPicBRef}
                     onChange={(event) => setTeamPicB(event.target.value)}
-                    disabled={archived}
+                    disabled={archived || !user}
                   />
                 </Form.Group>
               </div>
@@ -396,7 +403,7 @@ const TeamModal = ({
                     value={teamPageA}
                     ref={teamPageARef}
                     onChange={(event) => setTeamPageA(event.target.value)}
-                    disabled={archived}
+                    disabled={archived || !user}
                   />
                 </Form.Group>
 
@@ -408,7 +415,7 @@ const TeamModal = ({
                     value={teamPicA}
                     ref={teamPicARef}
                     onChange={(event) => setTeamPicA(event.target.value)}
-                    disabled={archived}
+                    disabled={archived || !user}
                   />
                 </Form.Group>
               </div>
@@ -422,7 +429,7 @@ const TeamModal = ({
                     value={teamPageB}
                     ref={teamPageBRef}
                     onChange={(event) => setTeamPageB(event.target.value)}
-                    disabled={archived}
+                    disabled={archived || !user}
                   />
                 </Form.Group>
 
@@ -434,7 +441,7 @@ const TeamModal = ({
                     value={teamPicB}
                     ref={teamPicBRef}
                     onChange={(event) => setTeamPicB(event.target.value)}
-                    disabled={archived}
+                    disabled={archived || !user}
                   />
                 </Form.Group>
               </div>
@@ -449,7 +456,7 @@ const TeamModal = ({
                   value={teamPageA}
                   ref={teamPageARef}
                   onChange={(event) => setTeamPageA(event.target.value)}
-                  disabled={archived}
+                  disabled={archived || !user}
                 />
               </Form.Group>
 
@@ -461,7 +468,7 @@ const TeamModal = ({
                   value={teamPicA}
                   ref={teamPicARef}
                   onChange={(event) => setTeamPicA(event.target.value)}
-                  disabled={archived}
+                  disabled={archived || !user}
                 />
               </Form.Group>
             </>
@@ -478,7 +485,7 @@ const TeamModal = ({
                       setShowSetCoachesModal({ twoTeams: "A", show: true })
                     }
                   >
-                    Set Coaches
+                    {archived || !user ? "View Coaches" : "Set Coaches"}
                   </Button>
                 </Form.Group>
               ) : multi === "A&B" ? (
@@ -491,7 +498,7 @@ const TeamModal = ({
                         setShowSetCoachesModal({ twoTeams: "A", show: true })
                       }
                     >
-                      Set A Coaches
+                      {archived || !user ? "View A Coaches" : "Set A Coaches"}
                     </Button>
                   </Form.Group>
                   <Form.Group controlId="teamCoachesB">
@@ -502,7 +509,7 @@ const TeamModal = ({
                         setShowSetCoachesModal({ twoTeams: "B", show: true })
                       }
                     >
-                      Set B Coaches
+                      {archived || !user ? "View B Coaches" : "Set B Coaches"}
                     </Button>
                   </Form.Group>
                 </div>
@@ -516,7 +523,7 @@ const TeamModal = ({
                         setShowSetCoachesModal({ twoTeams: "A", show: true })
                       }
                     >
-                      Set Varsity Coaches
+                      {archived || !user ? "View Varsity Coaches" : "Set Varsity Coaches"}
                     </Button>
                   </Form.Group>
                   <Form.Group controlId="teamCoachesB">
@@ -527,7 +534,7 @@ const TeamModal = ({
                         setShowSetCoachesModal({ twoTeams: "B", show: true })
                       }
                     >
-                      Set JV Coaches
+                      {archived || !user ? "View JV Coaches" : "Set JV Coaches"}
                     </Button>
                   </Form.Group>
                 </div>
@@ -540,7 +547,7 @@ const TeamModal = ({
                       setShowSetCoachesModal({ twoTeams: "A", show: true })
                     }
                   >
-                    Set Coaches
+                    {archived || !user ? "View Coaches" : "Set Coaches"}
                   </Button>
                 </Form.Group>
               )}
@@ -557,7 +564,7 @@ const TeamModal = ({
                 label="Delete"
                 checked={deleteChecked}
                 onChange={(event) => setDeleteChecked(event.target.checked)}
-                disabled={archived}
+                disabled={archived || !user}
               />
             )}
           </Form.Group>
@@ -568,6 +575,7 @@ const TeamModal = ({
           </Button>
         ) : (
           <>
+          {user ? (
             <Button
               variant={deleteChecked ? "danger" : "primary"}
               onClick={() => {
@@ -613,6 +621,7 @@ const TeamModal = ({
             >
               {editing ? (deleteChecked ? "Delete" : "Save") : "Add"}
             </Button>
+          ) : (null)}
             <Button variant="secondary" onClick={handleTeamModalClose}>
               Cancel
             </Button>

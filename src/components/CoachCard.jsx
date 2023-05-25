@@ -1,13 +1,26 @@
 import "../styles/Teams.css";
 import placeholderImage from "../account-icon-user-icon-vector.png";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Modal, Button } from "react-bootstrap";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import AddCoachModal from "./AddCoachModal";
 
 const CoachCard = ({ coach }) => {
   const [showAddCoachModal, setShowAddCoachModal] = useState(false);
   const [showFullText, setShowFullText] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   function handleCoachSave(coachInfo, index) {
     const coachId = coach.id;
@@ -120,17 +133,24 @@ const CoachCard = ({ coach }) => {
           </div>
         </Row>
       </div>
+      {user ? (
+        <>
+          <hr className="yellow"></hr>
 
-      <hr className="yellow"></hr>
-      <div className="coach-buttons">
-        <Button className="btn-info wsd" onClick={handleEditButtonClick}>
-          Edit
-        </Button>
-        <Button className="btn-danger wsd" onClick={handleDeleteButtonClick} disabled>
-          Delete
-        </Button>
-      </div>
-
+          <div className="coach-buttons">
+            <Button className="btn-info wsd" onClick={handleEditButtonClick}>
+              Edit
+            </Button>
+            <Button
+              className="btn-danger wsd"
+              onClick={handleDeleteButtonClick}
+              disabled
+            >
+              Delete
+            </Button>
+          </div>
+        </>
+      ) : null}
       <AddCoachModal
         coach={coach}
         showAddCoachModal={showAddCoachModal}

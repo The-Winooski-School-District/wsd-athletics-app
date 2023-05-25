@@ -58,6 +58,11 @@ const Navigation = () => {
                   Athlete Forms
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/login" onClick={toggleNav}>
+                  Admin
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

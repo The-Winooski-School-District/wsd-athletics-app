@@ -3,7 +3,7 @@ import "../styles/Teams.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Table, Button, Row, Col } from "react-bootstrap";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import AddTeam from "./AddTeam";
 
 const Seasons = () => {
@@ -12,10 +12,23 @@ const Seasons = () => {
   const [newSeasonYear, setNewSeasonYear] = useState("");
   const [newSeasonType, setNewSeasonType] = useState("");
   const [clickedSeasonIndex, setClickedSeasonIndex] = useState(null);
+  const [user, setUser] = useState(null);
 
   if (!clickedSeasonIndex) {
     /* Do Nothing */
   }
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const sortedSeasons = seasons.sort(compareSeasons);
 
@@ -192,43 +205,49 @@ const Seasons = () => {
       </div>
       <hr className="top-hr" />
       <div className="season-adder">
-        <div className="seasons-title">
+        <div
+          className="seasons-title"
+          style={user ? {} : { padding: "0", important: true }}
+        >
           <h2>Seasons</h2>
         </div>
-        <Form onSubmit={handleAddSeason}>
-          <Row className="justify-content-md-center">
-            <Col xs={4}>
-              <Form.Control
-                type="number"
-                placeholder="Year"
-                min="2023"
-                max="2099"
-                id="year"
-                value={newSeasonYear}
-                onChange={(e) => setNewSeasonYear(e.target.value)}
-                required
-              />
-            </Col>
-            <Col xs={3}>
-              <Form.Control
-                as="select"
-                id="season"
-                value={newSeasonType}
-                onChange={(e) => setNewSeasonType(e.target.value)}
-                required
-              >
-                <option value="Fall">Fall</option>
-                <option value="Winter">Winter</option>
-                <option value="Spring">Spring</option>
-              </Form.Control>
-            </Col>
-            <Col xs={3} className="border-control">
-              <Button variant="primary  wsd" type="submit">
-                Add Season
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+
+        {user ? (
+          <Form onSubmit={handleAddSeason}>
+            <Row className="justify-content-md-center">
+              <Col xs={4}>
+                <Form.Control
+                  type="number"
+                  placeholder="Year"
+                  min="2023"
+                  max="2099"
+                  id="year"
+                  value={newSeasonYear}
+                  onChange={(e) => setNewSeasonYear(e.target.value)}
+                  required
+                />
+              </Col>
+              <Col xs={3}>
+                <Form.Control
+                  as="select"
+                  id="season"
+                  value={newSeasonType}
+                  onChange={(e) => setNewSeasonType(e.target.value)}
+                  required
+                >
+                  <option value="Fall">Fall</option>
+                  <option value="Winter">Winter</option>
+                  <option value="Spring">Spring</option>
+                </Form.Control>
+              </Col>
+              <Col xs={3} className="border-control">
+                <Button variant="primary  wsd" type="submit">
+                  Add Season
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        ) : null}
       </div>
       <div>
         <Form>
@@ -272,14 +291,18 @@ const Seasons = () => {
                         </h4>
                       )}
                     </td>
-                    <td className="last-col">
-                      {editIndex === index ? (
+                    {user ? (
+                      <td className="last-col">
+                        {editIndex === index ? (
                         <div className="action-buttons">
                           <Button
                             variant="primary wsd"
                             onClick={() =>
                               handleSeasonSave(
-                                { year: newSeasonYear, season: newSeasonType },
+                                {
+                                  year: newSeasonYear,
+                                  season: newSeasonType,
+                                },
                                 index
                               )
                             }
@@ -293,7 +316,7 @@ const Seasons = () => {
                             Cancel
                           </Button>
                         </div>
-                      ) : (
+                        ) : (
                         <div className="action-buttons">
                           <Button
                             variant="info wsd"
@@ -310,8 +333,9 @@ const Seasons = () => {
                             Archive
                           </Button>
                         </div>
-                      )}
-                    </td>
+                        )}
+                      </td>
+                    ) : null}
                   </tr>
                   <tr>
                     <td colSpan="3" className="teams-row">

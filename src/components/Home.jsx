@@ -1,7 +1,5 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import Seasons from "./Seasons";
-import Opponents from "./Opponents";
 
 const Home = () => {
   return (
@@ -37,8 +35,6 @@ const Home = () => {
           </React.Fragment>
         }
       />
-      <Route path="/seasons" element={<Seasons />} />
-      <Route path="/opponents" element={<Opponents />} />
     </Routes>
   );
 };

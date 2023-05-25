@@ -3,12 +3,13 @@ import "../index.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import { CSVLink } from "react-csv";
 
 const Opponents = () => {
   const [opponents, setOpponents] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
+  const [user, setUser] = useState(null);
 
   const csvData = opponents.map(({ name, phone, address, school, fax }) => ({
     name,
@@ -25,6 +26,18 @@ const Opponents = () => {
     updatedOpponents[index] = updatedOpponentInfo;
     setOpponents(updatedOpponents);
   }
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const opponentsRef = db.ref("opponents");
@@ -136,7 +149,7 @@ const Opponents = () => {
                 <th>Address</th>
                 <th>Phone</th>
                 <th>Fax</th>
-                <th>Actions</th>
+                {user ? <th>Actions</th> : null}
               </tr>
             </thead>
             <tbody>
@@ -214,43 +227,45 @@ const Opponents = () => {
                       opponent.fax
                     ) : null}
                   </td>
-                  <td>
-                    {editIndex === index ? (
-                      <div className="action-buttons">
-                        <Button
-                          variant="primary wsd"
-                          onClick={() => handleSave(opponent, index)}
-                          disabled
-                        >
-                          Save
-                        </Button>
-                        <Button
-                          variant="secondary wsd"
-                          onClick={() => handleCancel()}
-                          disabled
-                        >
-                          Cancel
-                        </Button>
-                      </div>
-                    ) : (
-                      <div className="action-buttons">
-                        <Button
-                          variant="info wsd"
-                          onClick={() => handleEdit(index)}
-                          disabled
-                        >
-                          Edit
-                        </Button>
-                        <Button
-                          variant="danger wsd"
-                          onClick={() => handleDelete(opponent.id, index)}
-                          disabled
-                        >
-                          Delete
-                        </Button>
-                      </div>
-                    )}
-                  </td>
+                  {user ? (
+                    <td>
+                      {editIndex === index ? (
+                        <div className="action-buttons">
+                          <Button
+                            variant="primary wsd"
+                            onClick={() => handleSave(opponent, index)}
+                            disabled
+                          >
+                            Save
+                          </Button>
+                          <Button
+                            variant="secondary wsd"
+                            onClick={() => handleCancel()}
+                            disabled
+                          >
+                            Cancel
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="action-buttons">
+                          <Button
+                            variant="info wsd"
+                            onClick={() => handleEdit(index)}
+                            disabled
+                          >
+                            Edit
+                          </Button>
+                          <Button
+                            variant="danger wsd"
+                            onClick={() => handleDelete(opponent.id, index)}
+                            disabled
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      )}
+                    </td>
+                  ) : null}
                 </tr>
               ))}
             </tbody>

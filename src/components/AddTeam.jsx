@@ -1,7 +1,7 @@
 import "../styles/Teams.css";
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import TeamCard from "./TeamCard";
 import TeamModal from "./TeamModal";
 
@@ -10,6 +10,19 @@ const AddTeam = ({ seasonid }) => {
   const [showTeamModal, setShowTeamModal] = useState(false);
   const [teams, setTeams] = useState([]);
   const [season, setSeason] = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const teamsRef = db.ref(`seasons/${seasonid}/teams`);
@@ -109,11 +122,13 @@ const AddTeam = ({ seasonid }) => {
 
   return (
     <div>
-      <div className="add-team-btn">
-        <Button variant="primary wsd" onClick={() => setShowTeamModal(true)}>
-          Add Team
-        </Button>
-      </div>
+      {user ? (
+        <div className="add-team-btn">
+          <Button variant="primary wsd" onClick={() => setShowTeamModal(true)}>
+            Add Team
+          </Button>
+        </div>
+      ) : null}
       <div className="teams-area">
         {teams.map((team, index) => (
           <TeamCard

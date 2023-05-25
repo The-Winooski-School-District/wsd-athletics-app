@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Container, Button } from "react-bootstrap";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import AddCoachModal from "./AddCoachModal";
 import CoachCard from "./CoachCard";
 
 const Coaches = () => {
   const [showAddCoachModal, setShowAddCoachModal] = useState(false);
   const [coaches, setCoaches] = useState([]);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const coachesRef = db.ref("coaches");
@@ -64,11 +77,13 @@ const Coaches = () => {
         </div>
       </div>
       <Container>
+        {user ? (
         <div className="add-coach-btn">
           <Button variant="primary wsd" onClick={handleShowAddCoachModal}>
             Add Coach
           </Button>
         </div>
+        ) : (null)}
         <div className="teams-area">
           {coaches.map((coach, index) => (
             <CoachCard key={coach.id} index={index} coach={coach} />

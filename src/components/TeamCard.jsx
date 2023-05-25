@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import TeamModal from "./TeamModal";
 import MultiModal from "./MultiModal";
 import SetCoachesModal from "./SetCoachesModal";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 
 const TeamCard = ({ team, seasonid, archived }) => {
   const [showTeamModal, setShowTeamModal] = useState(false);
@@ -17,11 +17,24 @@ const TeamCard = ({ team, seasonid, archived }) => {
   const [hasRoster, setHasRoster] = useState(false);
   const [hasSchedule, setHasSchedule] = useState(false);
   const [rosterButtonClicked, setRosterButtonClicked] = useState(false);
+  const [user, setUser] = useState(null);
 
   // I... don't know where this variable is used, but if I remove it above, it breaks everything. :D
   if (!season) {
     /* nope */
   }
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     console.log("we out here");
@@ -283,7 +296,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
                   )}
                 {team.teamPageA === "" && (
                   <div className="team-info team-page">
-                    <p>none</p>
+                    <p>
+                      <em>none</em>
+                    </p>
                   </div>
                 )}
               </Col>
@@ -312,7 +327,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
                     )}
                   {team.teamPageB === "" && (
                     <div className="team-info team-page">
-                      <p>none</p>
+                      <p>
+                        <em>none</em>
+                      </p>
                     </div>
                   )}
                 </Col>
@@ -360,7 +377,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
                 )}
                 {team.teamPicA === "" && (
                   <div className="team-info team-pic">
-                    <p>none</p>
+                    <p>
+                      <em>none</em>
+                    </p>
                   </div>
                 )}
               </Col>
@@ -397,7 +416,9 @@ const TeamCard = ({ team, seasonid, archived }) => {
                     )}
                   {team.teamPicB === "" && (
                     <div className="team-info team-pic">
-                      <p>none</p>
+                      <p>
+                        <em>none</em>
+                      </p>
                     </div>
                   )}
                 </Col>
@@ -471,14 +492,40 @@ const TeamCard = ({ team, seasonid, archived }) => {
       </div>
       <hr className="yellow"></hr>
       <div className="team-buttons">
-        {archived ? (
+        {archived || !user ? (
           <>
-            <Link to={`/roster/${seasonid}/${team.id}`}>
-              <Button variant="outline-warning wsd">View Roster</Button>
-            </Link>
-            <Link to={`/schedule/${seasonid}/${team.id}`}>
-              <Button variant="outline-warning wsd">View Schedule</Button>
-            </Link>
+            {team.identicalRosters === false ? (
+              <Button
+                variant="outline-warning wsd"
+                onClick={() => {
+                  setShowMultiModal(true);
+                  setRosterButtonClicked(true);
+                }}
+              >
+                View Rosters
+              </Button>
+            ) : (
+              <Link to={`/roster/${seasonid}/${team.id}`}>
+                <Button variant="outline-warning wsd">View Roster</Button>
+              </Link>
+            )}
+
+            {team.identicalSchedules === false ? (
+              <Button
+                variant="outline-warning wsd"
+                onClick={() => {
+                  setShowMultiModal(true);
+                  setRosterButtonClicked(false);
+                }}
+              >
+                View Schedules
+              </Button>
+            ) : (
+              <Link to={`/schedule/${seasonid}/${team.id}`}>
+                <Button variant="outline-warning wsd">View Schedule</Button>
+              </Link>
+            )}
+
             <Button
               variant="outline-warning wsd"
               onClick={() => setShowTeamModal(true)}
@@ -598,6 +645,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
         team={team}
         editing={!archived}
         archived={archived}
+        user={user}
         showTeamModal={showTeamModal}
         showSetCoachesModal={showSetCoachesModal}
         handleTeamSave={handleTeamSave}

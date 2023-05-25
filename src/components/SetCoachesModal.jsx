@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import { Modal, Form, Button, Row } from "react-bootstrap";
 
 const SetCoachesModal = ({
@@ -13,10 +13,22 @@ const SetCoachesModal = ({
   const [position, setPosition] = useState("");
   const [coach, setCoach] = useState("");
   const [coaches, setCoaches] = useState([]);
-
+  const [user, setUser] = useState(null);
   const [addedRowsA, setAddedRowsA] = useState([]);
   const [addedRowsB, setAddedRowsB] = useState([]);
   const { twoTeams, show } = showSetCoachesModal;
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     db.ref("coaches").on("value", (snapshot) => {
@@ -192,6 +204,7 @@ const SetCoachesModal = ({
                     as="select"
                     value={position}
                     onChange={handlePositionChange}
+                    disabled={archived || !user}
                   >
                     <option value="" disabled>
                       Coaching Position
@@ -211,6 +224,7 @@ const SetCoachesModal = ({
                     as="select"
                     value={coach}
                     onChange={handleCoachChange}
+                    disabled={archived || !user}
                   >
                     <option value="" disabled>
                       Coach
@@ -222,13 +236,14 @@ const SetCoachesModal = ({
                     ))}
                   </Form.Select>
                 </Form.Group>
-
+              {user ? (
                 <Button
                   variant="success add-btn"
                   onClick={() => handleAddRow(twoTeams)}
                 >
                   +
                 </Button>
+                ) : (null)}
               </div>
             </Form>
           )}
@@ -242,6 +257,7 @@ const SetCoachesModal = ({
                   <div className="col">{row.position}</div>
                   <div className="col">{row.coach}</div>
                   <div className="col-auto">
+                  {user ? (
                     <Button
                       variant="danger"
                       className="subt-btn"
@@ -249,6 +265,7 @@ const SetCoachesModal = ({
                     >
                       -
                     </Button>
+                    ) : (null)}
                   </div>
                 </Row>
               ))}
@@ -275,9 +292,11 @@ const SetCoachesModal = ({
           </div>
         </Modal.Body>
         <Modal.Footer>
+        {user ? (
           <Button variant="primary" onClick={handleCloseCoachesModal}>
             Done
           </Button>
+          ) : (null)}
           <Button variant="secondary" onClick={handleCloseCoachesModal}>
             Close
           </Button>

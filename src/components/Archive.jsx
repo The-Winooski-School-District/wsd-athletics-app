@@ -2,7 +2,7 @@ import "../styles/Seasons.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Form, Table, Button } from "react-bootstrap";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import TeamCard from "./TeamCard";
 import TeamModal from "./TeamModal";
 
@@ -11,6 +11,7 @@ const Archive = () => {
   const [teams, setTeams] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [showTeamModal, setshowTeamModal] = useState(false);
+  const [user, setUser] = useState(null);
 
   const sortedSeasons = seasons.sort(compareSeasons);
 
@@ -44,6 +45,18 @@ const Archive = () => {
   if (!editIndex) {
     /*Do Nothing*/
   }
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     const seasonsRef = db.ref("archived-seasons");
@@ -170,26 +183,30 @@ const Archive = () => {
                           {season.year + ` - ${parseInt(season.year) + 1}`}
                         </h4>
                       </td>
-                      <td className="last-col">
-                        <div className="action-buttons">
-                          <Button
-                            variant="info wsd"
-                            onClick={(event) =>
-                              handleSeasonRestore(event, season.id, index)
-                            }
-                            disabled
-                          >
-                            Restore
-                          </Button>
-                          <Button
-                            variant="danger wsd"
-                            onClick={() => handleSeasonDelete(season.id, index)}
-                            disabled
-                          >
-                            Delete
-                          </Button>
-                        </div>
-                      </td>
+                      {user ? (
+                        <td className="last-col">
+                          <div className="action-buttons">
+                            <Button
+                              variant="info wsd"
+                              onClick={(event) =>
+                                handleSeasonRestore(event, season.id, index)
+                              }
+                              disabled
+                            >
+                              Restore
+                            </Button>
+                            <Button
+                              variant="danger wsd"
+                              onClick={() =>
+                                handleSeasonDelete(season.id, index)
+                              }
+                              disabled
+                            >
+                              Delete
+                            </Button>
+                          </div>
+                        </td>
+                      ) : null}
                     </tr>
                     {showTeams[index] && (
                       <tr className="onlyif">

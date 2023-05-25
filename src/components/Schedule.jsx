@@ -2,7 +2,7 @@ import "../styles/Opponents.css";
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
-import { db } from "./Firebase";
+import { db, auth } from "./Firebase";
 import { CSVLink } from "react-csv";
 import CSVReader from "react-csv-reader";
 import { AddToCalendarButton } from "add-to-calendar-button-react";
@@ -19,6 +19,7 @@ const Schedule = () => {
   const [teamRostersIdentical, setTeamRostersIdentical] = useState("");
   const [seasonName, setSeasonName] = useState("");
   const [loadedData, setLoadedData] = useState([]);
+  const [user, setUser] = useState(null);
 
   const csvData = schedule.map(
     ({ date, opponent, location, time, notes, score_w, score_o }) => ({
@@ -56,6 +57,18 @@ const Schedule = () => {
   const schedulePath = teamB
     ? `/${seasonid}/teams/${teamid}/schedule-b`
     : `/${seasonid}/teams/${teamid}/schedule`;
+
+  useEffect(() => {
+    // Listen for changes in the user authentication state
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     db.ref(`seasons/${seasonid}`)
@@ -267,7 +280,7 @@ const Schedule = () => {
 
   const dates = schedule.map((game) => {
     const location = game.location === "Home" ? "@Home" : `@${game.opponent}`;
-  
+
     return {
       name: `${game.location} Game vs ${game.opponent}`,
       description: `${game.location} Game vs ${game.opponent}`,
@@ -277,7 +290,6 @@ const Schedule = () => {
       location: location,
     };
   });
-  
 
   return (
     <div className="Container">
@@ -333,16 +345,17 @@ const Schedule = () => {
         <div className="import-export-container">
           {isArchived ? null : (
             <>
-              <Button
-                variant="primary wsd csv import-export"
-                onClick={() => {
-                  if (document.getElementById("react-csv-reader-input"))
-                    document.getElementById("react-csv-reader-input").click();
-                }}
-              >
-                Import CSV
-              </Button>
-
+              {user ? (
+                <Button
+                  variant="primary wsd csv import-export"
+                  onClick={() => {
+                    if (document.getElementById("react-csv-reader-input"))
+                      document.getElementById("react-csv-reader-input").click();
+                  }}
+                >
+                  Import CSV
+                </Button>
+              ) : null}
               <CSVReader
                 onFileLoaded={handleFileLoaded}
                 inputStyle={{ display: "none" }}
@@ -366,6 +379,7 @@ const Schedule = () => {
         <Form onSubmit={handleAddGame}>
           {isArchived ? null : (
             <>
+            {user ? (
               <Table striped bordered hover>
                 <thead>
                   <tr>
@@ -442,6 +456,7 @@ const Schedule = () => {
                   </tr>
                 </tbody>
               </Table>
+              ) : (null)}
               <div className="calendar-scheduler">
                 <AddToCalendarButton
                   name="Schedule"
@@ -473,7 +488,7 @@ const Schedule = () => {
                 <th>Home/Away</th>
                 <th>Time</th>
                 <th>Score</th>
-                <th>Actions</th>
+                {isArchived ? null : (<th>Actions</th>)}
               </tr>
             </thead>
             <tbody>
@@ -643,18 +658,22 @@ const Schedule = () => {
                             hideCheckmark
                             hideTextLabelList
                           ></AddToCalendarButton>
-                          <Button
-                            variant="info wsd"
-                            onClick={() => handleEdit(index)}
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            variant="danger wsd"
-                            onClick={() => handleDelete(game.id, index)}
-                          >
-                            Delete
-                          </Button>
+                          {user ? (
+                            <>
+                              <Button
+                                variant="info wsd"
+                                onClick={() => handleEdit(index)}
+                              >
+                                Edit
+                              </Button>
+                              <Button
+                                variant="danger wsd"
+                                onClick={() => handleDelete(game.id, index)}
+                              >
+                                Delete
+                              </Button>
+                            </>
+                          ) : null}
                         </div>
                       )}
                     </td>
