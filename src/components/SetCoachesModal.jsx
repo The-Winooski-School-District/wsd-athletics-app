@@ -292,11 +292,6 @@ const SetCoachesModal = ({
           </div>
         </Modal.Body>
         <Modal.Footer>
-        {user ? (
-          <Button variant="primary" onClick={handleCloseCoachesModal}>
-            Done
-          </Button>
-          ) : (null)}
           <Button variant="secondary" onClick={handleCloseCoachesModal}>
             Close
           </Button>

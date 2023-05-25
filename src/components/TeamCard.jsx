@@ -37,7 +37,6 @@ const TeamCard = ({ team, seasonid, archived }) => {
   }, []);
 
   useEffect(() => {
-    console.log("we out here");
     const teamsRef = db.ref(`seasons/${seasonid}/teams`);
 
     const teamsListener = teamsRef.on("value", (snapshot) => {
