@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { auth } from "./Firebase";
 import { useNavigate } from "react-router-dom";
+import { Button, Form } from "react-bootstrap";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -14,33 +15,40 @@ function Login() {
       await auth.signInWithEmailAndPassword(email, password);
       navigate("/*"); // Replace "/*" with the desired path for the authorized area
     } catch (error) {
-      setError(error.message);
+      setError("Invalid Credentials.", error)
     }
   };
 
   return (
-    <div>
+    <div className="Container login">
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </label>
-        {error && <p>{error}</p>}
-        <button type="submit">Log In</button>
-      </form>
+      <hr className="other-hr" />
+      <div className="login-form">
+        <Form onSubmit={handleSubmit}>
+          <Form.Label></Form.Label>
+          <Form.Group className="login-input">
+            <Form.Control
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group className="login-input">
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Group>
+          {error && <p>{error}</p>}
+          <Button className="primary wsd login-input extra-headroom" type="submit">
+            Log In
+          </Button>
+        </Form>
+      </div>
     </div>
   );
 }

@@ -191,3 +191,86 @@ body::-webkit-scrollbar {
   text-decoration: none !important;
   color: #ffbf2a !important;
 }
+
+.other-hr {
+  color: white;
+  border-width: 2px;
+  width: 100%;
+  opacity: 100%;
+}
+
+/* FORMS */
+
+.forms {
+  max-width: 450px !important;
+  padding-bottom: 15px;
+}
+
+.sub-menu > * > a {
+  text-decoration: none !important;
+  color: #9eb8f0;
+}
+
+.sub-menu > * > a:hover {
+  color: #9eb8f0;
+}
+
+ul.sub-menu {
+  list-style: none;
+}
+
+ul.sub-menu li {
+  list-style: none;
+}
+
+.form-heading {
+  color: #fbb516;
+}
+
+.title-wrapper {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.lower-title-wrapper {
+  margin-top: 20px;
+}
+.form-group {
+  margin-bottom: 12px;
+}
+
+/* LOGIN */
+
+.login {
+  max-width: 450px;
+}
+
+.login-input {
+  max-width: 300px;
+  margin: 2px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.extra-headroom {
+  margin-top: 7px;
+}
+
+.login form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-form {
+  padding-top: 5px;
+  padding-bottom: 10px;
+}
+
+.login-form > form > p {
+  margin: 2px;
+}

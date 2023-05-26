@@ -80,15 +80,6 @@ tr > td {
   background-color: #17291786;
 }
 
-h3 {
-  color: #bd8a13cc;
-  transition: color 0.3s ease-in-out;
-}
-
-.drag-n-drop:hover h3 {
-  color: #997010cc;
-}
-
 td > a {
   color: rgb(158, 184, 240);
   text-decoration: none;
