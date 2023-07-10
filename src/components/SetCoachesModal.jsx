@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db, auth } from "./Firebase";
 import { Modal, Form, Button, Row } from "react-bootstrap";
 
+/* FOR SETTING THE COACHES FOR A TEAM WITHIN A SEASON */
 const SetCoachesModal = ({
   seasonid,
   teamid,
@@ -195,6 +196,7 @@ const SetCoachesModal = ({
                 handleCoachesModalClose();
               }}
             >
+              {user ? (
               <div className="coach-split">
                 <Form.Group controlId="Position">
                   <Form.Select
@@ -236,15 +238,17 @@ const SetCoachesModal = ({
                     ))}
                   </Form.Select>
                 </Form.Group>
-              {user ? (
+                
+              
                 <Button
                   variant="success add-btn"
                   onClick={() => handleAddRow(twoTeams)}
                 >
                   +
                 </Button>
-                ) : (null)}
+                
               </div>
+              ) : (null)}
             </Form>
           )}
           <div className="coach-rows">

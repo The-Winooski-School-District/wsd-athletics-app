@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
+
+/* FOR ADDING COACHES TO THE COACHING ROSTER */
 const AddCoachModal = ({
   showAddCoachModal,
   handleCloseAddCoachModal,
