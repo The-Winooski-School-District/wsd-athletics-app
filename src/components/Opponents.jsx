@@ -27,6 +27,7 @@ const Opponents = () => {
     setOpponents(updatedOpponents);
   }
 
+  /* auth */
   useEffect(() => {
     // Listen for changes in the user authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -39,6 +40,7 @@ const Opponents = () => {
     };
   }, []);
 
+  /* get opponents from db */
   useEffect(() => {
     const opponentsRef = db.ref("opponents");
     opponentsRef.on("value", (snapshot) => {
@@ -58,6 +60,7 @@ const Opponents = () => {
     setEditIndex(index);
   }
 
+  /* saves changes to edit on opponent data */
   function handleSave(opponentInfo, index) {
     const id = opponents[index].id;
     const updatedOpponentInfo = {
@@ -80,6 +83,7 @@ const Opponents = () => {
     });
   }
 
+  /* removes opponent from db */
   function handleDelete(id, index) {
     if (window.confirm("Are you sure you want to delete this opponent?")) {
       const updatedOpponents = [...opponents];
@@ -94,6 +98,7 @@ const Opponents = () => {
     setEditIndex(null);
   }
 
+  /* adds opponent to db */
   function handleAddOpponent(event) {
     event.preventDefault();
     const name = event.target.elements.name.value;

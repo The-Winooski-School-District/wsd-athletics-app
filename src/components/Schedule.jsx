@@ -58,6 +58,7 @@ const Schedule = () => {
     ? `/${seasonid}/teams/${teamid}/schedule-b`
     : `/${seasonid}/teams/${teamid}/schedule`;
 
+  /* auth */
   useEffect(() => {
     // Listen for changes in the user authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -70,11 +71,14 @@ const Schedule = () => {
     };
   }, []);
 
+  /* get schedules for each team from each season */
   useEffect(() => {
     db.ref(`seasons/${seasonid}`)
       .once("value")
       .then((snapshot) => {
         const exists = snapshot.exists();
+
+        /* check seasons */
         if (exists) {
           const seasonData = snapshot.val();
           if (seasonData) {
@@ -110,6 +114,7 @@ const Schedule = () => {
                 setTeamRostersIdentical(rostersIdentical);
               }
             });
+        /* check archive */
         } else {
           setIsArchived(true);
           db.ref(`archived-seasons/${seasonid}`)
@@ -169,6 +174,7 @@ const Schedule = () => {
     setEditIndex(index);
   }
 
+  /* save edit to game/schedule */
   function handleSave(gameInfo, index) {
     const id = gameInfo.id;
     const updatedGameInfo = { ...schedule[index], ...gameInfo, id: id };
@@ -190,6 +196,7 @@ const Schedule = () => {
     );
   }
 
+  /* delete game from schedule */
   function handleDelete(id, index) {
     if (window.confirm("Are you sure you want to delete this game?")) {
       const updatedSchedule = [...schedule];
@@ -203,6 +210,7 @@ const Schedule = () => {
     setEditIndex(null);
   }
 
+  /* add game to schedule */
   function handleAddGame(event) {
     event.preventDefault();
     const date = event.target.elements.date.value;
@@ -217,6 +225,7 @@ const Schedule = () => {
     event.target.reset();
   }
 
+  /* formats the time entry */
   function formatTime(time) {
     const [hours, minutes] = time.split(":");
     const formattedHours = hours % 12 || 12;
@@ -224,6 +233,7 @@ const Schedule = () => {
     return `${formattedHours}:${minutes} ${period}`;
   }
 
+  /* formats the date entry */
   function formatDate(date) {
     let year, month, day;
 
@@ -236,6 +246,7 @@ const Schedule = () => {
     return `${month} - ${day} - ${year}`;
   }
 
+  /* parses csv for schedule */
   const handleFileLoaded = (data, fileInfo) => {
     const newSchedule = data.map((row) => ({
       date: row.date,

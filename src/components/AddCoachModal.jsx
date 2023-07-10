@@ -183,7 +183,6 @@ const AddCoachModal = ({
         </Modal.Body>
         <Modal.Footer>
           <Button
-            disabled
             variant="primary"
             onClick={() => {
               if (coachSports.length === 0) {

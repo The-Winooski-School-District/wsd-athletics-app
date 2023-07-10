@@ -12,6 +12,7 @@ const AddTeam = ({ seasonid }) => {
   const [season, setSeason] = useState(null);
   const [user, setUser] = useState(null);
 
+  /* auth */
   useEffect(() => {
     // Listen for changes in the user authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -24,6 +25,7 @@ const AddTeam = ({ seasonid }) => {
     };
   }, []);
 
+  /* get teams for season from db */
   useEffect(() => {
     const teamsRef = db.ref(`seasons/${seasonid}/teams`);
     teamsRef.on("value", (snapshot) => {
@@ -54,6 +56,7 @@ const AddTeam = ({ seasonid }) => {
     };
   }, [seasonid]);
 
+  /* Add Team to season */
   const handleAddTeam = (
     teamName,
     sport,

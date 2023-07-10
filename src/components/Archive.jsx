@@ -46,6 +46,7 @@ const Archive = () => {
     /*Do Nothing*/
   }
 
+  /* auth */
   useEffect(() => {
     // Listen for changes in the user authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -58,6 +59,8 @@ const Archive = () => {
     };
   }, []);
 
+
+  /* get archive from db */
   useEffect(() => {
     const seasonsRef = db.ref("archived-seasons");
     seasonsRef.on("value", (snapshot) => {
@@ -105,6 +108,7 @@ const Archive = () => {
     };
   }, []);
 
+  /* send seasonf rom archive back to seasons */
   function handleSeasonRestore(event, id, index) {
     event.preventDefault();
     const seasonId = id;
@@ -123,6 +127,7 @@ const Archive = () => {
     }
   }
 
+  /* delete season */
   function handleSeasonDelete(id, index) {
     if (
       window.confirm("Are you sure you want to delete this season permanently?")

@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 
+/* The Home Page and Entry Point of the App */
 const Home = () => {
   return (
     <Routes>

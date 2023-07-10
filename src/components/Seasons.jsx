@@ -18,6 +18,7 @@ const Seasons = () => {
     /* Do Nothing */
   }
 
+  /* authentication */
   useEffect(() => {
     // Listen for changes in the user authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -53,6 +54,7 @@ const Seasons = () => {
   }
 
   useEffect(() => {
+    /* use db to populate seasons */
     const seasonsRef = db.ref("seasons");
     seasonsRef.on("value", (snapshot) => {
       const seasonsData = snapshot.val();
@@ -73,6 +75,7 @@ const Seasons = () => {
     setNewSeasonType(seasons[index].season);
   }
 
+  /* To make sure we dont have duplicate seasons per year */
   function yearSeasonChecker(year, season) {
     const year_season = `${year}_${season}`;
     const seasonsRef = db.ref("seasons");
@@ -97,6 +100,7 @@ const Seasons = () => {
       });
   }
 
+  /* add season to db */
   function handleAddSeason(event) {
     event.preventDefault();
     const year = event.target.elements.year.value;
@@ -121,6 +125,7 @@ const Seasons = () => {
     );
   }
 
+  /* edit season in db */
   function handleSeasonSave(seasonInfo, index) {
     const id = seasons[index].id;
     const updatedSeasonInfo = {
@@ -129,6 +134,7 @@ const Seasons = () => {
       id: id,
     };
 
+    /* To make sure we dont have duplicate seasons per year */
     const { year, season } = updatedSeasonInfo;
     yearSeasonChecker(year, season).then(
       ({ seasonExists, archivedSeasonExists }) => {
@@ -162,6 +168,7 @@ const Seasons = () => {
     );
   }
 
+  /* sends season to Archive in db and app UI */
   function handleSeasonArchive(event, id, index) {
     event.preventDefault();
     const seasonId = id;

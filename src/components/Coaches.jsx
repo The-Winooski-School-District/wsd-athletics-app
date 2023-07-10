@@ -84,7 +84,7 @@ const Coaches = () => {
           </Button>
         </div>
         ) : (null)}
-        <div className="teams-area">
+        <div className="coaches-area">
           {coaches.map((coach, index) => (
             <CoachCard key={coach.id} index={index} coach={coach} />
           ))}

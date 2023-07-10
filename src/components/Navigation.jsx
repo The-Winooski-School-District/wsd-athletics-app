@@ -10,7 +10,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-sm">
+    <nav className="navbar navbar-expand-md">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/*">
           WSD Athletics

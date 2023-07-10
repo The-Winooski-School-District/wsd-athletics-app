@@ -9,6 +9,13 @@
   margin-bottom: 10px;
 }
 
+.coaches-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
 .coach-pic {
   width: 90% !important;
 }
@@ -327,5 +334,11 @@ a.team-links {
   }
   .team-buttons > a > Button {
     width: 95% !important;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .team-name {
+    font-size: 6vw;
   }
 }

@@ -14,6 +14,7 @@ import TempDB from "./components/TempDB";
 import Forms from "./components/Forms";
 import Login from "./components/Login";
 
+/* routing for the app. Any new components/pages need to be added here. */
 const App = () => {
   return (
     <div className='App'>

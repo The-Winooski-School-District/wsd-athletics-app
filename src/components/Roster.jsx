@@ -45,6 +45,7 @@ const Roster = () => {
     setValue(newValue);
   }
 
+  /* auth */
   useEffect(() => {
     // Listen for changes in the user authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -67,17 +68,21 @@ const Roster = () => {
     ? `${seasonid}/teams/${teamid}/roster-b`
     : `${seasonid}/teams/${teamid}/roster`;
 
+  /* get rosters from each team from each season */
   useEffect(() => {
     db.ref(`seasons/${seasonid}`)
       .once("value")
       .then((snapshot) => {
         const exists = snapshot.exists();
+
+        /* for non-archived */
         if (exists) {
           const seasonData = snapshot.val();
           if (seasonData) {
             const seasonName = seasonData.year + " " + seasonData.season;
             setSeasonName(seasonName);
           }
+
 
           db.ref(`seasons/` + rosterPath).on("value", (snapshot) => {
             const rosterData = snapshot.val();
@@ -107,6 +112,8 @@ const Roster = () => {
                 setTeamRostersIdentical(rostersIdentical);
               }
             });
+
+        /* for archived */
         } else {
           setIsArchived(true);
           db.ref(`archived-seasons/${seasonid}`)
@@ -151,6 +158,7 @@ const Roster = () => {
       });
   }, [seasonid, teamid, rosterPath]);
 
+  /* adds player to roster */
   function handleAddplayer(event) {
     event.preventDefault();
     const number = event.target.elements.number.value;
@@ -168,6 +176,7 @@ const Roster = () => {
     setEditIndex(index);
   }
 
+  /* saves edits to player on roster */
   function handleSave(playerInfo, index) {
     const id = playerInfo.id;
     const updatedPlayerInfo = { ...roster[index], ...playerInfo, id: id };
@@ -189,6 +198,7 @@ const Roster = () => {
     );
   }
 
+  /* deletes player from roster */
   function handleDelete(id, index) {
     if (window.confirm("Are you sure you want to delete this player?")) {
       const updatedRoster = [...roster];
@@ -203,6 +213,7 @@ const Roster = () => {
     setEditIndex(null);
   }
 
+  /* reads csv to match db */
   const handleFileLoaded = (data, fileInfo) => {
     const newRoster = data.map((row) => ({
       number: row.number,

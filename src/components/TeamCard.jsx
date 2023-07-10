@@ -24,6 +24,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
     /* nope */
   }
 
+  /* auth */
   useEffect(() => {
     // Listen for changes in the user authentication state
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -36,6 +37,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
     };
   }, []);
 
+  /* get teams for season */
   useEffect(() => {
     const teamsRef = db.ref(`seasons/${seasonid}/teams`);
 
@@ -247,7 +249,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
   return (
     <div className="team-card">
       <div className={`team-title-area ${getTeamGender(team.abbr)}`}>
-        <h4>{team.name}</h4>
+        <h4 className="team-name">{team.name}</h4>
       </div>
       <hr className="yellow"></hr>
       <div className="team-card-main">
