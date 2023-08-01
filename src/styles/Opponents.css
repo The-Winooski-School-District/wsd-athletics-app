@@ -116,11 +116,21 @@ td > a:hover {
 
 .action-buttons-cell {
   max-width: 250px !important;
-  min-width: 250px !important;
-  width: 250px !important;
 }
 
 .calendar-scheduler {
   display: flex;
   justify-content: center !important;
+}
+
+.add-button {
+  display: flex;
+  justify-content: right !important;
+}
+
+
+@media (max-width: 920px) {
+  .no-small {
+    display: none;
+  }
 }

@@ -20,6 +20,7 @@ const Schedule = () => {
   const [seasonName, setSeasonName] = useState("");
   const [loadedData, setLoadedData] = useState([]);
   const [user, setUser] = useState(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const csvData = schedule.map(
     ({ date, opponent, location, time, notes, score_w, score_o }) => ({
@@ -114,7 +115,7 @@ const Schedule = () => {
                 setTeamRostersIdentical(rostersIdentical);
               }
             });
-        /* check archive */
+          /* check archive */
         } else {
           setIsArchived(true);
           db.ref(`archived-seasons/${seasonid}`)
@@ -302,6 +303,16 @@ const Schedule = () => {
     };
   });
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 920); // Adjust the width to your desired breakpoint
+    };
+
+    handleResize(); // Check the initial screen size
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <div className="Container">
       <Link to="/*" className="yellow">
@@ -390,84 +401,175 @@ const Schedule = () => {
         <Form onSubmit={handleAddGame}>
           {isArchived ? null : (
             <>
-            {user ? (
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Opponent</th>
-                    <th>Home/Away</th>
-                    <th>Time</th>
-                    <th>Notes</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
+              {user ? (
+                <Table striped bordered hover>
+                  {isSmallScreen ? (
+                    <>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Opponent</th>
+                        </tr>
+                      </thead>
 
-                <tbody>
-                  <tr>
-                    <td>
-                      <Form.Control
-                        type="date"
-                        name="date"
-                        placeholder="Date"
-                        required
-                      />
-                    </td>
-                    <td>
-                      <Form.Select
-                        name="opponent"
-                        onChange={(event) => handleChange(event)}
-                        required
-                      >
-                        <option value="" disabled>
-                          Select an opponent
-                        </option>
-                        {opponents.map((opponent) => (
-                          <option key={opponent.id} value={opponent.name}>
-                            {opponent.name}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </td>
-                    <td>
-                      <Form.Select
-                        type="text"
-                        as="select"
-                        name="location"
-                        placeholder="Home/Away"
-                        required
-                      >
-                        <option value="" disabled>
-                          Home/Away
-                        </option>
-                        <option value="Home">Home</option>
-                        <option value="Away">Away</option>
-                      </Form.Select>
-                    </td>
-                    <td>
-                      <Form.Control
-                        type="time"
-                        name="time"
-                        placeholder="Time"
-                        required
-                      />
-                    </td>
-                    <td>
-                      <Form.Control
-                        type="text"
-                        name="notes"
-                        placeholder="Notes"
-                      />
-                    </td>
-                    <td>
-                      <Button variant="success oneline" type="submit">
-                        Add Game
-                      </Button>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-              ) : (null)}
+                      <tbody>
+                        <tr>
+                          <td>
+                            <Form.Control
+                              type="date"
+                              name="date"
+                              placeholder="Date"
+                              required
+                            />
+                          </td>
+                          <td>
+                            <Form.Select
+                              name="opponent"
+                              onChange={(event) => handleChange(event)}
+                              required
+                            >
+                              <option value="" disabled>
+                                Select an opponent
+                              </option>
+                              {opponents.map((opponent) => (
+                                <option key={opponent.id} value={opponent.name}>
+                                  {opponent.name}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </td>
+                        </tr>
+                      </tbody>
+
+                      <thead>
+                        <tr>
+                          <th>Location</th>
+                          <th>Time</th>
+                          <th className="no-small">Notes</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>
+                            <Form.Select
+                              type="text"
+                              as="select"
+                              name="location"
+                              placeholder="Home/Away"
+                              required
+                            >
+                              <option value="" disabled>
+                                Home/Away
+                              </option>
+                              <option value="Home">Home</option>
+                              <option value="Away">Away</option>
+                            </Form.Select>
+                          </td>
+                          <td>
+                            <Form.Control
+                              type="time"
+                              name="time"
+                              placeholder="Time"
+                              required
+                            />
+                          </td>
+                          <td className="no-small">
+                            <Form.Control
+                              type="text"
+                              name="notes"
+                              placeholder="Notes"
+                            />
+                          </td>
+                        </tr>
+                      </tbody>
+                      <br></br>
+                      <div className="add-button">  
+                        <Button variant="success oneline" type="submit">
+                          Add Game
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Opponent</th>
+                          <th>Location</th>
+                          <th>Time</th>
+                          <th className="no-small">Notes</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <td>
+                            <Form.Control
+                              type="date"
+                              name="date"
+                              placeholder="Date"
+                              required
+                            />
+                          </td>
+                          <td>
+                            <Form.Select
+                              name="opponent"
+                              onChange={(event) => handleChange(event)}
+                              required
+                            >
+                              <option value="" disabled>
+                                Select an opponent
+                              </option>
+                              {opponents.map((opponent) => (
+                                <option key={opponent.id} value={opponent.name}>
+                                  {opponent.name}
+                                </option>
+                              ))}
+                            </Form.Select>
+                          </td>
+                          <td>
+                            <Form.Select
+                              type="text"
+                              as="select"
+                              name="location"
+                              placeholder="Home/Away"
+                              required
+                            >
+                              <option value="" disabled>
+                                Home/Away
+                              </option>
+                              <option value="Home">Home</option>
+                              <option value="Away">Away</option>
+                            </Form.Select>
+                          </td>
+                          <td>
+                            <Form.Control
+                              type="time"
+                              name="time"
+                              placeholder="Time"
+                              required
+                            />
+                          </td>
+                          <td className="no-small">
+                            <Form.Control
+                              type="text"
+                              name="notes"
+                              placeholder="Notes"
+                            />
+                          </td>
+                          <td>
+                            <Button variant="success oneline" type="submit">
+                              {isSmallScreen ? "Add" : "Add Game"}
+                            </Button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </>
+                  )}
+                </Table>
+              ) : null}
               <div className="calendar-scheduler">
                 <AddToCalendarButton
                   name="Schedule"
@@ -495,11 +597,11 @@ const Schedule = () => {
             <thead>
               <tr>
                 <th>Date</th>
-                <th>Opponent</th>
-                <th>Home/Away</th>
+                <th>{isSmallScreen ? "Opp" : "Opponent"}</th>
+                <th>{isSmallScreen ? "Loc" : "Location"}</th>
                 <th>Time</th>
-                <th>Score</th>
-                {isArchived ? null : (<th>Actions</th>)}
+                <th className="no-small">Score</th>
+                {isArchived ? null : <th>Actions</th>}
               </tr>
             </thead>
             <tbody>
@@ -592,7 +694,7 @@ const Schedule = () => {
                       formatTime(game.time)
                     )}
                   </td>
-                  <td>
+                  <td className="no-small">
                     {editIndex === index ? (
                       <>
                         <Form.Control
@@ -675,13 +777,13 @@ const Schedule = () => {
                                 variant="info wsd"
                                 onClick={() => handleEdit(index)}
                               >
-                                Edit
+                                {isSmallScreen ? "E" : "Edit"}
                               </Button>
                               <Button
                                 variant="danger wsd"
                                 onClick={() => handleDelete(game.id, index)}
                               >
-                                Delete
+                                {isSmallScreen ? "X" : "Delete"}
                               </Button>
                             </>
                           ) : null}

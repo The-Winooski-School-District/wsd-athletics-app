@@ -9,28 +9,26 @@ const Forms = () => {
       <hr className="other-hr" />
       <div className="sub-menu">
         <div className="form-group">
-          <a href="https://docs.google.com/document/d/1PSzRjeEon_8VSMBi9ZhCauYqj7dWtLS1kNOZ0lJ4UTM/edit">
-            HS Athletic Handbook
+          <a href="https://docs.google.com/document/d/e/2PACX-1vQs1aqB32CI_txWZRkTXt0T69SI4Hu6bvSo6ku_JFdd8FdFWZhx7rwo8sVcduOd7w/pub">
+            Athletic Handbook
           </a>
           <div className="sub-menu">
             <div>
-              <a href="/wp-content/uploads/2020/11/HS-Handbook2020-2021-Sign-Return.pdf">
+              <a href="https://wsdvt.org/wp-content/uploads/2020/11/HS-Handbook2020-2021-Sign-Return.pdf">
                 -HS Sign &#038; Return
+              </a>
+            </div>
+            
+            <div>
+              <a href="https://wsdvt.org/wp-content/uploads/2020/11/MS-Handbook2020-2021-Sign-Return.pdf">
+                -MS Sign &#038; Return
               </a>
             </div>
           </div>
         </div>
         <div>
-          <a href="https://docs.google.com/document/d/1rlhREOqexAmuNZ2Zw5C8J5o0PppAK5Bw8MqBiTA1rAA/edit">
-            MS Athletic Handbook
-          </a>
-          <div className="sub-menu">
-            <div>
-              <a href="/wp-content/uploads/2020/11/MS-Handbook2020-2021-Sign-Return.pdf">
-                -MS Sign &#038; Return
-              </a>
-            </div>
-          </div>
+
+
         </div>
         <div>
           <div className="lower-title-wrapper">
