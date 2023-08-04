@@ -5,11 +5,15 @@ import { Link } from "react-router-dom";
 import { Button, Form, Table } from "react-bootstrap";
 import { db, auth } from "./Firebase";
 import { CSVLink } from "react-csv";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import { faPhone } from "@fortawesome/free-solid-svg-icons";
 
 const Opponents = () => {
   const [opponents, setOpponents] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [user, setUser] = useState(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const csvData = opponents.map(({ name, phone, address, school, fax }) => ({
     name,
@@ -59,6 +63,17 @@ const Opponents = () => {
   function handleEdit(index) {
     setEditIndex(index);
   }
+
+  /* mobile views */
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 1024); // Adjust the width to your desired breakpoint
+    };
+
+    handleResize(); // Check the initial screen size
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   /* saves changes to edit on opponent data */
   function handleSave(opponentInfo, index) {
@@ -149,30 +164,33 @@ const Opponents = () => {
           <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Name</th>
+                {isSmallScreen ? null : <th>Name</th>}
                 <th>School</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Fax</th>
+                {isSmallScreen ? <th>Map</th> : <th>Address</th>}
+                {isSmallScreen ? <th>Tel</th> : <th>Phone</th>}
+                {isSmallScreen ? null : <th>Fax</th>}
                 {user ? <th>Actions</th> : null}
               </tr>
             </thead>
             <tbody>
               {opponents.map((opponent, index) => (
                 <tr key={opponent.id}>
-                  <td>
-                    {editIndex === index ? (
-                      <Form.Control
-                        type="text"
-                        name="name"
-                        value={opponent.name}
-                        onChange={(event) => handleChange(event, index)}
-                        required
-                      />
-                    ) : (
-                      opponent.name
-                    )}
-                  </td>
+                  {isSmallScreen ? null : (
+                    <td>
+                      {editIndex === index ? (
+                        <Form.Control
+                          type="text"
+                          name="name"
+                          value={opponent.name}
+                          onChange={(event) => handleChange(event, index)}
+                          required
+                        />
+                      ) : (
+                        opponent.name
+                      )}
+                    </td>
+                  )}
+
                   <td>
                     {editIndex === index ? (
                       <Form.Control
@@ -201,7 +219,11 @@ const Opponents = () => {
                         rel="noreferrer"
                         target="_blank"
                       >
-                        {opponent.address.replace(/\+/g, " ")}
+                        {isSmallScreen ? (
+                          <FontAwesomeIcon icon={faLocationDot} />
+                        ) : (
+                          opponent.address.replace(/\+/g, " ")
+                        )}
                       </a>
                     )}
                   </td>
@@ -216,22 +238,30 @@ const Opponents = () => {
                       />
                     ) : (
                       <a href={`tel:${opponent.phone.replace(/\D/g, "")}`}>
-                        {opponent.phone}
+                        {isSmallScreen ? (
+                          <FontAwesomeIcon icon={faPhone} />
+                        ) : (
+                          opponent.phone
+                        )}
                       </a>
                     )}
                   </td>
-                  <td>
-                    {editIndex === index ? (
-                      <Form.Control
-                        type="text"
-                        name="fax"
-                        value={opponent.fax}
-                        onChange={(event) => handleChange(event, index)}
-                      />
-                    ) : opponent.fax !== "NULL" ? (
-                      opponent.fax
-                    ) : null}
-                  </td>
+
+                  {isSmallScreen ? null : (
+                    <td>
+                      {editIndex === index ? (
+                        <Form.Control
+                          type="text"
+                          name="fax"
+                          value={opponent.fax}
+                          onChange={(event) => handleChange(event, index)}
+                        />
+                      ) : opponent.fax !== "NULL" ? (
+                        opponent.fax
+                      ) : null}
+                    </td>
+                  )}
+
                   {user ? (
                     <td>
                       {editIndex === index ? (

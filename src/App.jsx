@@ -13,12 +13,12 @@ import Coaches from "./components/Coaches";
 import TempDB from "./components/TempDB";
 import Forms from "./components/Forms";
 import Login from "./components/Login";
-import Test from "./components/test";
 
 /* routing for the app. Any new components/pages need to be added here. */
 const App = () => {
   return (
     <div className='App'>
+
       <Router>
         <Navigation />
         <Routes>
@@ -32,7 +32,6 @@ const App = () => {
           <Route path='/dbfix' element={<TempDB />} />
           <Route path='/roster/:seasonid/:teamid' element={<Roster />} />
           <Route path='/schedule/:seasonid/:teamid' element={<Schedule />} />
-          <Route path='/test' element={<Test />} />
         </Routes>
       </Router>
     </div>
