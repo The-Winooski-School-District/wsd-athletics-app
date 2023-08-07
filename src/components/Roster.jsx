@@ -19,6 +19,7 @@ const Roster = () => {
   const [seasonName, setSeasonName] = useState("");
   const [loadedData, setLoadedData] = useState([]);
   const [user, setUser] = useState(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const csvData = roster.map(({ number, fName, lName, grade, position }) => ({
     number,
@@ -83,7 +84,6 @@ const Roster = () => {
             setSeasonName(seasonName);
           }
 
-
           db.ref(`seasons/` + rosterPath).on("value", (snapshot) => {
             const rosterData = snapshot.val();
             if (rosterData) {
@@ -113,7 +113,7 @@ const Roster = () => {
               }
             });
 
-        /* for archived */
+          /* for archived */
         } else {
           setIsArchived(true);
           db.ref(`archived-seasons/${seasonid}`)
@@ -157,6 +157,17 @@ const Roster = () => {
         }
       });
   }, [seasonid, teamid, rosterPath]);
+
+  /* small screen condition */
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 920); // Adjust the width to your desired breakpoint
+    };
+
+    handleResize(); // Check the initial screen size
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   /* adds player to roster */
   function handleAddplayer(event) {
@@ -338,21 +349,19 @@ const Roster = () => {
           </CSVLink>
         </div>
         <Form onSubmit={handleAddplayer}>
-        {isArchived || !user ? null : (
-          
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Number</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Grade</th>
-                <th>Position</th>
-                {isArchived ? null : <th>Actions</th>}
-              </tr>
-            </thead>
-            <tbody>
-              
+          {isArchived || !user ? null : (
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>{isSmallScreen ? "#" : "Number"}</th>
+                  <th>{isSmallScreen ? "First" : "First Name"}</th>
+                  <th>{isSmallScreen ? "Last" : "Last Name"}</th>
+                  <th>Grade</th>
+                  <th>{isSmallScreen ? "Pos" : "Position"}</th>
+                  {isArchived ? null : <th>Actions</th>}
+                </tr>
+              </thead>
+              <tbody>
                 <tr>
                   <td>
                     <Form.Control
@@ -399,24 +408,23 @@ const Roster = () => {
                   </td>
                   <td>
                     <Button variant="success oneline" type="submit">
-                      Add Player
+                      {isSmallScreen ? "Add" : "Add Player"}
                     </Button>
                   </td>
                 </tr>
-              
-            </tbody>
+              </tbody>
             </Table>
-            )}
-            {isArchived ? null : <br></br>}
-            <Table striped bordered hover>
+          )}
+          {isArchived ? null : <br></br>}
+          <Table striped bordered hover>
             <thead>
               <tr>
-                <th>Number</th>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th>{isSmallScreen ? "#" : "Number"}</th>
+                <th>{isSmallScreen ? "First" : "First Name"}</th>
+                <th>{isSmallScreen ? "Last" : "Last Name"}</th>
                 <th>Grade</th>
-                <th>Position</th>
-                {isArchived || !user ? null : <th>Actions</th>}
+                <th>{isSmallScreen ? "Pos" : "Position"}</th>
+                {isArchived ? null : <th>Actions</th>}
               </tr>
             </thead>
             <tbody>
@@ -514,13 +522,13 @@ const Roster = () => {
                             variant="info wsd"
                             onClick={() => handleEdit(index)}
                           >
-                            Edit
+                            {isSmallScreen ? "E" : "Edit"}
                           </Button>
                           <Button
                             variant="danger wsd"
                             onClick={() => handleDelete(player.id, index)}
                           >
-                            Delete
+                            {isSmallScreen ? "X" : "Delete"}
                           </Button>
                         </div>
                       )}
