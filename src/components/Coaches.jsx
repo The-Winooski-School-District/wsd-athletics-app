@@ -56,7 +56,7 @@ const Coaches = () => {
 
   return (
     <div className="Container">
-      <Link to="/*" className="yellow">
+      <Link to="/athletics" className="yellow">
         <h1>WSD Athletics</h1>
       </Link>
       <div className="navbuttons">

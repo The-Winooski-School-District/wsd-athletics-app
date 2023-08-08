@@ -10,7 +10,6 @@ import Navigation from "./components/Navigation";
 import Roster from "./components/Roster";
 import Schedule from "./components/Schedule";
 import Coaches from "./components/Coaches";
-import TempDB from "./components/TempDB";
 import Forms from "./components/Forms";
 import Login from "./components/Login";
 
@@ -22,16 +21,15 @@ const App = () => {
       <Router>
         <Navigation />
         <Routes>
-          <Route path='/*' element={<Home />} />
-          <Route path='/seasons' element={<Seasons />} />
-          <Route path='/opponents' element={<Opponents />} />
-          <Route path='/archive' element={<Archive />} />
-          <Route path='/coaches' element={<Coaches />} />
-          <Route path='/forms' element={<Forms />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/dbfix' element={<TempDB />} />
-          <Route path='/roster/:seasonid/:teamid' element={<Roster />} />
-          <Route path='/schedule/:seasonid/:teamid' element={<Schedule />} />
+          <Route path='/athletics/' element={<Home />} />
+          <Route path='/athletics/seasons' element={<Seasons />} />
+          <Route path='/athletics/opponents' element={<Opponents />} />
+          <Route path='/athletics/archive' element={<Archive />} />
+          <Route path='/athletics/coaches' element={<Coaches />} />
+          <Route path='/athletics/forms' element={<Forms />} />
+          <Route path='/athletics/login' element={<Login />} />
+          <Route path='/athletics/roster/:seasonid/:teamid' element={<Roster />} />
+          <Route path='/athletics/schedule/:seasonid/:teamid' element={<Schedule />} />
         </Routes>
       </Router>
     </div>

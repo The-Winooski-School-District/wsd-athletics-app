@@ -12,7 +12,7 @@ const Navigation = () => {
   return (
     <nav className="navbar navbar-expand-md">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/*">
+        <Link className="navbar-brand" to="/athletics">
           WSD Athletics
         </Link>
         <button

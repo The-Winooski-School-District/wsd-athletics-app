@@ -13,7 +13,7 @@ function Login() {
     e.preventDefault();
     try {
       await auth.signInWithEmailAndPassword(email, password);
-      navigate("/*"); // Replace "/*" with the desired path for the authorized area
+      navigate("/athletics"); // Replace "/*" with the desired path for the authorized area
     } catch (error) {
       setError("Invalid Credentials.", error)
     }

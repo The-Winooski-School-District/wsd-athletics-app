@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <Routes>
       <Route
-        path="/*"
+        path="/athletics"
         element={
           <React.Fragment>
             <div className="Container">
