@@ -25,5 +25,5 @@ yarn-error.log*
 # sensitive
 /src/components/Firebase.jsx
 todo.txt
-MY PASSWORD.txt
+PASSWORD.txt
 /src/components/TempDB.jsx
