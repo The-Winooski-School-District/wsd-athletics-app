@@ -198,15 +198,15 @@ const Seasons = () => {
       </Link>
 
       <div className="navbuttons">
-        <Link to="/seasons" className="yellow">
+        <Link to="/athletics/seasons" className="yellow">
           <Button variant="outline-warning wsd disabled" disabled>
             Seasons
           </Button>
         </Link>
-        <Link to="/archive" className="yellow">
+        <Link to="/athletics/archive" className="yellow">
           <Button variant="outline-warning wsd">Archive</Button>
         </Link>
-        <Link to="/opponents" className="yellow">
+        <Link to="/athletics/opponents" className="yellow">
           <Button variant="outline-warning wsd">Opponents</Button>
         </Link>
       </div>

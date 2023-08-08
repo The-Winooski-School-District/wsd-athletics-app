@@ -32,34 +32,34 @@ const Navigation = () => {
           <div className="container-fluid d-flex justify-content-between align-items-center">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link" to="/seasons" onClick={toggleNav}>
+                <Link className="nav-link" to="/athletics/seasons" onClick={toggleNav}>
                   Seasons
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/archive" onClick={toggleNav}>
+                <Link className="nav-link" to="/athletics/archive" onClick={toggleNav}>
                   Archive
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/opponents" onClick={toggleNav}>
+                <Link className="nav-link" to="/athletics/opponents" onClick={toggleNav}>
                   Opponents
                 </Link>
               </li>
             </ul>
             <ul className="navbar-nav">
               <li className="nav-item">
-                <Link className="nav-link" to="/coaches" onClick={toggleNav}>
+                <Link className="nav-link" to="/athletics/coaches" onClick={toggleNav}>
                   Coaches
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/forms" onClick={toggleNav}>
+                <Link className="nav-link" to="/athletics/forms" onClick={toggleNav}>
                   Athlete Forms
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/login" onClick={toggleNav}>
+                <Link className="nav-link" to="/athletics/login" onClick={toggleNav}>
                   Admin
                 </Link>
               </li>
