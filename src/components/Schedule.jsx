@@ -334,7 +334,7 @@ const Schedule = () => {
       <div>
         <div className="opponents-title">
           {teamSchedulesIdentical ? null : (
-            <Link to={`/schedule/${seasonid}/${teamid}?teamB=${!teamB}`}>
+            <Link to={`/athletics/schedule/${seasonid}/${teamid}?teamB=${!teamB}`}>
               <Button variant="info title-button wsd">Switch Teams</Button>
             </Link>
           )}
@@ -355,11 +355,11 @@ const Schedule = () => {
                 } Schedule`}
           </h2>
           {teamRostersIdentical ? (
-            <Link to={`/roster/${seasonid}/${teamid}`}>
+            <Link to={`/athletics/roster/${seasonid}/${teamid}`}>
               <Button variant="info title-button wsd">View Roster</Button>
             </Link>
           ) : (
-            <Link to={`/roster/${seasonid}/${teamid}?teamB=${teamB}`}>
+            <Link to={`/athletics/roster/${seasonid}/${teamid}?teamB=${teamB}`}>
               <Button variant="info title-button wsd">View Roster</Button>
             </Link>
           )}

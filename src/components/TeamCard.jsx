@@ -506,7 +506,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                 View Rosters
               </Button>
             ) : (
-              <Link to={`/roster/${seasonid}/${team.id}`}>
+              <Link to={`/athletics/roster/${seasonid}/${team.id}`}>
                 <Button variant="outline-warning wsd">View Roster</Button>
               </Link>
             )}
@@ -522,7 +522,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                 View Schedules
               </Button>
             ) : (
-              <Link to={`/schedule/${seasonid}/${team.id}`}>
+              <Link to={`/athletics/schedule/${seasonid}/${team.id}`}>
                 <Button variant="outline-warning wsd">View Schedule</Button>
               </Link>
             )}
@@ -550,7 +550,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                       Edit Rosters
                     </Button>
                   ) : (
-                    <Link to={`/roster/${seasonid}/${team.id}`}>
+                    <Link to={`/athletics/roster/${seasonid}/${team.id}`}>
                       <Button variant="outline-warning wsd">Edit Roster</Button>
                     </Link>
                   )}
@@ -568,7 +568,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                       Add Rosters
                     </Button>
                   ) : (
-                    <Link to={`/roster/${seasonid}/${team.id}`}>
+                    <Link to={`/athletics/roster/${seasonid}/${team.id}`}>
                       <Button variant="success wsd">Add Roster</Button>
                     </Link>
                   )}
@@ -588,7 +588,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                       Edit Schedules
                     </Button>
                   ) : (
-                    <Link to={`/schedule/${seasonid}/${team.id}`}>
+                    <Link to={`/athletics/schedule/${seasonid}/${team.id}`}>
                       <Button variant="outline-warning wsd">
                         Edit Schedule
                       </Button>
@@ -608,7 +608,7 @@ const TeamCard = ({ team, seasonid, archived }) => {
                       Add Schedules
                     </Button>
                   ) : (
-                    <Link to={`/schedule/${seasonid}/${team.id}`}>
+                    <Link to={`/athletics/schedule/${seasonid}/${team.id}`}>
                       <Button variant="success wsd">Add Schedule</Button>
                     </Link>
                   )}

@@ -283,7 +283,7 @@ const Roster = () => {
       <div>
         <div className="opponents-title">
           {teamRostersIdentical ? null : (
-            <Link to={`/roster/${seasonid}/${teamid}?teamB=${!teamB}`}>
+            <Link to={`/athletics/roster/${seasonid}/${teamid}?teamB=${!teamB}`}>
               <Button variant="info title-button wsd">Switch Teams</Button>
             </Link>
           )}
@@ -304,11 +304,11 @@ const Roster = () => {
                 } Roster`}
           </h2>
           {teamSchedulesIdentical ? (
-            <Link to={`/schedule/${seasonid}/${teamid}`}>
+            <Link to={`/athletics/schedule/${seasonid}/${teamid}`}>
               <Button variant="info title-button wsd">View Schedule</Button>
             </Link>
           ) : (
-            <Link to={`/schedule/${seasonid}/${teamid}?teamB=${teamB}`}>
+            <Link to={`/athletics/schedule/${seasonid}/${teamid}?teamB=${teamB}`}>
               <Button variant="info title-button wsd">View Schedule</Button>
             </Link>
           )}
