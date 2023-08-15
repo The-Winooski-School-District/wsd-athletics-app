@@ -1,3 +1,4 @@
+import "../styles/App.css";
 import React, { useState, useRef, useEffect } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 

@@ -1,3 +1,4 @@
+import "../styles/App.css";
 import "../styles/Seasons.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";

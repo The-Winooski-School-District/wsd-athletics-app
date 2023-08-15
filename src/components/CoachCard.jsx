@@ -1,5 +1,4 @@
 import "../styles/Teams.css";
-import placeholderImage from "../account-icon-user-icon-vector.png";
 import React, { useState, useEffect } from "react";
 import { Row, Modal, Button } from "react-bootstrap";
 import { db, auth } from "./Firebase";
@@ -65,7 +64,7 @@ const CoachCard = ({ coach }) => {
   }
 
   const handlePicError = (event) => {
-    event.target.src = placeholderImage;
+    event.target.src = "http://www.wsdvt.org/wp-content/uploads/2023/07/placeholder-headshot.png";
   };
 
   const handleCardInfoClick = () => {

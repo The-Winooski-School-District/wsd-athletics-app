@@ -1,3 +1,4 @@
+import "../styles/App.css";
 import React, { useState, useEffect } from "react";
 import { db, auth } from "./Firebase";
 import { Modal, Form, Button, Row } from "react-bootstrap";

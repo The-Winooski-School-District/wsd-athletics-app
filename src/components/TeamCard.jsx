@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
+import "../styles/App.css";
 import "../styles/Teams.css";
 import React, { useState, useEffect } from "react";
 import { Button, Row, Col } from "react-bootstrap";

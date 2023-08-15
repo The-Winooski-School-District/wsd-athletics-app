@@ -1,3 +1,4 @@
+import "../styles/App.css";
 import "../styles/Opponents.css";
 import "../index.css";
 import React, { useState, useEffect } from "react";
