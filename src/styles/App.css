@@ -310,3 +310,23 @@ ul.sub-menu li {
 .login-form > form > p {
   margin: 2px;
 }
+
+
+/* This is all cleanup CSS for fitting it into wordpress */
+
+.modal-dialog {
+  margin-top: 200px !important;
+}
+
+a.yellow > h1 {
+  font-size: 2.5rem !important;
+  color: #ffbf2a !important;
+}
+
+.opponents-title > h2,
+.seasons-title > h2,
+.archive-title > h2
+ {
+  font-size: 2rem !important;
+  color: #ffbf2a !important;
+}

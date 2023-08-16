@@ -134,3 +134,9 @@ td > a:hover {
     display: none;
   }
 }
+
+/* wordpress css edits */
+.yellow {
+  text-decoration: none !important;
+  color: #ffbf2a !important;
+}

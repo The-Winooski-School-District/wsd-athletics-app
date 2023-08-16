@@ -32,8 +32,8 @@ const MultiModal = ({
 
   const linkTo = radioSelected
     ? rosterButtonClicked
-      ? `/roster/${seasonid}/${teamid}?teamB=${teamB}`
-      : `/schedule/${seasonid}/${teamid}?teamB=${teamB}`
+      ? `/athletics/roster/${seasonid}/${teamid}?teamB=${teamB}`
+      : `/athletics/schedule/${seasonid}/${teamid}?teamB=${teamB}`
     : "#";
 
   return (

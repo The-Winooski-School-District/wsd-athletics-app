@@ -52,7 +52,6 @@
   padding: 3px 5px 3px 5px !important;
 }
 
-
 .big {
   min-width: 120%;
   padding-left: 15% !important;
@@ -102,7 +101,8 @@
   transition: background-color 0.3s ease-in-out;
 }
 
-.team-card:hover, .coach-card:hover {
+.team-card:hover,
+.coach-card:hover {
   background-color: #1627168f;
 }
 
@@ -125,13 +125,13 @@
   white-space: nowrap;
 }
 
-.team-title-area, .coach-name-area {
+.team-title-area,
+.coach-name-area {
   padding-top: 10px;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   margin-bottom: -16px;
   height: 50px !important;
-
 }
 .coach-buttons {
   display: flex;
@@ -148,9 +148,8 @@
   justify-content: space-evenly;
 }
 
-
-
-.team-card p, .coach-card p {
+.team-card p,
+.coach-card p {
   margin: 10px;
   text-align: left;
 }
@@ -170,7 +169,6 @@
 .coach-split {
   display: flex;
   justify-content: space-between;
-  
 }
 
 .coach-split > div {
@@ -293,23 +291,25 @@ a.team-links {
   margin-bottom: 10px;
 }
 
-
 @media (max-width: 1501px) {
-  .team-card, .coach-card {
+  .team-card,
+  .coach-card {
     flex-basis: calc(50% - 20px);
     max-width: calc(50% - 20px);
   }
 }
 
 @media (max-width: 1001px) {
-  .team-card, .coach-card {
+  .team-card,
+  .coach-card {
     flex-basis: calc(100% - 20px);
     max-width: calc(100% - 20px);
   }
 }
 
 @media screen and (max-width: 515px) {
-  .team-card, .coach-card {
+  .team-card,
+  .coach-card {
     flex-direction: column;
   }
   .team-info {
@@ -339,6 +339,16 @@ a.team-links {
 
 @media screen and (max-width: 375px) {
   .team-name {
-    font-size: 6vw;
+    font-size: 6vw !important;
   }
+}
+
+/* css edits for wordpress */
+.team-name {
+  margin-top: 0 !important;
+  margin-bottom: 0.5rem !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  font-size: 1.5rem !important;
+  color: cornsilk !important;
 }
