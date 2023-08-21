@@ -330,3 +330,28 @@ a.yellow > h1 {
   font-size: 2rem !important;
   color: #ffbf2a !important;
 }
+
+.Container.login > h1 {
+  color: #fbb516 !important;
+}
+
+.title-wrapper > h2 {
+  color: #fbb516 !important;
+}
+
+.lower-title-wrapper > h3 {
+  color: #fbb516 !important;
+}
+
+.coach-name-area > h4 {
+  font-size: 1.5rem !important;
+  color: #fbb516 !important;
+  text-align: center !important;
+}
+
+.coach-card-main > h5 {
+  color: #fbb516 !important;
+  text-align: center !important;
+  font-size: 1.2rem !important;
+  margin-top: 10px !important;
+}
