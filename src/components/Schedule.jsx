@@ -39,17 +39,16 @@ const Schedule = () => {
     const { name, value } = event.target;
     const updatedSchedule = [...schedule];
     const updatedOpponentInfo = { ...updatedSchedule[index], [name]: value };
-
+  
     if (name === "date") {
-      // Perform additional formatting for the date field
-      const formattedDate = formatDate(value); // Call your formatDate function here or use any other formatting logic
-      updatedOpponentInfo[name] = formattedDate;
+      // No need to parse the date input; it should already be in "yyyy-MM-dd" format
+      updatedOpponentInfo[name] = value;
     }
-
+  
     updatedSchedule[index] = updatedOpponentInfo;
     setSchedule(updatedSchedule);
   }
-
+  
   const isTrueUrl = window.location.href.endsWith("true");
 
   // Set teamB based on the URL
@@ -303,6 +302,8 @@ const Schedule = () => {
       location: location,
     };
   });
+
+  console.log(dates);
 
   useEffect(() => {
     const handleResize = () => {
