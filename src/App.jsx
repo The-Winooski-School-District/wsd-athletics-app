@@ -1,7 +1,7 @@
 import "./styles/App.css";
 import "./styles/Buttons.css";
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Seasons from "./components/Seasons";
 import Opponents from "./components/Opponents";
@@ -21,10 +21,10 @@ const App = () => {
         <Router>
           <Navigation />
           <Routes>
-            <Route path="/athletics/" element={<Home />} />
-            <Route path="/athletics/seasons" element={<Seasons />} />
-            <Route path="/athletics/opponents" element={<Opponents />} />
-            <Route path="/athletics/archive" element={<Archive />} />
+            {/* The order of routes matters, more specific ones first */}
+            <Route path="/athletics/seasons/*" element={<Seasons />} />
+            <Route path="/athletics/opponents/*" element={<Opponents />} />
+            <Route path="/athletics/archive/*" element={<Archive />} />
             <Route path="/athletics/coaches" element={<Coaches />} />
             <Route path="/athletics/forms" element={<Forms />} />
             <Route path="/athletics/login" element={<Login />} />
@@ -36,6 +36,8 @@ const App = () => {
               path="/athletics/schedule/:seasonid/:teamid"
               element={<Schedule />}
             />
+            {/* Default route, should be at the end */}
+            <Route path="/athletics/*" element={<Home />} />
           </Routes>
         </Router>
       </div>
