@@ -13,19 +13,22 @@
   min-height: 100vh;
 }
 
+.icon {
+  color: white !important;
+}
+
 /*recreate footer because we're hiding the real one!*/
 #main-footer-added {
   background-color: #00712c;
   z-index: 10000;
   color: #ffffff;
-  padding: 15px 0;
   flex-shrink: 0;
 }
 
 #footer-bottom-added {
   background-color: #1f1f1f;
   background-color: rgba(0,0,0,.32);
-  padding: 15px 0;
+  padding: 15px 0 0 0;
   margin-top: auto;
 }
 
