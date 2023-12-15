@@ -16,22 +16,30 @@ import Login from "./components/Login";
 /* routing for the app. Any new components/pages need to be added here. */
 const App = () => {
   return (
-    <div className='App'>
-      <Router>
-        <Navigation />
-        <Routes>
-          <Route path='/athletics/' element={<Home />} />
-          <Route path='/athletics/seasons' element={<Seasons />} />
-          <Route path='/athletics/opponents' element={<Opponents />} />
-          <Route path='/athletics/archive' element={<Archive />} />
-          <Route path='/athletics/coaches' element={<Coaches />} />
-          <Route path='/athletics/forms' element={<Forms />} />
-          <Route path='/athletics/login' element={<Login />} />
-          <Route path='/athletics/roster/:seasonid/:teamid' element={<Roster />} />
-          <Route path='/athletics/schedule/:seasonid/:teamid' element={<Schedule />} />
-        </Routes>
-      </Router>
-    </div>
+    <>
+      <div className="App">
+        <Router>
+          <Navigation />
+          <Routes>
+            <Route path="/athletics/" element={<Home />} />
+            <Route path="/athletics/seasons" element={<Seasons />} />
+            <Route path="/athletics/opponents" element={<Opponents />} />
+            <Route path="/athletics/archive" element={<Archive />} />
+            <Route path="/athletics/coaches" element={<Coaches />} />
+            <Route path="/athletics/forms" element={<Forms />} />
+            <Route path="/athletics/login" element={<Login />} />
+            <Route
+              path="/athletics/roster/:seasonid/:teamid"
+              element={<Roster />}
+            />
+            <Route
+              path="/athletics/schedule/:seasonid/:teamid"
+              element={<Schedule />}
+            />
+          </Routes>
+        </Router>
+      </div>
+    </>
   );
 };
 
